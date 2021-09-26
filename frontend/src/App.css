@@ -1,9 +1,24 @@
-label{
+
+label {
     display: inline-block;
     clear: left;
     width: 250px;
-    text-align: right;
+    margin-top: 8px;
+    margin-bottom: 10px;
+    /*text-align: right;*/
 }
+
 input {
   display: inline-block;
+}
+
+.former {
+    width: 30%;
+    float: left;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 5px;
+    /*margin-top: 300px;*/
+    /*justify-content: flex-around;*/
 }
