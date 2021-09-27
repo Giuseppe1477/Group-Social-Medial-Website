@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
 import './App.css';
 
-function InputBox({ getOutput }) {
+function InputBox({ setOutput }) {
   const [info, setInfo] = useState({ name: "", password: ""})
 
   const handleSubmit=e=>{
@@ -28,7 +28,7 @@ function InputBox({ getOutput }) {
     .then(res  => res.json())
     .then(res => res.body)
     .then(data => {
-      getOutput(data);
+      setOutput(data);
       console.log(data);
     })
     .catch(err => console.error(err));

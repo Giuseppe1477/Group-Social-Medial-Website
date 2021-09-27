@@ -9,7 +9,7 @@ const App = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [isAdmin, setIsAdmin] = useState(false);
 
-    const getOutput = output => {
+    const setOutput = output => {
         setIsAdmin(output.admin);
         setIsLoggedIn(output.logged_in);
     }
@@ -23,7 +23,7 @@ const App = () => {
                 />
             :
                 <InputBox
-                    getOutput={getOutput}
+                    setOutput={setOutput}
                 />
             }
         </div>
