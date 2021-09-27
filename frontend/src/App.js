@@ -9,6 +9,11 @@ const App = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [isAdmin, setIsAdmin] = useState(false);
 
+    const getOutput = output => {
+        setIsAdmin(output.admin);
+        setIsLoggedIn(output.logged_in);
+    }
+
     return (
         <div className="App">
 
@@ -18,11 +23,7 @@ const App = () => {
                 />
             :
                 <InputBox
-                    login={() => {
-                        console.log('Logging In.');
-                        setTimeout(() => setIsLoggedIn(true), 0);
-                    }}
-                    setAdmin={setIsAdmin}
+                    getOutput={getOutput}
                 />
             }
         </div>
