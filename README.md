@@ -18,7 +18,7 @@ This project is based off a Distributed, Serverless model.
 
 ## Directories
 
-### FrontEnd
+### [FrontEnd](frontend/)
 
 The frontend comprises the first layer of UI.
 
