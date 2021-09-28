@@ -11,7 +11,7 @@ Semester-Long CS490 Assignment
 
 ## Architecture
 
-This project is based off a Distributed, Serverless model. 
+This project is based off a Distributed, Serverless System Architecture. 
 
 ![Architecture](https://embed.creately.com/4UYwlRfaEaD?type=jpeg)
 
