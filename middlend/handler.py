@@ -18,20 +18,12 @@ def auth(event, context):
     status_code = 200
     message = 'success'
 
-    print('event')
-    print(event)
-    print('context')
-    print(context)
-
     body = event.get('body', {})
     if body:
         event = body
 
     user = event.get('user')
     passwd = event.get('pass')
-
-
-    print(user, '-', passwd)
 
     if not user or not passwd:
         print('No user found.')
@@ -44,12 +36,8 @@ def auth(event, context):
                     'user': user,
                 }
             )
-            print('res:')
-            print(res)
-            print(res.get('Item'))
         except ClientError as err:
             print('Client Error:', err)
-            print('input:', {'Key': {'user': user}})
             status_code = 500
             message = err.response.get('Error', {}).get('Message', '')
             res = {}
@@ -60,8 +48,6 @@ def auth(event, context):
         if passwd != passwd_item:
             status_code = 403
             message = 'Incorrect Credentials'
-            print('real:', passwd_item)
-            print('passed:', passwd)
 
     return {
         'statusCode': status_code,
