@@ -1,11 +1,16 @@
 
-import json
 import boto3
 from botocore.exceptions import ClientError
 from lambda_decorators import (
     cors_headers, json_http_resp, load_json_body
 )
 
+"""
+Author: Ron Nathaniel
+Release: Alpha
+Course: CS 490: 101
+Due: Sept 28 2021
+"""
 
 @cors_headers
 @load_json_body

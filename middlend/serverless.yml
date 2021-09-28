@@ -2,6 +2,11 @@
 service: middlend
 frameworkVersion: '2'
 
+# Author: Ron Nathaniel
+# Release: Alpha
+# Course: CS 490: 101
+# Due: Sept 28 2021
+
 provider:
   name: aws
   runtime: python3.8
