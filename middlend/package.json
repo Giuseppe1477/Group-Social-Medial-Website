@@ -1,12 +1,12 @@
 {
   "name": "middlend",
   "version": "1.0.0",
-  "description": "",
+  "description": "MiddlEnd for CS 490 Semester-Long Project. Developed by Ron Nathaniel",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Ron Nathaniel",
   "license": "MIT",
   "dependencies": {
     "epsagon": "^1.115.0",
