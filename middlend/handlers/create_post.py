@@ -29,9 +29,11 @@ def main(event, _):
     caption = body.get('caption')
     img = body.get('img')
 
+    post_id = str(uuid4())
+
     item = {
         'type': 'post',
-        'post_id': str(uuid4()),
+        'post_id': post_id,
         'user_id': user_id,
         'caption': caption,
         'img': img,
@@ -63,5 +65,6 @@ def main(event, _):
         'body': {
             'message': message,
             'statusCode': status_code,
+            'post_id': post_id,
         },
     }

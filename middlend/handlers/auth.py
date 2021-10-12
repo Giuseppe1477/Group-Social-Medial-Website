@@ -1,4 +1,5 @@
 
+from http import HTTPStatus
 from botocore.exceptions import ClientError
 from lambda_decorators import (
     cors_headers, json_http_resp, load_json_body
@@ -20,30 +21,27 @@ Course: CS 490: 101
 @load_json_body
 @json_http_resp
 def main(event, _):
-    status_code = 200
+    status_code = HTTPStatus.OK
     message = 'success'
 
     body = event_body(event)
 
-    user = body.get('user')
+    user_id = body.get('user_id')
     passwd = body.get('pass')
 
-    if not user:
-        status_code = 400
-        message = 'Bad Request. No User Specified'
-    elif not passwd:
-        status_code = 400
-        message = 'Bad Request. No Password Specified'
+    if not user_id or not passwd:
+        status_code = HTTPStatus.BAD_REQUEST
+        message = 'Bad Request. No User or Pass Specified'
     else:
         try:
             res = dynamo_table.get_item(
                 Key={
-                    'user': user,
+                    'user': user_id,
                 }
             )
         except ClientError as err:
             print('Client Error:', err)
-            status_code = 500
+            status_code = HTTPStatus.INTERNAL_SERVER_ERROR
             message = err.response.get('Error', {}).get('Message', '')
             res = {}
         else:
@@ -51,7 +49,7 @@ def main(event, _):
 
         passwd_item = res.get('pass', '')
         if passwd != passwd_item:
-            status_code = 403
+            status_code = HTTPStatus.UNAUTHORIZED
             message = 'Incorrect Credentials for User. Could not login.'
 
     return {
@@ -62,9 +60,10 @@ def main(event, _):
             'Access-Control-Allow-Credentials': True,
         },
         'body': {
+            'user_id': user_id,
             'message': message,
             'statusCode': status_code,
             'admin': False,
-            'logged_in': status_code == 200,
+            'logged_in': status_code == HTTPStatus.OK,
         },
     }

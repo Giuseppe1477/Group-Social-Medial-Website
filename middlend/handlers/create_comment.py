@@ -29,9 +29,11 @@ def main(event, _):
     post_id = body.get('post_id')
     text = body.get('text')
 
+    comment_id = str(uuid4())
+
     item = {
         'type': 'comment',
-        'comment_id': str(uuid4()),
+        'comment_id': comment_id,
         'post_id': post_id,
         'user_id': user_id,
         'text': text,
@@ -61,6 +63,7 @@ def main(event, _):
             'Access-Control-Allow-Credentials': True,
         },
         'body': {
+            'comment_id': comment_id,
             'message': message,
             'statusCode': status_code,
         },
