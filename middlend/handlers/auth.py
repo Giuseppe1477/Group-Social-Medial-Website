@@ -1,39 +1,39 @@
 
-import boto3
 from botocore.exceptions import ClientError
 from lambda_decorators import (
     cors_headers, json_http_resp, load_json_body
 )
 
+from common.util import (
+    event_body, dynamo_table
+)
+
+
 """
 Author: Ron Nathaniel
-Release: Alpha
+Release: Beta
 Course: CS 490: 101
-Due: Sept 28 2021
 """
+
 
 @cors_headers
 @load_json_body
 @json_http_resp
-def auth(event, context):
-
-    dynamo_client = boto3.resource('dynamodb', region_name='us-east-2')
-    dynamo_table= dynamo_client.Table('cs490_backend')
-
+def main(event, _):
     status_code = 200
     message = 'success'
 
-    body = event.get('body', {})
-    if body:
-        event = body
+    body = event_body(event)
 
-    user = event.get('user')
-    passwd = event.get('pass')
+    user = body.get('user')
+    passwd = body.get('pass')
 
-    if not user or not passwd:
-        print('No user found.')
+    if not user:
         status_code = 400
         message = 'Bad Request. No User Specified'
+    elif not passwd:
+        status_code = 400
+        message = 'Bad Request. No Password Specified'
     else:
         try:
             res = dynamo_table.get_item(
@@ -52,7 +52,7 @@ def auth(event, context):
         passwd_item = res.get('pass', '')
         if passwd != passwd_item:
             status_code = 403
-            message = 'Incorrect Credentials'
+            message = 'Incorrect Credentials for User. Could not login.'
 
     return {
         'statusCode': status_code,
