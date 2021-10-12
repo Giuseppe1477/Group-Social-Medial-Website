@@ -29,6 +29,7 @@ Response
 
 Request 
     
+    curl -X ANY
     {
         "user_id":  <STIRNG>,
         "admin":    <BOOL>,
@@ -70,6 +71,7 @@ Response
 
 Request 
 
+    curl -X ANY
     {
         "user_id":  <STRING>,
         "post_id":  <STRING>,
