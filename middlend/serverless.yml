@@ -3,9 +3,8 @@ service: middlend
 frameworkVersion: '2'
 
 # Author: Ron Nathaniel
-# Release: Alpha
+# Release: Beta
 # Course: CS 490: 101
-# Due: Sept 28 2021
 
 provider:
   name: aws
@@ -28,25 +27,53 @@ custom:
   epsagon:
     token: 96f635aa-225d-4f7c-b24e-1daadf05dc3f
     appName: cs490-middleware
+#  packageExternal
+#    external:
+#      - '../common'
 
-# you can overwrite defaults here
-#  stage: dev
-#  region: us-east-1
-
-# you can define service wide environment variables here
-#  environment:
-#    variable1: value1
 
 plugins:
   - serverless-python-requirements
   - serverless-plugin-epsagon
+#  - serverless-package-external
+
 
 functions:
   auth:
-    handler: handler.auth
+    handler: handlers/auth.main
     events:
       - http:
           path: auth
+          method: any
+          cors:
+            origin: '*'
+            headers: '*'
+            allowCredentials: false
+  create_user:
+    handler: handlers/create_user.main
+    events:
+      - http:
+          path: create_user
+          method: any
+          cors:
+            origin: '*'
+            headers: '*'
+            allowCredentials: false
+  create_post:
+    handler: handlers/create_post.main
+    events:
+      - http:
+          path: create_post
+          method: any
+          cors:
+            origin: '*'
+            headers: '*'
+            allowCredentials: false
+  create_comment:
+    handler: handlers/create_comment.main
+    events:
+      - http:
+          path: create_comment
           method: any
           cors:
             origin: '*'
