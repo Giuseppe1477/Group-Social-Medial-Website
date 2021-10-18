@@ -1,5 +1,6 @@
 
 from http import HTTPStatus
+from botocore.exceptions import ClientError
 from lambda_decorators import (
     cors_headers, json_http_resp, load_json_body
 )
@@ -25,8 +26,10 @@ def main(event, _):
     body = event_body(event)
 
     user_id = body.get('user_id')
+    passwd = body.get('pass')
     img = body.get('img') or ''
-    admin = bool(body.get('admin')) or False
+    is_admin = bool(body.get('is_admin')) or False
+    print('admin:', is_admin)
 
     user_existing = dynamo_table.get_item(
         **{
@@ -34,34 +37,39 @@ def main(event, _):
                 'user_id': user_id,
             }
         }
-    ).get('Item', {})
+    )
+
+    print(user_existing)
+
+    user_existing = user_existing.get('Item', {})
 
     if user_existing:
         status_code = HTTPStatus.CONFLICT
         message = 'User already exists.'
-    else:
+        print(message)
+    elif is_admin:
         item = {
-            'type': 'user',
             'user_id': user_id,
+            'pass': passwd,
             'img': img,
-            'admin': admin
+            'is_admin': is_admin
         }
+        print('creating')
 
-        res = dynamo_table.put_item(
-            **{
-                'Item': item
-            }
-        )
-
-        if res.get('Attributes') != item:
-            print('Not the same Attrs. Failed.')
-            print('item:')
-            print(item)
-            print('attrs:')
-            print(res.get('Attributes'))
-
+        try:
+            res = dynamo_table.put_item(
+                **{
+                    'Item': item
+                }
+            )
+        except ClientError as err:
+            print('Client Error:', err)
             status_code = HTTPStatus.INTERNAL_SERVER_ERROR
             message = 'Create-User failed.'
+
+    else:
+        status_code = HTTPStatus.UNAUTHORIZED
+        message = 'You are not authorized to create accounts.'
 
     return {
         'statusCode': status_code,
@@ -73,6 +81,6 @@ def main(event, _):
         'body': {
             'message': message,
             'statusCode': status_code,
-            'admin': False,
+            'is_admin': is_admin,
         },
     }

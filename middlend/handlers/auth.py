@@ -28,6 +28,7 @@ def main(event, _):
 
     user_id = body.get('user_id')
     passwd = body.get('pass')
+    is_admin = False
 
     if not user_id or not passwd:
         status_code = HTTPStatus.BAD_REQUEST
@@ -36,7 +37,7 @@ def main(event, _):
         try:
             res = dynamo_table.get_item(
                 Key={
-                    'user': user_id,
+                    'user_id': user_id,
                 }
             )
         except ClientError as err:
@@ -48,6 +49,7 @@ def main(event, _):
             res = res.get('Item', {})
 
         passwd_item = res.get('pass', '')
+        is_admin = res.get('is_admin', False)
         if passwd != passwd_item:
             status_code = HTTPStatus.UNAUTHORIZED
             message = 'Incorrect Credentials for User. Could not login.'
@@ -63,7 +65,7 @@ def main(event, _):
             'user_id': user_id,
             'message': message,
             'statusCode': status_code,
-            'admin': False,
+            'is_admin': is_admin,
             'logged_in': status_code == HTTPStatus.OK,
         },
     }
