@@ -1,17 +1,17 @@
-import * as consants from './const.js';
+import * as constants from './const.js';
 import sha256 from 'crypto-js/sha256';
 import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
-import './App.css';
 
 function InputBox({ getOutput }) {
   const [info, setInfo] = useState({ name: "", password: ""})
+  const [error, setError] = useState(null);
 
   const handleSubmit=e=>{
     e.preventDefault();
 
     console.log(`You are submitting ${info.name} - ${info.password} - HASH:${sha256(info.password)}`);
-    fetch(consants.BASE_URL + 'auth',{
+    fetch(constants.BASE_URL + 'auth',{
       method: 'POST',
       mode: 'cors',
       cache: 'force-cache',
@@ -35,9 +35,9 @@ function InputBox({ getOutput }) {
   }
 
   return (
-    <div className='former'>
-      <form onSubmit={handleSubmit}>
-        <label>
+    <div className='logContainer'>
+      <form className="loginForm" onSubmit={handleSubmit}>
+        <label className="loginField">
           <TextField
             id='outlined-basic'
             label='Username'
@@ -49,7 +49,7 @@ function InputBox({ getOutput }) {
           />
         </label>
         <br />
-        <label>
+        <label className="loginField">
           <TextField
             id='outlinede-basic'
             label='Password'
