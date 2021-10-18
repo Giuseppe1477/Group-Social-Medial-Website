@@ -33,8 +33,9 @@
 ### DM
 
     {
-        "type":             "dm",
-        "conversation_id":  <UUID>,
-        "user_id":          <STRING>,
-        "message":          <STRING>
+        "type":                 "dm",
+        "dm_id":                <UUID>,
+        "conversation_id":      <UUID>,
+        "user_id":              <STRING>,
+        "message":              <STRING>
     }
