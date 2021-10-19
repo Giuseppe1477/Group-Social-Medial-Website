@@ -1,11 +1,12 @@
 
 from http import HTTPStatus
-from lambda_decorators import (
-    cors_headers, json_http_resp, load_json_body
-)
+from json import dumps
 
 from common.util import (
     event_body, dynamo_paginator, table_name
+)
+from lambda_decorators import (
+    cors_headers, json_http_resp, load_json_body
 )
 
 """
@@ -46,20 +47,15 @@ def main(event, _):
                 'img': item.get('img').get('S'),
             })
 
-
-
-
     return {
-        'statusCode': status_code,
         'headers': {
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Headers': '*',
             'Access-Control-Allow-Credentials': True,
         },
-        'body': {
-            'message': message,
-            'statusCode': status_code,
-            'user_ids': user_ids,
-            'total': len(user_ids),
-        },
+
+        'statusCode': status_code,
+        'message': message,
+        'user_ids': user_ids,
+        'total': len(user_ids),
     }

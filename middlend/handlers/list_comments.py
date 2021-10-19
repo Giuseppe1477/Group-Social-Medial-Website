@@ -1,11 +1,12 @@
 
 from http import HTTPStatus
-from lambda_decorators import (
-    cors_headers, json_http_resp, load_json_body
-)
+from json import dumps
 
 from common.util import (
     event_body, dynamo_paginator, table_name
+)
+from lambda_decorators import (
+    cors_headers, json_http_resp, load_json_body
 )
 
 
@@ -25,13 +26,20 @@ def main(event, _):
 
     body = event_body(event)
 
+    user_id = body.get('user_id')
     post_id = body.get('post_id')
 
     res = dynamo_paginator.paginate(
         **{
             'TableName': table_name,
-            'FilterExpression': 'post_id = :post_id and type = :type)',
+            'FilterExpression': 'user_id = :user_id and '
+                                'post_id = :post_id and '
+                                '#type = :type',
+            'ExpressionAttributeNames': {
+                '#type': 'type',
+            },
             'ExpressionAttributeValues': {
+                ':user_id': {'S': user_id},
                 ':post_id': {'S': post_id},
                 ':type': {'S': 'comment'},
             }
@@ -52,16 +60,16 @@ def main(event, _):
             })
 
     return {
-        'statusCode': status_code,
         'headers': {
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Headers': '*',
             'Access-Control-Allow-Credentials': True,
         },
-        'body': {
-            'message': message,
-            'statusCode': status_code,
-            'user_ids': user_ids,
-            'total': len(user_ids),
-        },
+
+        'message': message,
+        'statusCode': status_code,
+
+        'comments': comments,
+        'total': len(comments),
+
     }

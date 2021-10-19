@@ -25,7 +25,7 @@ def main(event, _):
 
     body = event_body(event)
 
-    user_id_sender = body.get('user_id_sender')
+    user_id_sender = body.get('user_id')
     user_id_recipient = body.get('user_id_recipient')
     conversation_id = create_conversation_id([user_id_sender, user_id_recipient])
     text = body.get('message')
