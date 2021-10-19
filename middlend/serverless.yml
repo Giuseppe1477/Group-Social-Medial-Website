@@ -2,9 +2,14 @@
 service: middlend
 frameworkVersion: '2'
 
+# Author: Ron Nathaniel
+# Release: Beta
+# Course: CS 490: 101
+
 provider:
   name: aws
   runtime: python3.8
+  region: us-east-2
   lambdaHashingVersion: 20201221
   httpApi:
     payload: "2.0"
@@ -13,9 +18,12 @@ provider:
     - Effect: "Allow"
       Action:
         - dynamodb:GetItem
+        - dynamodb:UpdateItem
         - dynamodb:PutItem
-      Resource: "arn:aws:dynamodb:us-east-2:135768707723:table/cs490_backend"
-
+        - dynamodb:Scan
+      Resource:
+        - "arn:aws:dynamodb:us-east-2:135768707723:table/backend_users"
+        - "arn:aws:dynamodb:us-east-2:135768707723:table/backend_PCDM"
 
 custom:
   pythonRequirements:
@@ -23,14 +31,10 @@ custom:
   epsagon:
     token: 96f635aa-225d-4f7c-b24e-1daadf05dc3f
     appName: cs490-middleware
-
-# you can overwrite defaults here
-#  stage: dev
-#  region: us-east-1
-
-# you can define service wide environment variables here
-#  environment:
-#    variable1: value1
+  env:
+    tables:
+      users: "backend_users"
+      pcdm: "backend_PCDM"
 
 plugins:
   - serverless-python-requirements
@@ -38,10 +42,108 @@ plugins:
 
 functions:
   auth:
-    handler: handler.auth
+    handler: handlers/auth.main
+    environment:
+      DYNAMO_TABLE: ${self:custom.env.tables.users}
     events:
       - http:
           path: auth
+          method: any
+          cors:
+            origin: '*'
+            headers: '*'
+            allowCredentials: false
+  create_user:
+    handler: handlers/create_user.main
+    environment:
+      DYNAMO_TABLE: ${self:custom.env.tables.users}
+    events:
+      - http:
+          path: create_user
+          method: any
+          cors:
+            origin: '*'
+            headers: '*'
+            allowCredentials: false
+  list_users:
+    handler: handlers/list_users.main
+    environment:
+      DYNAMO_TABLE: ${self:custom.env.tables.users}
+    events:
+      - http:
+          path: list_users
+          method: any
+          cors:
+            origin: '*'
+            headers: '*'
+            allowCredentials: false
+  create_post:
+    handler: handlers/create_post.main
+    environment:
+      DYNAMO_TABLE: ${self:custom.env.tables.pcdm}
+    events:
+      - http:
+          path: create_post
+          method: any
+          cors:
+            origin: '*'
+            headers: '*'
+            allowCredentials: false
+  list_posts:
+    handler: handlers/list_posts.main
+    environment:
+      DYNAMO_TABLE: ${self:custom.env.tables.pcdm}
+    events:
+      - http:
+          path: list_posts
+          method: any
+          cors:
+            origin: '*'
+            headers: '*'
+            allowCredentials: false
+  block_post:
+    handler: handlers/block_post.main
+    environment:
+      DYNAMO_TABLE: ${self:custom.env.tables.pcdm}
+    events:
+      - http:
+          path: block_post
+          method: any
+          cors:
+            origin: '*'
+            headers: '*'
+            allowCredentials: false
+  create_comment:
+    handler: handlers/create_comment.main
+    environment:
+      DYNAMO_TABLE: ${self:custom.env.tables.pcdm}
+    events:
+      - http:
+          path: create_comment
+          method: any
+          cors:
+            origin: '*'
+            headers: '*'
+            allowCredentials: false
+  list_comments:
+    handler: handlers/list_comments.main
+    environment:
+      DYNAMO_TABLE: ${self:custom.env.tables.pcdm}
+    events:
+      - http:
+          path: list_comments
+          method: any
+          cors:
+            origin: '*'
+            headers: '*'
+            allowCredentials: false
+  send_dm:
+    handler: handlers/send_dm.main
+    environment:
+      DYNAMO_TABLE: ${self:custom.env.tables.pcdm}
+    events:
+      - http:
+          path: send_dm
           method: any
           cors:
             origin: '*'

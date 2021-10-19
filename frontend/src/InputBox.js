@@ -3,7 +3,7 @@ import sha256 from 'crypto-js/sha256';
 import React, { useState } from "react";
 import TextField from "@mui/material/TextField";  
 
-function InputBox({ getOutput }) {
+function InputBox({ setOutput }) {
   const [info, setInfo] = useState({ name: "", password: ""})
   const [error, setError] = useState(null);
 
@@ -33,7 +33,7 @@ function InputBox({ getOutput }) {
     .then(res  => res.json())
     .then(res => res.body)
     .then(data => {
-      getOutput(data);
+      setOutput(data);
       console.log(data);
     })
     .catch((err) => {

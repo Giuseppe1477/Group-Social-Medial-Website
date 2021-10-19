@@ -1,19 +1,19 @@
 {
   "name": "middlend",
   "version": "1.0.0",
-  "description": "",
+  "description": "MiddlEnd for CS 490 Semester-Long Project. Developed by Ron Nathaniel",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Ron Nathaniel",
   "license": "MIT",
   "dependencies": {
     "epsagon": "^1.115.0",
     "serverless": "^2.59.0",
+    "serverless-package-external": "^1.3.3",
+    "serverless-plugin-epsagon": "^1.12.2",
     "serverless-python-requirements": "^5.1.1"
   },
-  "devDependencies": {
-    "serverless-plugin-epsagon": "^1.12.2"
-  }
+  "devDependencies": {}
 }

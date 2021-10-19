@@ -13,8 +13,8 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "bootstrap": "^5.1.1",
-    "crypto-js/sha256": "^4.1.1",
     "draft-js": "^0.11.7",
+    "crypto-js": "^4.1.1",
     "react": "^17.0.2",
     "react-bootstrap": "^2.0.0-rc.1",
     "react-dom": "^17.0.2",
@@ -25,6 +25,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "deploy": "npm run build && aws s3 sync build/ s3://cs490subway ",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

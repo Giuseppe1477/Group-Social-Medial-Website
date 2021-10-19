@@ -1,6 +1,8 @@
 # cs 490
 Semester-Long CS490 Assignment
 
+[See it live.](https://cs490subway.s3.us-east-2.amazonaws.com/index.html)
+
 ## Table of Contents
 - [Architecture](#architecture)
 - [Directories](#directories)
@@ -9,33 +11,31 @@ Semester-Long CS490 Assignment
 
 ## Architecture
 
-This project is based off a Distributed, Serverless model. 
+This project is based off a Distributed, Serverless System Architecture. 
 
 ![Architecture](https://embed.creately.com/4UYwlRfaEaD?type=jpeg)
 
 
 ## Directories
 
-### FrontEnd
+### [FrontEnd](frontend/)
 
 The frontend comprises the first layer of UI.
 
-Written with React by ___
+Written with <u>React</u> by **Ayvan Rodriguez**
 
 
-### MiddleEnd
+### [MiddleEnd](middlend/)
 
-The middlend is the connection between frontend and backend.
+The middleman who brings together UI with logic.
 
-It is the middleman who brings together UI with logic.
+Writen with <u>Serverless</u> by **Ron Nathaniel**
 
-Writen with Serverless by Ron Nathaniel 
-
-### Backend
+### [Backend](backend/)
 
 The backend is the central database which holds all truths.
 
-Written with ____ by ______
+Written with <u>NoSql DynamoDB</u> by **Giuseppe Celentano**
 
 ## Copyright
 
