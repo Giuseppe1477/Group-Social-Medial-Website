@@ -3,37 +3,26 @@ import { faCommentDots } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { IconButton } from "@mui/material";
 import { Link } from 'react-router-dom';
+import { stateToHTML } from "draft-js-export-html";
 
-export default function Post() { //[data]
+const Post = ({post_id, text}) => { //[data]
     //const[title, setTitle] = useState(data);
-    const[id, setId] = useState(1);
+    const[id, setId] = useState(post_id);
 
     return (
         <div className="post">
             <div className="post-pic">
-                <img src="https://picsum.photos/200"></img>
+                <img src="https://picsum.photos/200" alt="Profile"></img>
             </div>
             <div className="leftside">
                 <div className="post-info">
-                    <b>User User</b> | 1/1/11
+                    <b>User User</b>
                 </div>
                 <div className="post-title">
-                    <h1>Post Title</h1>
+                
                 </div>
                 <div className="post-body">
-                    <p>Post Body</p>
-                    <br/>
-                    <p>BODY</p>
-                    <br/>
-                    <p>BODY</p>
-                    <br/>
-                    <p>BODY</p>
-                    <br/>
-                    <p>BODY</p>
-                    <br/>
-                    <p>BODY</p>
-                    <br/>
-                    <p>BODY</p>
+                    <p>{text}</p>
                 </div>
                 <div className="comment-icon">
                     <Link to={"posts/"+id}>
@@ -46,3 +35,5 @@ export default function Post() { //[data]
         </div>
     )
 }
+
+export default Post;

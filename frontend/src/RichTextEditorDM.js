@@ -4,7 +4,7 @@ import 'draft-js/dist/Draft.css';
 import { Button } from 'react-bootstrap';
 import * as constants from './const.js';
 
-class RichTextEditor extends React.Component {
+class RichTextEditorDM extends React.Component {
     constructor(props) {
         super(props);
         this.state = {editorState: EditorState.createEmpty()};
@@ -38,9 +38,9 @@ class RichTextEditor extends React.Component {
               'Access-Control-Allow-Origin': '*'
             },
             body: JSON.stringify({
-                user_id: this.props.user_id,
+                user_id_sender: this.props.user_id,
                 text:JSON.stringify(convertToRaw(contentState)),
-                img:""
+                user_id_recipient:""
             })
           })
           .then(res => {
@@ -246,4 +246,4 @@ class RichTextEditor extends React.Component {
     );
 };
 
-export default RichTextEditor;
+export default RichTextEditorDM;

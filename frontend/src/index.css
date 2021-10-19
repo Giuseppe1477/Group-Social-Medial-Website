@@ -40,6 +40,10 @@ code {
   padding:5px;
 }
 
+.loginError{
+  color:red;
+}
+
 /* Navbar */
 .navbar{
   padding: 20px;
@@ -105,6 +109,23 @@ code {
 .prof-info{
   flex:4;
 }
+
+.prof-username a{
+  text-decoration: none;
+}
+
+/* Admin Page */
+.createContainer{
+  height:500px;
+  width:200px;
+  padding: 10px;
+}
+
+.createButton{
+  float:right;
+  padding:10px;
+}
+
 
 /* RichTextEditor */
 /* .EditorContainer{

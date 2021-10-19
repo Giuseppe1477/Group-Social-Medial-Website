@@ -4,7 +4,7 @@ import 'draft-js/dist/Draft.css';
 import { Button } from 'react-bootstrap';
 import * as constants from './const.js';
 
-class RichTextEditor extends React.Component {
+class RichTextEditorComment extends React.Component {
     constructor(props) {
         super(props);
         this.state = {editorState: EditorState.createEmpty()};
@@ -28,7 +28,7 @@ class RichTextEditor extends React.Component {
         const contentState = this.state.editorState.getCurrentContent();
         console.log('content state: ', convertToRaw(contentState));
         //fetch here    
-        fetch(constants.BASE_URL + "create_post",{
+        fetch(constants.BASE_URL + "create_comment",{
             method: 'POST',
             mode: 'cors',
             cache: 'force-cache',
@@ -38,9 +38,9 @@ class RichTextEditor extends React.Component {
               'Access-Control-Allow-Origin': '*'
             },
             body: JSON.stringify({
-                user_id: this.props.user_id,
+                user_id_sender: this.props.viewer_id,
                 text:JSON.stringify(convertToRaw(contentState)),
-                img:""
+                user_id_recipient: this.props.user_id
             })
           })
           .then(res => {
@@ -246,4 +246,4 @@ class RichTextEditor extends React.Component {
     );
 };
 
-export default RichTextEditor;
+export default RichTextEditorComment;

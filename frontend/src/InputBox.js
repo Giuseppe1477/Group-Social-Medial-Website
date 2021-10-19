@@ -1,7 +1,7 @@
 import * as constants from './const.js';
 import sha256 from 'crypto-js/sha256';
 import React, { useState } from "react";
-import TextField from "@mui/material/TextField";
+import TextField from "@mui/material/TextField";  
 
 function InputBox({ getOutput }) {
   const [info, setInfo] = useState({ name: "", password: ""})
@@ -21,9 +21,14 @@ function InputBox({ getOutput }) {
         'Access-Control-Allow-Origin': '*'
       },
       body: JSON.stringify({
-        user: info.password,
+        user_id: info.name,
         pass: sha256(info.password).toString()
       })
+    })
+    .then(res => {
+      if(!res.ok)
+        throw Error("Error");
+      return res;
     })
     .then(res  => res.json())
     .then(res => res.body)
@@ -31,9 +36,10 @@ function InputBox({ getOutput }) {
       getOutput(data);
       console.log(data);
     })
-    .catch(err => console.error(err));
+    .catch((err) => {
+      setError(true);
+    });
   }
-
   return (
     <div className='logContainer'>
       <form className="loginForm" onSubmit={handleSubmit}>
@@ -62,7 +68,11 @@ function InputBox({ getOutput }) {
         </label>
         <br />
         <button>Login</button>
+        <div>{error}</div>
+        {error && (<p className="loginError">Invalid Login</p>)}
       </form>
+      <div>
+      </div>
     </div>
   )
 }
