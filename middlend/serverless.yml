@@ -18,7 +18,9 @@ provider:
     - Effect: "Allow"
       Action:
         - dynamodb:GetItem
+        - dynamodb:UpdateItem
         - dynamodb:PutItem
+        - dynamodb:Scan
       Resource:
         - "arn:aws:dynamodb:us-east-2:135768707723:table/backend_users"
         - "arn:aws:dynamodb:us-east-2:135768707723:table/backend_PCDM"
@@ -94,6 +96,18 @@ functions:
     events:
       - http:
           path: list_posts
+          method: any
+          cors:
+            origin: '*'
+            headers: '*'
+            allowCredentials: false
+  block_post:
+    handler: handlers/block_post.main
+    environment:
+      DYNAMO_TABLE: ${self:custom.env.tables.pcdm}
+    events:
+      - http:
+          path: block_post
           method: any
           cors:
             origin: '*'
