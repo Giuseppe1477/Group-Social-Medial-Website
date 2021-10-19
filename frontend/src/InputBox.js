@@ -1,17 +1,17 @@
-import * as consants from './const.js';
+import * as constants from './const.js';
 import sha256 from 'crypto-js/sha256';
 import React, { useState } from "react";
-import TextField from "@mui/material/TextField";
-import './App.css';
+import TextField from "@mui/material/TextField";  
 
 function InputBox({ setOutput }) {
   const [info, setInfo] = useState({ name: "", password: ""})
+  const [error, setError] = useState(null);
 
   const handleSubmit=e=>{
     e.preventDefault();
 
     console.log(`You are submitting ${info.name} - ${info.password} - HASH:${sha256(info.password)}`);
-    fetch(consants.BASE_URL + 'auth',{
+    fetch(constants.BASE_URL + 'auth',{
       method: 'POST',
       mode: 'cors',
       cache: 'force-cache',
@@ -21,9 +21,14 @@ function InputBox({ setOutput }) {
         'Access-Control-Allow-Origin': '*'
       },
       body: JSON.stringify({
-        user: info.password,
+        user_id: info.name,
         pass: sha256(info.password).toString()
       })
+    })
+    .then(res => {
+      if(!res.ok)
+        throw Error("Error");
+      return res;
     })
     .then(res  => res.json())
     .then(res => res.body)
@@ -31,13 +36,14 @@ function InputBox({ setOutput }) {
       setOutput(data);
       console.log(data);
     })
-    .catch(err => console.error(err));
+    .catch((err) => {
+      setError(true);
+    });
   }
-
   return (
-    <div className='former'>
-      <form onSubmit={handleSubmit}>
-        <label>
+    <div className='logContainer'>
+      <form className="loginForm" onSubmit={handleSubmit}>
+        <label className="loginField">
           <TextField
             id='outlined-basic'
             label='Username'
@@ -49,7 +55,7 @@ function InputBox({ setOutput }) {
           />
         </label>
         <br />
-        <label>
+        <label className="loginField">
           <TextField
             id='outlinede-basic'
             label='Password'
@@ -62,7 +68,11 @@ function InputBox({ setOutput }) {
         </label>
         <br />
         <button>Login</button>
+        <div>{error}</div>
+        {error && (<p className="loginError">Invalid Login</p>)}
       </form>
+      <div>
+      </div>
     </div>
   )
 }

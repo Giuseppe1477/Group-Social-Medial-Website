@@ -1,5 +1,7 @@
+@import url(https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css);
+
 body {
-  margin: 0;
+  font-size:16px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
@@ -10,4 +12,189 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.content{
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+/* InputBox */
+.logContainer {
+  height:500px;
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  align-items: center;
+  justify-content: center;
+}
+
+.loginForm{
+  margin:auto;
+  padding:30px;
+  border: 1px black solid;
+}
+
+.loginField{
+  padding:5px;
+}
+
+.loginError{
+  color:red;
+}
+
+/* Navbar */
+.navbar{
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
+  border-bottom: 1px solid lightgray;
+  max-width: 800px;
+}
+
+/* Posts */
+.post{
+  display:flex;
+  background-color:#fefefe;
+  padding:5px;
+  border-style:groove;
+}
+
+.post-info{
+  font-size:12px
+}
+
+.post-title h1{
+  font-size:18px;
+}
+
+.post-pic{
+  flex:1
+}
+
+.post-pic img{
+  max-width: 80px;
+  max-height: 80px;
+  border-radius: 50%;
+  border: 1px black solid;
+  margin-right: 10px;
+}
+
+.leftside{
+  flex:5;
+}
+
+/* Profile */
+.prof{
+  display:flex;
+  background-color:#fefefe;
+  padding:5px;
+  border-style:groove;
+}
+
+.prof-pic{
+  flex:1;
+}
+
+.prof-pic img{
+  max-width: 150px;
+  max-height: 150px;
+  border-radius: 50%;
+  border: 1px black solid;
+  margin-right: 10px;
+}
+
+.prof-info{
+  flex:4;
+}
+
+.prof-username a{
+  text-decoration: none;
+}
+
+/* Admin Page */
+.createContainer{
+  height:500px;
+  width:200px;
+  padding: 10px;
+}
+
+.createButton{
+  float:right;
+  padding:10px;
+}
+
+
+/* RichTextEditor */
+/* .EditorContainer{
+  display:flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin: 20px;
+} */
+
+.RichEditor-root {
+  background: #fff;
+  border: 1px solid #ddd;
+  font-family: 'Georgia', serif;
+  font-size: 14px;
+  padding: 15px;
+}
+
+.RichEditor-editor {
+  border-top: 1px solid #ddd;
+  cursor: text;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+.RichEditor-editor .public-DraftEditorPlaceholder-root,
+.RichEditor-editor .public-DraftEditor-content {
+  margin: 0 -15px -15px;
+  padding: 15px;
+}
+
+.RichEditor-editor .public-DraftEditor-content {
+  min-height: 100px;
+}
+
+.RichEditor-hidePlaceholder .public-DraftEditorPlaceholder-root {
+  display: none;
+}
+
+.RichEditor-editor .RichEditor-blockquote {
+  border-left: 5px solid #eee;
+  color: #666;
+  font-family: 'Hoefler Text', 'Georgia', serif;
+  font-style: italic;
+  margin: 16px 0;
+  padding: 10px 20px;
+}
+
+.RichEditor-editor .public-DraftStyleDefault-pre {
+  background-color: rgba(0, 0, 0, 0.05);
+  font-family: 'Inconsolata', 'Menlo', 'Consolas', monospace;
+  font-size: 16px;
+  padding: 20px;
+}
+
+.RichEditor-controls {
+  font-family: 'Helvetica', sans-serif;
+  font-size: 14px;
+  margin-bottom: 5px;
+  user-select: none;
+}
+
+.RichEditor-styleButton {
+  color: #999;
+  cursor: pointer;
+  margin-right: 16px;
+  padding: 2px 0;
+  display: inline-block;
+}
+
+.RichEditor-activeButton {
+  color: #5890ff;
 }
