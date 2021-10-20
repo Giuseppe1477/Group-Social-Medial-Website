@@ -3,6 +3,8 @@ import { Editor, EditorState, getDefaultKeyBinding, RichUtils, convertToRaw } fr
 import 'draft-js/dist/Draft.css';
 import { Button } from 'react-bootstrap';
 import * as constants from './const.js';
+import Services from "./Services";
+import sha256 from "crypto-js/sha256";
 
 class RichTextEditor extends React.Component {
     constructor(props) {
@@ -19,51 +21,37 @@ class RichTextEditor extends React.Component {
 
     onChange = (editorState) => {
         const contentState = editorState.getCurrentContent();
-        console.log('content state', convertToRaw(contentState));
         this.setState({editorState});
     }
 
     handleSubmit = (e) => {
         e.preventDefault();
+
         const contentState = this.state.editorState.getCurrentContent();
-        console.log('content state: ', convertToRaw(contentState));
-        //fetch here    
-        fetch(constants.BASE_URL + "create_post",{
-            method: 'POST',
-            mode: 'cors',
-            cache: 'force-cache',
-            credentials: 'same-origin',
-            headers: {
-              'Content-Type': 'application/json',
-              'Access-Control-Allow-Origin': '*'
-            },
-            body: JSON.stringify({
-                user_id: this.props.user_id,
-                text:JSON.stringify(convertToRaw(contentState)),
-                img:""
-            })
-          })
-          .then(res => {
-            if(!res.ok)
-              throw Error("Error");
-            return res;
-          })
-          .then(res  => res.json())
-          .then(res => res.body)
-          .then(data => {
-            //getOutput(data);
-            console.log(data);
-          })
-          .catch((err) => {
-            // console.err(err)
-          });
+
+        let textEntered = '';
+        convertToRaw(contentState)
+            .blocks
+            .map(blockText => textEntered += blockText.text);
+        console.log(textEntered);
+
+        this.props.callback({
+            user_id: this.props.user_id,
+            text: textEntered,
+            img:""
+        })
+            .then(r =>
+                null
+            )
+            .catch(err => console.log(err));
     }
+
 
     _handleKeyCommand(command, editorState) {
         const newState = RichUtils.handleKeyCommand(editorState, command);
         if (newState) {
-        this.onChange(newState);
-        return true;
+            this.onChange(newState);
+            return true;
         }
         return false;
     }
@@ -73,7 +61,7 @@ class RichTextEditor extends React.Component {
         const newEditorState = RichUtils.onTab(
             e,
             this.state.editorState,
-            4, /* maxDepth */
+            1, /* maxDepth */
         );
         if (newEditorState !== this.state.editorState) {
             this.onChange(newEditorState);
