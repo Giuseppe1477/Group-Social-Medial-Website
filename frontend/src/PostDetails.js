@@ -3,39 +3,23 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import Post from "./Post.js";
 import RichTextEditorComment from "./RichTextEditorComment.js";
+import Services from "./Services";
+import {convertToRaw} from "draft-js";
 
-const PostDetails = ({user_id}) => {
-    const{ post_id } = useParams()
-    const{comments, setComments} = useState(null);
+const PostDetails = ({ user_id }) => {
+    const { post_id } = useParams()
+    const { comments, setComments } = useState(null);
 
-    useEffect(({user_id}) => {
-        fetch(constants.BASE_URL + 'list_comments',{
-        method: 'POST',
-        mode: 'cors',
-        cache: 'force-cache',
-        credentials: 'same-origin',
-        headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*'
-        },
-        body: JSON.stringify({
-            user_id: user_id,
+    useEffect(() => {
+        Services.list_comments({
+            user_id
         })
-        })
-        .then(res => {
-        if(!res.ok)
-            throw Error("Error");
-        return res;
-        })
-        .then(res  => res.json())
-        .then(res => res.body)
-        .then(data => {
-        console.log(data);
-        })
-        .catch((err) => {
-        console.error(err);
-        });
-    },[]);
+            .then(r => {
+                console.log({'comments': r})
+                setComments(r.comments)
+            })
+            .catch(err => console.log(err));
+    }, [])
 
     return (  
         <div className="post-details">
