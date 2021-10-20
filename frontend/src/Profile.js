@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Link } from "react-router-dom";
 
 const Profile = (props) => {
+    console.log(props)
     return (  
         <div className="prof">
             <div className="prof-pic">
@@ -17,17 +18,11 @@ const Profile = (props) => {
                         </Link>
                     </div>
                     <div className="prof-message">
-                        {props.viewer_id!==props.user_id &&
-                            <Link to={"chat/" + props.user_id} >
-                                <IconButton>
-                                    <FontAwesomeIcon icon={faEnvelope}/>
-                                </IconButton>
-                            </Link>
-                        }
+
                     </div>
                 </div>
                 <div className="prof-descrip">
-                    <p>Description</p>
+                    <p>I love Music</p>
                 </div>
             </div>
         </div>
