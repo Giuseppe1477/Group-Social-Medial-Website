@@ -1,6 +1,8 @@
 
 from uuid import uuid4
 from http import HTTPStatus
+from botocore.exceptions import ClientError
+
 from lambda_decorators import (
     cors_headers, json_http_resp, load_json_body
 )
@@ -30,30 +32,27 @@ def main(event, _):
     text = body.get('text')
 
     comment_id = str(uuid4())
+    message_id = str(uuid4())
 
     item = {
         'type': 'comment',
+        'message_id': message_id,
         'comment_id': comment_id,
         'post_id': post_id,
         'user_id': user_id,
         'text': text,
     }
 
-    res = dynamo_table.put_item(
-        **{
-            'Item': item
-        }
-    )
-
-    if res.get('Attributes', {}) != item:
-        print('Not the same Attrs. Failed.')
-        print('item:')
-        print(item)
-        print('attrs:')
-        print(res.get('Attributes'))
-
+    try:
+        dynamo_table.put_item(
+            **{
+                'Item': item
+            }
+        )
+    except ClientError as err:
+        print('Client Error:', err)
         status_code = HTTPStatus.INTERNAL_SERVER_ERROR
-        message = 'Create-User failed.'
+        message = 'Create-Comment failed.'
 
     return {
         'statusCode': status_code,
