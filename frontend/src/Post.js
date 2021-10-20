@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import { faCommentDots } from '@fortawesome/free-solid-svg-icons'
+import {faCommentDots, faEnvelope} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { IconButton } from "@mui/material";
+// import { RateReviewIcon } from '@mui/icons-material';
+import RateReviewIcon from '@mui/icons-material/RateReview';
 import { Link } from 'react-router-dom';
 import { stateToHTML } from "draft-js-export-html";
 
-const Post = ({post_id, text}) => { //[data]
-    //const[title, setTitle] = useState(data);
+const Post = ({ user_id, user_poster_id, post_id, text, created_at = 0 }) => { //[data]
+
     const[id, setId] = useState(post_id);
 
     return (
@@ -16,7 +18,7 @@ const Post = ({post_id, text}) => { //[data]
             </div>
             <div className="leftside">
                 <div className="post-info">
-                    <b>User User</b>
+                    <h5><b>{user_poster_id}</b></h5>
                 </div>
                 <div className="post-title">
                 
@@ -27,9 +29,16 @@ const Post = ({post_id, text}) => { //[data]
                 <div className="comment-icon">
                     <Link to={"posts/"+id}>
                         <IconButton>
-                            <FontAwesomeIcon icon={faCommentDots}/>
+                            <RateReviewIcon/>
                         </IconButton>
                     </Link>
+                    {user_id !== user_poster_id &&
+                            <Link to={"chat/" + user_poster_id} >
+                                <IconButton>
+                                    <FontAwesomeIcon icon={faEnvelope}/>
+                                </IconButton>
+                            </Link>
+                        }
                 </div>
             </div>
         </div>
