@@ -1,44 +1,51 @@
 import * as constants from './const.js';
+import Services from './Services.js';
 import sha256 from 'crypto-js/sha256';
 import React, { useState } from "react";
 import TextField from "@mui/material/TextField";  
 
-function InputBox({ setOutput }) {
-  const [info, setInfo] = useState({ name: "", password: ""})
+function InputBox({ setAuth }) {
+  const [info, setInfo] = useState({ name: "", password: ""});
   const [error, setError] = useState(null);
 
-  const handleSubmit=e=>{
+  const handleSubmit = e => {
     e.preventDefault();
 
-    console.log(`You are submitting ${info.name} - ${info.password} - HASH:${sha256(info.password)}`);
-    fetch(constants.BASE_URL + 'auth',{
-      method: 'POST',
-      mode: 'cors',
-      cache: 'force-cache',
-      credentials: 'same-origin',
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*'
-      },
-      body: JSON.stringify({
-        user_id: info.name,
-        pass: sha256(info.password).toString()
-      })
+    Services.auth({
+      user_id: info.name,
+      pass: sha256(info.password).toString()
     })
-    .then(res => {
-      if(!res.ok)
-        throw Error("Error");
-      return res;
-    })
-    .then(res  => res.json())
-    .then(res => res.body)
-    .then(data => {
-      setOutput(data);
-      console.log(data);
-    })
-    .catch((err) => {
-      setError(true);
-    });
+        .then(r => setAuth(r))
+        .catch(setError(true));
+
+    // fetch(constants.BASE_URL + 'auth',{
+    //   method: 'POST',
+    //   mode: 'cors',
+    //   cache: 'force-cache',
+    //   credentials: 'same-origin',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //     'Access-Control-Allow-Origin': '*'
+    //   },
+    //   body: JSON.stringify({
+    //     user_id: info.name,
+    //     pass: sha256(info.password).toString()
+    //   })
+    // })
+    // .then(res => {
+    //   if(!res.ok)
+    //     throw Error("Error");
+    //   return res;
+    // })
+    // .then(res  => res.json())
+    // .then(res => res.body)
+    // .then(data => {
+    //   console.log('data:', data);
+    //   getOutput(data);
+    // })
+    // .catch((err) => {
+    //   setError(true);
+    // });
   }
   return (
     <div className='logContainer'>
