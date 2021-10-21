@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import {BrowserRouter as Router, HashRouter, Route, Switch} from 'react-router-dom';
 import InputBox from './InputBox.js';
 import HomePage from './HomePage.js';
 import Navig from './Navig.js';
@@ -36,7 +36,7 @@ const App = () => {
     }
 
     return (
-        <Router>
+        <HashRouter>
             <div className="App">
                 <Navig isAdmin = {data.is_admin}/>
                 <div className="content">
@@ -68,7 +68,7 @@ const App = () => {
                     </Switch>
                 </div>
             </div>
-        </Router>
+        </HashRouter>
 
     );
 }
