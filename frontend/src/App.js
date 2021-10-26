@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import {BrowserRouter as Router, HashRouter, Route, Switch} from 'react-router-dom';
 import InputBox from './InputBox.js';
 import HomePage from './HomePage.js';
 import Navig from './Navig.js';
 import Post from './Post.js';
 import PostDetails from './PostDetails.js';
+import ProfilePage from "./ProfilePage";
 import CreatePost from './CreatePost.js';
 import Chat from './Chat.js'
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -17,28 +18,34 @@ const App = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(null);
     const [data, setData] = useState({user_id:"", is_admin:false});
 
-    const getOutput = output => {
-        setData({user_id:output.user_id, is_admin:output.is_admin});
-        setIsLoggedIn(output.logged_in);
+    const setAuth = authData => {
+        console.log('user info:', authData);
+        const {
+            user_id,
+            is_admin,
+            logged_in
+        } = authData;
+        setData({
+            user_id, is_admin
+        });
+        setIsLoggedIn(Boolean(logged_in));
     }
 
     if(!isLoggedIn){
-        return <InputBox getOutput={getOutput}/>
+        return <InputBox setAuth={setAuth}/>
     }
 
     return (
-        <Router>
+        <HashRouter>
             <div className="App">
                 <Navig isAdmin = {data.is_admin}/>
                 <div className="content">
                     <Switch>
                         <Route exact path="/">
-                            <HomePage isAdmin = {data.is_admin} user_id={data.user_id} viewer_id={data.user_id}/>
+                            <HomePage isAdmin={data.is_admin} user_id={data.user_id}/>
                         </Route>
-                        <Route exact path="/posts">
-                            <Post user_id={data.post_id}/>
-                            {/* <Post/>
-                            <Post/> */}
+                        <Route exact path="/profile">
+                            <ProfilePage user_id={data.user_id}/>
                         </Route>
                         <Route path="/posts/:id">
                             <PostDetails user_id={data.user_id}/>
@@ -61,7 +68,7 @@ const App = () => {
                     </Switch>
                 </div>
             </div>
-        </Router>
+        </HashRouter>
 
     );
 }

@@ -55,17 +55,16 @@ def main(event, _):
             message = 'Incorrect Credentials for User. Could not login.'
 
     return {
-        'statusCode': status_code,
         'headers': {
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Headers': '*',
             'Access-Control-Allow-Credentials': True,
         },
-        'body': {
-            'user_id': user_id,
-            'message': message,
-            'statusCode': status_code,
-            'is_admin': is_admin,
-            'logged_in': status_code == HTTPStatus.OK,
-        },
+
+        'message': message,
+        'statusCode': status_code,
+        'user_id': user_id,
+        'is_admin': is_admin,
+        'logged_in': status_code == HTTPStatus.OK,
+
     }

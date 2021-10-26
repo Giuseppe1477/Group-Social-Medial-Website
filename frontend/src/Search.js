@@ -1,73 +1,35 @@
 import { Button, Form, FormControl } from 'react-bootstrap'
 import { useState } from 'react';
 import * as constants from './const.js';
+import Services from "./Services";
+import Profile from "./Profile";
 
 const Search = () => {
-    const[field, setField] = useState("");
-    const[resultPosts, setPosts] = useState(null);
-    const[resultProfiles, setProfiles] = useState(null);
+    const[ textField, setTextField ] = useState('');
+    const[ resultUsers, setUsers ] = useState([]);
 
-    const handleSubmit=e=>{
+    const onChange = e => {
+        setTextField(e.target.value);
+        handleSubmit(e);
+    }
+
+    const handleSubmit = e => {
         e.preventDefault();
-        console.log(field);
-        // console.log(`You are submitting ${info.name} - ${info.password} - HASH:${sha256(info.password)}`);
-        fetch(constants.BASE_URL + 'list_posts',{
-          method: 'POST',
-          mode: 'cors',
-          cache: 'force-cache',
-          credentials: 'same-origin',
-          headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*'
-          },
-          body: JSON.stringify({
-            user_id: "",
-          })
+
+        Services.list_users({
+            user_id: textField
         })
-        .then(res => {
-          if(!res.ok)
-            throw Error("Error");
-          return res;
-        })
-        .then(res  => res.json())
-        .then(res => res.body)
-        .then(data => {
-          console.log(data);
-        })
-        .catch((err) => {
-          console.err(err);
-        });
-        fetch(constants.BASE_URL + 'list_users',{
-            method: 'POST',
-            mode: 'cors',
-            cache: 'force-cache',
-            credentials: 'same-origin',
-            headers: {
-              'Content-Type': 'application/json',
-              'Access-Control-Allow-Origin': '*'
-            },
-            body: JSON.stringify({
-              user_id: "",
+            .then(r => {
+                console.log(r);
+                return r;
             })
-          })
-          .then(res => {
-            if(!res.ok)
-              throw Error("Error");
-            return res;
-          })
-          .then(res  => res.json())
-          .then(res => res.body)
-          .then(data => {
-            console.log(data);
-          })
-          .catch((err) => {
-            console.err(err);
-          });
-      }
+            .then(r => setUsers(r.user_ids))
+            .catch(err => console.log(err))
+    }
 
     return ( 
         <div>
-            <Form className="d-flex" onSubmit={handleSubmit} onChange={e=>setField(e.target.value)}>
+            <Form className="d-flex" onSubmit={handleSubmit} onChange={onChange}>
                     <FormControl
                         type="search"
                         placeholder="Search"
@@ -77,6 +39,9 @@ const Search = () => {
                     <Button type="submit" variant="outline-success">Search</Button>
             </Form>
             <div>
+                {resultUsers.map(
+                    user => <Profile {...user} />
+                )}
             </div>
         </div>
      );
