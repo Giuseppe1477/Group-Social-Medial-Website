@@ -2,9 +2,9 @@ import React from 'react';
 import { Editor, EditorState, getDefaultKeyBinding, RichUtils, convertToRaw } from 'draft-js';
 import 'draft-js/dist/Draft.css';
 import { Button } from 'react-bootstrap';
+import {stateToHTML} from 'draft-js-export-html';
 import * as constants from './const.js';
 import Services from "./Services";
-import sha256 from "crypto-js/sha256";
 
 class RichTextEditor extends React.Component {
     constructor(props) {
@@ -29,21 +29,36 @@ class RichTextEditor extends React.Component {
 
         const contentState = this.state.editorState.getCurrentContent();
 
-        let textEntered = '';
-        convertToRaw(contentState)
-            .blocks
-            .map(blockText => textEntered += blockText.text);
-        console.log(textEntered);
+        // let textEntered = '';
+        // convertToRaw(contentState)
+        //     .blocks
+        //     .map(blockText => textEntered += blockText.text);
+        console.log(stateToHTML(contentState));
 
-        this.props.callback({
-            user_id: this.props.user_id,
-            text: textEntered,
-            img:""
-        })
-            .then(r =>
-                null
-            )
-            .catch(err => console.log(err));
+        if ((this.props.callback).toString().localeCompare("Services.create_post")) {
+            this.props.callback({
+                // user_id: this.props.user_id,
+                // text: stateToHTML(contentState),
+                // img: ""
+                user_id: this.props.user_id,
+                post_id: "16a160b8-f483-4fda-bcbf-fd60e134f6b0", //this.props.post_id
+                text: stateToHTML(contentState),
+            })
+                .then(r =>
+                    null
+                )
+                .catch(err => console.log(err));
+        } else if ((this.props.callback).toString().localeCompare("Services.create_comment")===0) {
+            this.props.callback({
+                user_id: this.props.user_id,
+                post_id: "16a160b8-f483-4fda-bcbf-fd60e134f6b0", //this.props.post_id
+                text: stateToHTML(contentState),
+            })
+                .then(r =>
+                    null
+                )
+                .catch(err => console.log(err));
+        }
     }
 
 

@@ -11,7 +11,9 @@ const HomePage = props => {
     const [ posts, setPosts ] = useState([]);
 
     useEffect(() => {
-        Services.list_posts({})
+        Services.list_posts({
+            user_id:props.user_id
+        })
             .then(r => setPosts(r.posts))
             .catch(err => console.log(err));
     },[]);
