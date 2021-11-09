@@ -6,13 +6,14 @@ import RichTextEditor from "./RichTextEditor.js";
 import Services from "./Services";
 import {convertToRaw} from "draft-js";
 
-const PostDetails = ({ user_id }) => {
-    const { post_id } = useParams()
+const PostDetails = ({ user_id, user_poster_id }) => {
+    const { id } = useParams()
     const { comments, setComments } = useState(null);
 
     useEffect(() => {
         Services.list_comments({
-            user_id
+            user_id: "admin",
+            post_id: id
         })
             .then(r => {
                 console.log({'comments': r})
@@ -21,18 +22,36 @@ const PostDetails = ({ user_id }) => {
             .catch(err => console.log(err));
     }, [])
 
+    console.log(id)
+
+    const createMarkup = text => {
+        return {__html: String(text)};
+    }
+
     return (  
         <div className="post-details">
-            <h2>Post - {post_id}</h2>
-            <p>Example text</p>
-            <div className="parentPost">
-                <Post/>
+            <h2>Post - {id}</h2>
+            
+            <div className="post">
+                <div className="post-pic">
+                    <img src="https://picsum.photos/200" alt="Profile"></img>
+                </div>
+                <div className="leftside">
+                    <div className="post-info">
+                        {/* <h5><b>{user_poster_id}</b></h5> */}
+                    </div>
+                    <div className="post-title">
+                    
+                    </div>
+                    <div className="post-body" dangerouslySetInnerHTML={createMarkup()} />
+                </div>
             </div>
+
             <div className="detailComments">
                 
             </div>
             <div className="writeComments">
-                <RichTextEditor user_id={user_id} post_id = {post_id}/>
+                <RichTextEditor user_id={user_id} post_id = {id} callback={Services.create_comment} type="create_comment"/>
             </div>
         </div>
     );

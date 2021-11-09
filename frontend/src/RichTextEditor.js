@@ -34,24 +34,24 @@ class RichTextEditor extends React.Component {
         //     .blocks
         //     .map(blockText => textEntered += blockText.text);
         console.log(stateToHTML(contentState));
+        console.log(String(this.props.callback).localeCompare("Services.create_post"))
 
-        if ((this.props.callback).toString().localeCompare("Services.create_post")) {
+        if (this.props.type.localeCompare("create_post")===0) {
             this.props.callback({
                 // user_id: this.props.user_id,
                 // text: stateToHTML(contentState),
                 // img: ""
                 user_id: this.props.user_id,
-                post_id: "16a160b8-f483-4fda-bcbf-fd60e134f6b0", //this.props.post_id
                 text: stateToHTML(contentState),
             })
                 .then(r =>
                     null
                 )
                 .catch(err => console.log(err));
-        } else if ((this.props.callback).toString().localeCompare("Services.create_comment")===0) {
+        } else if (this.props.type.localeCompare("create_comment")===0) {
             this.props.callback({
                 user_id: this.props.user_id,
-                post_id: "16a160b8-f483-4fda-bcbf-fd60e134f6b0", //this.props.post_id
+                post_id: this.props.post_id,
                 text: stateToHTML(contentState),
             })
                 .then(r =>

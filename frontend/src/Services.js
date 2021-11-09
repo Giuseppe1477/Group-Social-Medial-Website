@@ -84,6 +84,14 @@ class Services {
     });
   }
 
+  static block_post = async (body)  => {
+    return this.req({
+      path: 'block_post',
+      body: JSON.stringify(body),
+      method: 'POST'
+    });
+  }
+
 }
 
 export default Services;

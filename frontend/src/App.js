@@ -17,6 +17,7 @@ const App = () => {
 
     const [isLoggedIn, setIsLoggedIn] = useState(null);
     const [data, setData] = useState({user_id:"", is_admin:false});
+    const [post, setPost] = useState({user_poster_id:"", post_id:""});
 
     const setAuth = authData => {
         console.log('user info:', authData);
@@ -31,6 +32,18 @@ const App = () => {
         setIsLoggedIn(Boolean(logged_in));
     }
 
+    // const getPost = postData => {
+    //     console.log('postData: ', postData);
+    //     const {
+    //         user_poster_id,
+    //         post_id,
+    //     } = postData;
+    //     setPost({
+    //         user_poster_id, post_id
+    //     });
+
+    // }
+
     if(!isLoggedIn){
         return <InputBox setAuth={setAuth}/>
     }
@@ -42,13 +55,13 @@ const App = () => {
                 <div className="content">
                     <Switch>
                         <Route exact path="/">
-                            <HomePage isAdmin={data.is_admin} user_id={data.user_id}/>
+                            <HomePage isAdmin={data.is_admin} user_id={data.user_id} is_admin={data.is_admin}/>
                         </Route>
                         <Route exact path="/profile">
-                            <ProfilePage user_id={data.user_id}/>
+                            <ProfilePage user_id={data.user_id} is_admin={data.is_admin}/>
                         </Route>
-                        <Route path="/posts/:id">
-                            <PostDetails user_id={data.user_id}/>
+                        <Route exact path="/posts/:id">
+                            <PostDetails user_id={data.user_id} user_poster_id={post.user_poster_id} post_id={post.post_id}/>
                         </Route>
                         <Route exact path="/user/:id">
                             <HomePage user_id={data.user_id}/>
@@ -62,7 +75,7 @@ const App = () => {
                         <Route exact path="/admin">
                             {data.is_admin ? (<Admin/>):(<h1>You do not have access to this page.</h1>)}
                         </Route>
-                        <Route path="/search">
+                        <Route exact path="/search">
                             <Search/>
                         </Route>
                     </Switch>

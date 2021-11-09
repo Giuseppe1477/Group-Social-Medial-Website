@@ -13,10 +13,11 @@ const Chat = (props) => {
     const handleSubmit = e => {
         e.preventDefault();
 
-        Services.send_dm({
-            user_id: "admin",
-            user_recipient_id: "user",
-            text: textField
+        Services.block_post({
+            user_id: "user",
+            // user_recipient_id: "user",
+            // text: textField
+            post_id: "cd94e589-b3d5-4e7c-8cf2-5694b1c490b9"
         })
             .then(r => {
                 console.log(r);
