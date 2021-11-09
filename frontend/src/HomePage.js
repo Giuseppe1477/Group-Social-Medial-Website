@@ -8,18 +8,28 @@ import Services from "./Services";
 
 
 const HomePage = props => {
+
     const [ posts, setPosts ] = useState([]);
+    const [ isLoading, setIsLoading ] = useState(false);
 
     useEffect(() => {
+        setIsLoading(true);
         Services.list_posts({})
             .then(r => setPosts(r.posts))
+            .then(() => setIsLoading(false))
             .catch(err => console.log(err));
     },[]);
 
     return (
         <div>
             <div>
-            { posts && <ListPosts user_id={props.user_id} posts={posts}/> }
+            { isLoading ?
+                <div>
+                    Loading...
+                </div>
+                :
+                <ListPosts user_id={props.user_id} posts={posts}/>
+            }
 
             </div>
         </div>

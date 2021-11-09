@@ -33,7 +33,7 @@ const Post = ({ user_id, user_poster_id, post_id, text, created_at = 0 }) => { /
                         </IconButton>
                     </Link>
                     {user_id !== user_poster_id &&
-                            <Link to={"chat/" + user_poster_id} >
+                            <Link to={`user/chat/${user_id}/${user_poster_id}`} >
                                 <IconButton>
                                     <FontAwesomeIcon icon={faEnvelope}/>
                                 </IconButton>

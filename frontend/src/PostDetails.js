@@ -12,7 +12,8 @@ const PostDetails = ({ user_id }) => {
 
     useEffect(() => {
         Services.list_comments({
-            user_id
+            user_id,
+            post_id
         })
             .then(r => {
                 console.log({'comments': r})

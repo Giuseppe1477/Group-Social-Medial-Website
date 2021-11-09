@@ -6,17 +6,18 @@ import Services from "./Services";
 
 const ProfilePage = props => {
 
-    console.log('profile props:')
-    console.log(props)
-
     const [ posts, setPosts ] = useState([]);
+    const [ isLoading, setIsLoading ] = useState(false);
+
 
     useEffect(() => {
+        setIsLoading(true);
         Services.list_posts({
             user_id: props.user_id,
         })
             .then(r => setPosts(r.posts))
-            .catch(err => console.log(err));
+            .catch(err => console.log(err))
+            .then(() => setIsLoading(false));
     }, [])
 
 

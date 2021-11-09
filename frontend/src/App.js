@@ -56,7 +56,7 @@ const App = () => {
                         <Route exact path="/create">
                             <CreatePost user_id={data.user_id}/>
                         </Route>
-                        <Route path="/user/chat/:id">
+                        <Route path="/user/chat/:user_id/:user_recipient_id">
                             <Chat user_id={data.user_id}/>
                         </Route>
                         <Route exact path="/admin">
