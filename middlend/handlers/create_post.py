@@ -42,7 +42,8 @@ def main(event, _):
         'user_id': user_id,
         'text': text,
         'img': img,
-        'created_at': int(time.time())
+        'created_at': int(time.time()),
+        'is_hidden': False,
     }
 
     try:
@@ -66,6 +67,6 @@ def main(event, _):
         'body': {
             'message': message,
             'statusCode': status_code,
-            'post_id': post_id,
+            **item,
         },
     }
