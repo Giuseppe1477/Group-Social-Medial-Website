@@ -62,8 +62,8 @@ def main(event, _):
             'Access-Control-Allow-Credentials': True,
         },
         'body': {
-            'comment_id': comment_id,
             'message': message,
             'statusCode': status_code,
+            **item,
         },
     }

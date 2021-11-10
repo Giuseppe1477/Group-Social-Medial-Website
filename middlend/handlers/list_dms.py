@@ -1,7 +1,10 @@
 
 from uuid import uuid4
+import json
+from decimal import Decimal
 from http import HTTPStatus
 from botocore.exceptions import ClientError
+from boto3.dynamodb.conditions import *
 
 from lambda_decorators import (
     cors_headers, json_http_resp, load_json_body
@@ -28,46 +31,37 @@ def main(event, _):
     body = event_body(event)
 
     user_id = body.get('user_id')
-    user_id_recipient = body.get('user_id_recipient')
-    conversation_id = create_conversation_id([user_id, user_id_recipient])
-    # text = body.get('message')
-
-    # dm_id = str(uuid4())
-
-    # item = {
-    #     'type': 'dm',
-    #     'conversation_id': conversation_id,
-    #     'user_id': user_id_sender,
-    #     'message': text,
-    # }
+    user_recipient_id = body.get('user_recipient_id')
+    conversation_id = create_conversation_id([user_id, user_recipient_id])
+    print(conversation_id)
 
     dms = []
+    dm_attr = (
+        Attr('type').eq('dm')
+        &
+        Attr('user_id').eq(user_id)
+        &
+        Attr('conversation_id').eq(conversation_id)
+    )
 
     try:
-        res = dynamo_table.paginate(
+        res = dynamo_table.scan(
             **{
-                'TableName': table_name,
-                'FilterExpression': 'user_id = :user_id and '
-                                    'conversation_id = :conversation_id'
-                                    '#type = :type',
-                'ExpressionAttributeValues': {
-                    ':user_id': {'S': user_id},
-                    ':conversation_id': {'S': conversation_id},
-                    ':type': {'S': 'post'},
-                }
+                'FilterExpression': dm_attr
             }
         )
+        print(res)
 
-        for dm in res:
-            print('dm:')
-            print(dm)
-            for item in dm.get('Items'):
-                dms.append(item)
+        for dm in res.get('Items', []):
+            dm['created_at'] = int(dm.get('created_at', 0))
+            dms.append(dm)
     except ClientError as err:
         print('Client Error: ', err)
 
         status_code = HTTPStatus.INTERNAL_SERVER_ERROR
         message = 'Create-User failed.'
+
+    dms = sorted(dms, key=lambda d: d.get('created_at', 0))
 
     return {
         'statusCode': status_code,

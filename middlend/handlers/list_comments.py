@@ -1,9 +1,10 @@
 
 from http import HTTPStatus
 from json import dumps
-
+from botocore.exceptions import ClientError
+from boto3.dynamodb.conditions import *
 from common.util import (
-    event_body, dynamo_paginator, table_name
+    event_body, dynamo_paginator, dynamo_table, table_name
 )
 from lambda_decorators import (
     cors_headers, json_http_resp, load_json_body
@@ -29,35 +30,32 @@ def main(event, _):
     user_id = body.get('user_id')
     post_id = body.get('post_id')
 
-    res = dynamo_paginator.paginate(
-        **{
-            'TableName': table_name,
-            'FilterExpression': 'user_id = :user_id and '
-                                'post_id = :post_id and '
-                                '#type = :type',
-            'ExpressionAttributeNames': {
-                '#type': 'type',
-            },
-            'ExpressionAttributeValues': {
-                ':user_id': {'S': user_id},
-                ':post_id': {'S': post_id},
-                ':type': {'S': 'comment'},
-            }
-        }
+    comments = []
+    comment_attr = (
+        Attr('type').eq('comment')
+        &
+        Attr('user_id').eq(user_id)
+        &
+        Attr('post_id').eq(post_id)
     )
 
-    comments = []
+    try:
+        res = dynamo_table.scan(
+            **{
+                'FilterExpression': comment_attr,
+            }
+        )
 
-    for comment in res:
-        print(comment)
-        for item in comment.get('Items'):
-            comments.append({
-                'user_id': item.get('user_id').get('S'),
-                'post_id': item.get('post_id').get('S'),
-                'comment_id': item.get('comment_id').get('S'),
-                'img': item.get('img').get('S'),
-                'type': item.get('type').get('S'),
-            })
+        for comment in res.get('Items', []):
+            comment['created_at'] = int(comment.get('created_at', 0))
+            comments.append(comment)
+    except ClientError as err:
+        print('Client Error:', err)
+        status_code = HTTPStatus.INTERNAL_SERVER_ERROR
+        message = 'Failed. InternalServerError.'
+
+    comments = sorted(comments, key=lambda d: d['created_at'])
+    print(comments)
 
     return {
         'headers': {
@@ -68,6 +66,8 @@ def main(event, _):
 
         'message': message,
         'statusCode': status_code,
+
+        'user_id': user_id,
 
         'comments': comments,
         'total': len(comments),

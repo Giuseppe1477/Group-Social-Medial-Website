@@ -149,3 +149,15 @@ functions:
             origin: '*'
             headers: '*'
             allowCredentials: false
+  list_dms:
+    handler: handlers/list_dms.main
+    environment:
+      DYNAMO_TABLE: ${self:custom.env.tables.pcdm}
+    events:
+      - http:
+          path: list_dms
+          method: any
+          cors:
+            origin: '*'
+            headers: '*'
+            allowCredentials: false

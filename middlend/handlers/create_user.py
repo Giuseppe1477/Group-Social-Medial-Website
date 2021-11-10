@@ -39,15 +39,13 @@ def main(event, _):
         }
     )
 
-    print(user_existing)
-
     user_existing = user_existing.get('Item', {})
 
     if user_existing:
         status_code = HTTPStatus.CONFLICT
         message = 'User already exists.'
         print(message)
-    elif is_admin:
+    else:
         item = {
             'user_id': user_id,
             'pass': passwd,
@@ -67,20 +65,13 @@ def main(event, _):
             status_code = HTTPStatus.INTERNAL_SERVER_ERROR
             message = 'Create-User failed.'
 
-    else:
-        status_code = HTTPStatus.UNAUTHORIZED
-        message = 'You are not authorized to create accounts.'
-
     return {
-        'statusCode': status_code,
         'headers': {
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Headers': '*',
             'Access-Control-Allow-Credentials': True,
         },
-        'body': {
-            'message': message,
-            'statusCode': status_code,
-            'is_admin': is_admin,
-        },
+        'message': message,
+        'statusCode': status_code,
+        **item,
     }
