@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { Nav, Navbar } from 'react-bootstrap'
 
 const Navig = (props) => {
-    return (  
+    return (
         <Navbar bg="light" variant="light">
             <Navbar.Brand>Music Sharing Site</Navbar.Brand>
 
@@ -14,9 +14,10 @@ const Navig = (props) => {
                 <Nav.Link as={Link} to="/chat">Chat</Nav.Link>
                 <Nav.Link as={Link} to="/">Spotify</Nav.Link>
                 <div>{props.isAdmin && (<Nav.Link as={Link} to="/admin">Admin</Nav.Link>)}</div>
+                <Nav.Link onClick={props.logout}>Logout</Nav.Link>
             </Nav>
         </Navbar>
     );
 }
- 
+
 export default Navig;
