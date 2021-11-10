@@ -1,6 +1,5 @@
 import { IconButton } from "@mui/material";
-import { faEnvelope } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import ChatIcon from '@mui/icons-material/Chat';
 import { Link } from "react-router-dom";
 
 const Profile = (props) => {
@@ -13,12 +12,16 @@ const Profile = (props) => {
             <div className="prof-info">
                 <div className="prof-top">
                     <div className="prof-username">
-                        <Link to={"user/" + props.user_id}>
+                        <Link to={"profile/" + props.user_id}>
                             <h1>{props.user_id}</h1>
                         </Link>
                     </div>
                     <div className="prof-message">
-
+                        <Link to={"/chat"}>
+                            <IconButton onClick={()=>props.setRecipient(props.user_id)}>
+                                <ChatIcon/>
+                            </IconButton>
+                        </Link>
                     </div>
                 </div>
                 <div className="prof-descrip">

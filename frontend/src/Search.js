@@ -4,7 +4,7 @@ import * as constants from './const.js';
 import Services from "./Services";
 import Profile from "./Profile";
 
-const Search = () => {
+const Search = props => {
     const[ textField, setTextField ] = useState('');
     const[ resultUsers, setUsers ] = useState([]);
 
@@ -40,7 +40,7 @@ const Search = () => {
             </Form>
             <div>
                 {resultUsers.map(
-                    user => <Profile {...user} />
+                    user => <Profile {...user} setRecipient={props.setRecipient} />
                 )}
             </div>
         </div>

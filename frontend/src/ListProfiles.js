@@ -10,5 +10,4 @@ const ListProfiles = (props) => {
      );
 }
  
-export default ListProfil
-es;
+export default ListProfiles;

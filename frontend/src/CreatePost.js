@@ -8,6 +8,7 @@ const CreatePost = (props) => {
         <RichTextEditor
             user_id={props.user_id}
             callback={Services.create_post}
+            type="create_post"
         />
     </div>
   );

@@ -2,14 +2,19 @@ import React, { useState } from "react";
 import {faCommentDots, faEnvelope} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { IconButton } from "@mui/material";
-// import { RateReviewIcon } from '@mui/icons-material';
 import RateReviewIcon from '@mui/icons-material/RateReview';
 import { Link } from 'react-router-dom';
 import { stateToHTML } from "draft-js-export-html";
+import Services from "./Services";
 
-const Post = ({ user_id, user_poster_id, post_id, text, created_at = 0 }) => { //[data]
+const Post = ({ user_id, user_poster_id, post_id, text, is_admin, getPost, created_at = 0 }) => { //[data]
 
     const[id, setId] = useState(post_id);
+    const[html, setHtml] = useState("");
+
+    const createMarkup = text => {
+        return {__html: String(text)};
+    }
 
     return (
         <div className="post">
@@ -23,22 +28,28 @@ const Post = ({ user_id, user_poster_id, post_id, text, created_at = 0 }) => { /
                 <div className="post-title">
                 
                 </div>
-                <div className="post-body">
-                    <p>{text}</p>
-                </div>
+                <div className="post-body" dangerouslySetInnerHTML={createMarkup(text)} />
                 <div className="comment-icon">
                     <Link to={"posts/"+id}>
-                        <IconButton>
+                        <IconButton onClick={()=>getPost({user_poster_id: user_poster_id, text: text})}>
                             <RateReviewIcon/>
                         </IconButton>
                     </Link>
-                    {user_id !== user_poster_id &&
-                            <Link to={"chat/" + user_poster_id} >
-                                <IconButton>
-                                    <FontAwesomeIcon icon={faEnvelope}/>
-                                </IconButton>
-                            </Link>
-                        }
+                    {is_admin && 
+                        (<IconButton onClick={()=>Services.block_post({
+                            user_id: user_poster_id,
+                            post_id: post_id
+                        })}>
+                            <RateReviewIcon/>
+                        </IconButton>)
+                    }
+                    {/* {user_id !== user_poster_id &&
+                        <Link to={"chat/" + user_poster_id} >
+                            <IconButton>
+                                <FontAwesomeIcon icon={faEnvelope}/>
+                            </IconButton>
+                        </Link>
+                    } */}
                 </div>
             </div>
         </div>

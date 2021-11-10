@@ -2,9 +2,8 @@ import React from 'react';
 import { Editor, EditorState, getDefaultKeyBinding, RichUtils, convertToRaw } from 'draft-js';
 import 'draft-js/dist/Draft.css';
 import { Button } from 'react-bootstrap';
-import * as constants from './const.js';
+import {stateToHTML} from 'draft-js-export-html';
 import Services from "./Services";
-import sha256 from "crypto-js/sha256";
 
 class RichTextEditor extends React.Component {
     constructor(props) {
@@ -29,21 +28,36 @@ class RichTextEditor extends React.Component {
 
         const contentState = this.state.editorState.getCurrentContent();
 
-        let textEntered = '';
-        convertToRaw(contentState)
-            .blocks
-            .map(blockText => textEntered += blockText.text);
-        console.log(textEntered);
-
-        this.props.callback({
-            user_id: this.props.user_id,
-            text: textEntered,
-            img:""
-        })
-            .then(r =>
-                null
-            )
-            .catch(err => console.log(err));
+        if (this.props.type.localeCompare("create_post")===0) {
+            this.props.callback({
+                user_id: this.props.user_id,
+                text: stateToHTML(contentState),
+            })
+                .then(r =>
+                    null
+                )
+                .catch(err => console.log(err));
+        } else if (this.props.type.localeCompare("create_comment")===0) {
+            this.props.callback({
+                user_id: this.props.user_id,
+                post_id: this.props.post_id,
+                text: stateToHTML(contentState),
+            })
+                .then(r =>
+                    null
+                )
+                .catch(err => console.log(err));
+        } else if (this.props.type.localeCompare("send_dm")===0) {
+            this.props.callback({
+                user_id: this.props.user_id,
+                user_recipient_id: this.props.user_recipient_id,
+                text: stateToHTML(contentState),
+            })
+                .then(r =>
+                    null
+                )
+                .catch(err => console.log(err));
+        }
     }
 
 

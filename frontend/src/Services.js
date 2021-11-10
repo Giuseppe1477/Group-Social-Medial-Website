@@ -36,6 +36,22 @@ class Services {
     });
   }
 
+  static create_comment = async (body)  => {
+    return this.req({
+      path: 'create_comment',
+      body: JSON.stringify(body),
+      method: 'POST'
+    });
+  }
+
+  static send_dm = async (body)  => {
+    return this.req({
+      path: 'send_dm',
+      body: JSON.stringify(body),
+      method: 'POST'
+    });
+  }
+
   static list_users = async (body)  => {
     return this.req({
       path: 'list_users',
@@ -55,6 +71,22 @@ class Services {
   static list_comments = async (body)  => {
     return this.req({
       path: 'list_comments',
+      body: JSON.stringify(body),
+      method: 'POST'
+    });
+  }
+
+  static list_dms = async (body)  => {
+    return this.req({
+      path: 'list_dms',
+      body: JSON.stringify(body),
+      method: 'POST'
+    });
+  }
+
+  static block_post = async (body)  => {
+    return this.req({
+      path: 'block_post',
       body: JSON.stringify(body),
       method: 'POST'
     });

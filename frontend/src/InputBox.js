@@ -17,35 +17,6 @@ function InputBox({ setAuth }) {
     })
         .then(r => setAuth(r))
         .catch(setError(true));
-
-    // fetch(constants.BASE_URL + 'auth',{
-    //   method: 'POST',
-    //   mode: 'cors',
-    //   cache: 'force-cache',
-    //   credentials: 'same-origin',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     'Access-Control-Allow-Origin': '*'
-    //   },
-    //   body: JSON.stringify({
-    //     user_id: info.name,
-    //     pass: sha256(info.password).toString()
-    //   })
-    // })
-    // .then(res => {
-    //   if(!res.ok)
-    //     throw Error("Error");
-    //   return res;
-    // })
-    // .then(res  => res.json())
-    // .then(res => res.body)
-    // .then(data => {
-    //   console.log('data:', data);
-    //   getOutput(data);
-    // })
-    // .catch((err) => {
-    //   setError(true);
-    // });
   }
   return (
     <div className='logContainer'>
