@@ -32,6 +32,9 @@ def main(event, _):
     text = body.get('text')
     img = body.get('img')
 
+    tags = body.get('tags', [])
+    tags = ','.join(tags)
+
     post_id = str(uuid4())
     message_id = str(uuid4())
 
@@ -41,6 +44,7 @@ def main(event, _):
         'post_id': post_id,
         'user_id': user_id,
         'text': text,
+        'tags': tags,
         'img': img,
         'created_at': int(time.time()),
         'is_hidden': False,
@@ -58,15 +62,12 @@ def main(event, _):
         message = 'Create-Post failed.'
 
     return {
-        'statusCode': status_code,
         'headers': {
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Headers': '*',
             'Access-Control-Allow-Credentials': True,
         },
-        'body': {
-            'message': message,
-            'statusCode': status_code,
-            **item,
-        },
+        'message': message,
+        'statusCode': status_code,
+        **item,
     }
