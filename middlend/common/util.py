@@ -14,11 +14,20 @@ def event_body(event: dict) -> dict:
 
 
 def create_conversation_id(users: List[str]) -> str:
+    print('users for conversation_id:')
+    print(users)
     seed = ' '.join(sorted(users)).encode('utf-8')
 
-    hasher = hashlib.sha256()
+    hasher = hashlib.md5()
     hasher.update(seed)
-    return str(uuid.UUID(hasher.hexdigest()))
+
+    conversation_id = 'Failed'
+    try:
+        conversation_id = str(uuid.UUID(hasher.hexdigest()))
+    except Exception as err:
+        print('Error:')
+        print(err)
+    return conversation_id
 
 
 table_name = os.environ.get('DYNAMO_TABLE')

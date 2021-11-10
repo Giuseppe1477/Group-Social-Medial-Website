@@ -1,6 +1,8 @@
 
+import time
 from uuid import uuid4
 from http import HTTPStatus
+from botocore.exceptions import ClientError
 from lambda_decorators import (
     cors_headers, json_http_resp, load_json_body
 )
@@ -25,35 +27,37 @@ def main(event, _):
 
     body = event_body(event)
 
-    user_id_sender = body.get('user_id')
-    user_id_recipient = body.get('user_id_recipient')
-    conversation_id = create_conversation_id([user_id_sender, user_id_recipient])
-    text = body.get('message')
+    user_sender_id = body.get('user_id')
+    user_recipient_id = body.get('user_recipient_id')
+    conversation_id = create_conversation_id([user_sender_id, user_recipient_id])
+    text = body.get('text')
+    created_at = int(time.time())
 
-    dm_id = str(uuid4())
+    message_id = str(uuid4())
 
     item = {
         'type': 'dm',
         'conversation_id': conversation_id,
-        'user_id': user_id_sender,
-        'message': text,
+        'dm_id': user_recipient_id,
+        'message_id': message_id,
+        'user_id': user_sender_id,
+        'text': text,
+        'created_at': created_at,
     }
+    print(item)
 
-    res = dynamo_table.put_item(
-        **{
-            'Item': item
-        }
-    )
+    try:
 
-    if res.get('Attributes', {}) != item:
-        print('Not the same Attrs. Failed.')
-        print('item:')
-        print(item)
-        print('attrs:')
-        print(res.get('Attributes'))
+        dynamo_table.put_item(
+            **{
+                'Item': item
+            }
+        )
+
+    except ClientError as err:
 
         status_code = HTTPStatus.INTERNAL_SERVER_ERROR
-        message = 'Create-User failed.'
+        message = 'Send-DM failed. ' + err
 
     return {
         'statusCode': status_code,
@@ -65,6 +69,6 @@ def main(event, _):
         'body': {
             'message': message,
             'statusCode': status_code,
-            'dm_id': dm_id,
+            **item,
         },
     }

@@ -31,38 +31,36 @@ def main(event, _):
     posts = []
     post_attr = Attr('type').eq('post')
 
+    # OPTIONAL
     user_id = body.get('user_id')
     if user_id:
         post_attr &= Attr('user_id').eq(user_id)
 
+    # OPTIONAL
+    post_id = body.get('post_id')
+    if post_id:
+        post_attr &= Attr('post_id').eq(post_id)
 
     try:
         res = dynamo_table.scan(
             **{
-                # 'TableName': table_name,
                 'FilterExpression': post_attr,
-                # 'FilterExpression': '#type = :type '
-                #                     'and user_id = :user_id',
-                # 'ExpressionAttributeNames': {
-                #     '#type': 'type',
-                # },
-                # 'ExpressionAttributeValues': {
-                #     ':user_id': {'S': user_id},
-                #     ':type': {'S': 'post'},
-                # }
             }
         )
 
-        print(res)
         for post in res.get('Items', []):
             if isinstance(post.get('is_hidden'), bool) and post.get('is_hidden'):
                 continue
+            post['created_at'] = int(post.get('created_at', 0))
             posts.append(post)
 
     except ClientError as err:
         print('Client Error:', err)
         status_code = HTTPStatus.INTERNAL_SERVER_ERROR
         message = 'Failed. InternalServerError.'
+
+    posts = sorted(posts, key=lambda d: d['created_at'])
+    print(posts)
 
     return {
         'headers': {
@@ -73,6 +71,9 @@ def main(event, _):
 
         'message': message,
         'statusCode': status_code,
+
+        'user_id': user_id,
+
         'posts': posts,
         'total': len(posts),
 

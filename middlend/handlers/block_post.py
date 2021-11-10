@@ -1,6 +1,9 @@
 
+import json
 from uuid import uuid4
 from http import HTTPStatus
+import boto3
+from boto3.dynamodb.conditions import *
 from botocore.exceptions import ClientError
 from common.util import (
     event_body, dynamo_table, table_name, dynamo_paginator
@@ -28,38 +31,59 @@ def main(event, _):
 
     user_id = body.get('user_id')
     post_id = body.get('post_id')
-    message_id = body.get('message_id', None)
+    message_ids = [body.get('message_id', None)]
+    message_ids = message_ids if any(message_ids) else []
+    posts = []
+
+    lambda_client = boto3.client('lambda')
 
     try:
-        if not message_id:
-            res = dynamo_paginator.paginate(
-                **{
-                    'TableName': table_name,
-                    'FilterExpression': 'user_id = :user_id and '
-                                        'post_id = :post_id and '
-                                        '#type = :type',
-                    'ExpressionAttributeNames': {
-                        '#type': 'type',
-                    },
-                    'ExpressionAttributeValues': {
-                        ':user_id': {'S': user_id},
-                        ':post_id': {'S': post_id},
-                        ':type': {'S': 'post'},
-                    }
-                }
-            )
-            for post in res:
-                if post.get('message_id'):
-                    message_id = post.get('message_id')
-                    break
 
-        if message_id:
+        res = lambda_client.invoke(
+            **{
+                'FunctionName': 'middlend-dev-list_posts',
+                'InvocationType': 'RequestResponse',
+                'LogType': 'None',
+                'Payload': json.dumps({
+                    'user_id': user_id,
+                    'post_id': post_id,
+                }),
+            }
+        )
+
+        data = res['Payload'].read().decode()
+        data = json.loads(data)
+        print(data)
+
+        body = data.get('body')
+        body = json.loads(body)
+        print(body)
+
+        posts = body.get('posts', [])
+        posts_t = body.get('total', 0)
+
+        if not data.get('statusCode') < 400 or not posts_t:
+            status_code = HTTPStatus.INTERNAL_SERVER_ERROR
+            message = 'Could not lookup message ID.'
+        else:
+            print(posts)
+            print('posts_t:', posts_t)
+
+            # for post in posts:
+            message_ids = [
+                post.get('message_id') for post in posts
+            ]
+    except Exception as err:
+        print('Invoke Error:', err)
+        status_code = HTTPStatus.INTERNAL_SERVER_ERROR
+        message = 'Failed. InternalServerError. Could not List Posts'
+
+    for message_id_p in message_ids:
+        try:
             dynamo_table.update_item(
                 **{
                     'Key': {
-                        'message_id': message_id,
-                        # 'user_id': user_id,
-                        # 'post_id': post_id,
+                        'message_id': message_id_p,
                     },
                     'UpdateExpression': 'SET #is_hidden = :is_hidden',
                     'ExpressionAttributeNames': {
@@ -70,21 +94,26 @@ def main(event, _):
                     },
                 }
             )
-
-    except ClientError as err:
-        print('ClientError:', err)
-        status_code = HTTPStatus.INTERNAL_SERVER_ERROR
-        message = 'Could not lookup message ID.'
+            print('updated:')
+            print(post)
+        except ClientError as err:
+            print('Client Error:', err)
+            status_code = HTTPStatus.INTERNAL_SERVER_ERROR
+            message = 'Failed. InternalServerError. Could not Update.'
 
     return {
-        'statusCode': status_code,
         'headers': {
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Headers': '*',
             'Access-Control-Allow-Credentials': True,
         },
-        'body': {
-            'message': message,
-            'statusCode': status_code
-        },
+
+        'message': message,
+        'statusCode': status_code,
+
+        'user_id': user_id,
+        'post_id': post_id,
+        'message_ids': message_ids,
+
+        'posts': posts,
     }
