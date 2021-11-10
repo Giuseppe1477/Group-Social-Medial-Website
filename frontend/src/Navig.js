@@ -8,7 +8,7 @@ const Navig = (props) => {
 
             <Nav className="ms-auto">
                 <Nav.Link as={Link} to="/">Home</Nav.Link>
-                <Nav.Link as={Link} to="/profile">Profile</Nav.Link>
+                <Nav.Link as={Link} to={"/profile/"+props.user_id}>Profile</Nav.Link>
                 <Nav.Link as={Link} to="/search">Search</Nav.Link>
                 <Nav.Link as={Link} to="/create">Create</Nav.Link>
                 <Nav.Link as={Link} to="/chat">Chat</Nav.Link>

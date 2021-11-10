@@ -1,9 +1,10 @@
-const Comment = props => {
+const DM = props => {
+
     const createMarkup = text => {
         return {__html: String(text)};
     }
 
-    return (  
+    return ( 
         <div className="post">
             <div className="post-pic">
                 <img src="https://picsum.photos/200" alt="Profile"></img>
@@ -18,7 +19,7 @@ const Comment = props => {
                 <div className="post-body" dangerouslySetInnerHTML={createMarkup(props.text)} />
             </div>
         </div>
-    );
+     );
 }
  
-export default Comment;
+export default DM;

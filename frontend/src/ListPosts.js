@@ -1,6 +1,6 @@
 import Post from './Post.js';
 
-const ListPosts = ({user_id, is_admin, posts}) => {
+const ListPosts = ({user_id, is_admin, posts, getPost}) => {
     return ( 
         <div>
             {posts.map(
@@ -12,6 +12,7 @@ const ListPosts = ({user_id, is_admin, posts}) => {
                     text={p.text}
                     created_at={p.created_at}
                     is_admin={is_admin}
+                    getPost={getPost}
                 />
             )}
         </div>

@@ -3,7 +3,6 @@ import {BrowserRouter as Router, HashRouter, Route, Switch} from 'react-router-d
 import InputBox from './InputBox.js';
 import HomePage from './HomePage.js';
 import Navig from './Navig.js';
-import Post from './Post.js';
 import PostDetails from './PostDetails.js';
 import ProfilePage from "./ProfilePage";
 import CreatePost from './CreatePost.js';
@@ -17,7 +16,8 @@ const App = () => {
 
     const [isLoggedIn, setIsLoggedIn] = useState(null);
     const [data, setData] = useState({user_id:"", is_admin:false});
-    const [post, setPost] = useState({user_poster_id:"", post_id:""});
+    const [post, setPostData] = useState({user_poster_id:"", text:""});
+    const [recipient, setRecipient] = useState("")
 
     const setAuth = authData => {
         console.log('user info:', authData);
@@ -32,16 +32,25 @@ const App = () => {
         setIsLoggedIn(Boolean(logged_in));
     }
 
-    // const getPost = postData => {
-    //     console.log('postData: ', postData);
-    //     const {
-    //         user_poster_id,
-    //         post_id,
-    //     } = postData;
-    //     setPost({
-    //         user_poster_id, post_id
-    //     });
+    const getPost = postData => {
+        console.log('postData: ', postData);
+        const {
+            user_poster_id,
+            text,
+        } = postData;
+        setPostData({
+            user_poster_id, text
+        });
+    }
 
+    // const getRecip = chatData => {
+    //     console.log('chatData: ', chatData);
+    //     const {
+    //         recipient
+    //     } = chatData;
+    //     setRecipient({
+    //         recipient
+    //     });
     // }
 
     if(!isLoggedIn){
@@ -51,32 +60,29 @@ const App = () => {
     return (
         <HashRouter>
             <div className="App">
-                <Navig isAdmin = {data.is_admin}/>
+                <Navig isAdmin = {data.is_admin} user_id = {data.user_id}/>
                 <div className="content">
                     <Switch>
                         <Route exact path="/">
-                            <HomePage isAdmin={data.is_admin} user_id={data.user_id} is_admin={data.is_admin}/>
+                            <HomePage isAdmin={data.is_admin} user_id={data.user_id} is_admin={data.is_admin} getPost={getPost}/>
                         </Route>
-                        <Route exact path="/profile">
-                            <ProfilePage user_id={data.user_id} is_admin={data.is_admin}/>
+                        <Route exact path="/profile/:id">
+                            <ProfilePage is_admin={data.is_admin} getPost={getPost} setRecipient={setRecipient}/>
                         </Route>
                         <Route exact path="/posts/:id">
-                            <PostDetails user_id={data.user_id} user_poster_id={post.user_poster_id} post_id={post.post_id}/>
-                        </Route>
-                        <Route exact path="/user/:id">
-                            <HomePage user_id={data.user_id}/>
+                            <PostDetails user_id={data.user_id} user_poster_id={post.user_poster_id} text={post.text}/>
                         </Route>
                         <Route exact path="/create">
                             <CreatePost user_id={data.user_id}/>
                         </Route>
                         <Route exact path="/chat">
-                            <Chat user_id={data.user_id}/>
+                            <Chat user_id={data.user_id} user_recipient_id={recipient}/>
                         </Route>
                         <Route exact path="/admin">
                             {data.is_admin ? (<Admin/>):(<h1>You do not have access to this page.</h1>)}
                         </Route>
                         <Route exact path="/search">
-                            <Search/>
+                            <Search setRecipient={setRecipient}/>
                         </Route>
                     </Switch>
                 </div>

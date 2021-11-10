@@ -3,7 +3,6 @@ import { Editor, EditorState, getDefaultKeyBinding, RichUtils, convertToRaw } fr
 import 'draft-js/dist/Draft.css';
 import { Button } from 'react-bootstrap';
 import {stateToHTML} from 'draft-js-export-html';
-import * as constants from './const.js';
 import Services from "./Services";
 
 class RichTextEditor extends React.Component {
@@ -29,18 +28,8 @@ class RichTextEditor extends React.Component {
 
         const contentState = this.state.editorState.getCurrentContent();
 
-        // let textEntered = '';
-        // convertToRaw(contentState)
-        //     .blocks
-        //     .map(blockText => textEntered += blockText.text);
-        console.log(stateToHTML(contentState));
-        console.log(String(this.props.callback).localeCompare("Services.create_post"))
-
         if (this.props.type.localeCompare("create_post")===0) {
             this.props.callback({
-                // user_id: this.props.user_id,
-                // text: stateToHTML(contentState),
-                // img: ""
                 user_id: this.props.user_id,
                 text: stateToHTML(contentState),
             })
@@ -52,6 +41,16 @@ class RichTextEditor extends React.Component {
             this.props.callback({
                 user_id: this.props.user_id,
                 post_id: this.props.post_id,
+                text: stateToHTML(contentState),
+            })
+                .then(r =>
+                    null
+                )
+                .catch(err => console.log(err));
+        } else if (this.props.type.localeCompare("send_dm")===0) {
+            this.props.callback({
+                user_id: this.props.user_id,
+                user_recipient_id: this.props.user_recipient_id,
                 text: stateToHTML(contentState),
             })
                 .then(r =>

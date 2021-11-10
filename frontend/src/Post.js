@@ -5,8 +5,9 @@ import { IconButton } from "@mui/material";
 import RateReviewIcon from '@mui/icons-material/RateReview';
 import { Link } from 'react-router-dom';
 import { stateToHTML } from "draft-js-export-html";
+import Services from "./Services";
 
-const Post = ({ user_id, user_poster_id, post_id, text, is_admin, created_at = 0 }) => { //[data]
+const Post = ({ user_id, user_poster_id, post_id, text, is_admin, getPost, created_at = 0 }) => { //[data]
 
     const[id, setId] = useState(post_id);
     const[html, setHtml] = useState("");
@@ -30,12 +31,15 @@ const Post = ({ user_id, user_poster_id, post_id, text, is_admin, created_at = 0
                 <div className="post-body" dangerouslySetInnerHTML={createMarkup(text)} />
                 <div className="comment-icon">
                     <Link to={"posts/"+id}>
-                        <IconButton>
+                        <IconButton onClick={()=>getPost({user_poster_id: user_poster_id, text: text})}>
                             <RateReviewIcon/>
                         </IconButton>
                     </Link>
                     {is_admin && 
-                        (<IconButton>
+                        (<IconButton onClick={()=>Services.block_post({
+                            user_id: user_poster_id,
+                            post_id: post_id
+                        })}>
                             <RateReviewIcon/>
                         </IconButton>)
                     }

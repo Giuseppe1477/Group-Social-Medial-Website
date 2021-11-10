@@ -18,12 +18,12 @@ const HomePage = props => {
             .catch(err => console.log(err));
     },[]);
 
-    console.log(props.is_admin)
+    //console.log(props.is_admin)
 
     return (
         <div>
             <div>
-            { posts && <ListPosts user_id={props.user_id} posts={posts} is_admin={props.is_admin}/> }
+            { posts && <ListPosts user_id={props.user_id} posts={posts} is_admin={props.is_admin} getPost={props.getPost}/> }
 
             </div>
         </div>
