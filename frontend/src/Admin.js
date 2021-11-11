@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { TextField, Button, Checkbox, FormGroup, FormControlLabel } from "@mui/material";
 
 const Admin = () => {
-    const [info, setInfo] = useState({ name: "", password: "", admin: true})
+    const [info, setInfo] = useState({ name: "", password: "", bio: "", img:"", admin: true})
     const [error, setError] = useState(null);
 
     const handleSubmit=e=>{
@@ -34,7 +34,6 @@ const Admin = () => {
         .then(res  => res.json())
         .then(res => res.body)
         .then(data => {
-          //getOutput(data);
           console.log(data);
         })
         .catch((err) => {
@@ -47,27 +46,51 @@ const Admin = () => {
             <form className="createForm">
                 <h3>Create a user.</h3>
                 <label className="createField">
-                <TextField
-                    id='outlined-basic'
-                    label='Username'
-                    variant='standard'
-                    name='username'
-                    type='text'
-                    onChange={e=>setInfo({...info, name:e.target.value})}
-                    value={info.name}
-                />
+                  <TextField
+                      id='outlined-basic'
+                      label='Username'
+                      variant='standard'
+                      name='username'
+                      type='text'
+                      onChange={e=>setInfo({...info, name:e.target.value})}
+                      value={info.name}
+                  />
                 </label>
                 <br />
                 <label className="createField">
-                <TextField
-                    id='outlinede-basic'
-                    label='Password'
-                    variant='standard'
-                    name="password"
-                    type="password"
-                    onChange={e=>setInfo({...info, password:e.target.value})}
-                    value={info.password}
-                />
+                  <TextField
+                      id='outlinede-basic'
+                      label='Password'
+                      variant='standard'
+                      name="password"
+                      type="password"
+                      onChange={e=>setInfo({...info, password:e.target.value})}
+                      value={info.password}
+                  />
+                </label>
+                <br/>
+                <label className="createField">
+                  <TextField
+                      id='outlined-basic'
+                      label='Bio'
+                      variant='standard'
+                      name='bio'
+                      type='text'
+                      onChange={e=>setInfo({...info, bio:e.target.value})}
+                      value={info.bio}
+                  />
+                </label>
+                <br />
+                <label className="createField">
+                  <TextField
+                      id='outlined-basic'
+                      label='Img'
+                      variant='standard'
+                      name='img'
+                      type='text'
+                      onChange={e=>setInfo({...info, img:e.target.value})}
+                      value={info.img}
+                  />
                 </label>
                 <br />
                 <div className="createCheckbox">

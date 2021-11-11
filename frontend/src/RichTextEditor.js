@@ -23,6 +23,10 @@ class RichTextEditor extends React.Component {
         this.setState({editorState});
     }
 
+    // handleReturn (dest) {
+    //     history.push(dest);
+    // }
+
     handleSubmit = (e) => {
         e.preventDefault();
 
@@ -33,10 +37,9 @@ class RichTextEditor extends React.Component {
                 user_id: this.props.user_id,
                 text: stateToHTML(contentState),
             })
-                .then(r =>
-                    null
-                )
+                .then(r => null)
                 .catch(err => console.log(err));
+                this.handleReturn("/profile")
         } else if (this.props.type.localeCompare("create_comment")===0) {
             this.props.callback({
                 user_id: this.props.user_id,

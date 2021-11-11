@@ -43,16 +43,6 @@ const App = () => {
         });
     }
 
-    // const getRecip = chatData => {
-    //     console.log('chatData: ', chatData);
-    //     const {
-    //         recipient
-    //     } = chatData;
-    //     setRecipient({
-    //         recipient
-    //     });
-    // }
-
     if(!isLoggedIn){
         return <InputBox setAuth={setAuth}/>
     }

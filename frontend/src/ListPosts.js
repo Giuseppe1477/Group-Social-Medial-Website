@@ -12,6 +12,7 @@ const ListPosts = ({user_id, is_admin, posts, getPost}) => {
                     text={p.text}
                     created_at={p.created_at}
                     is_admin={is_admin}
+                    message_id={p.message_id}
                     getPost={getPost}
                 />
             )}
