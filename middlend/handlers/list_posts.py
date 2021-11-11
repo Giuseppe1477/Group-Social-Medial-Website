@@ -41,6 +41,13 @@ def main(event, _):
     if post_id:
         post_attr &= Attr('post_id').eq(post_id)
 
+    # OPTIONAL
+    tags = body.get('tags', [])
+    if tags:
+        for tag in tags:
+            post_attr &= Attr('tags').contains(tag)
+
+
     try:
         res = dynamo_table.scan(
             **{
@@ -52,6 +59,7 @@ def main(event, _):
             if isinstance(post.get('is_hidden'), bool) and post.get('is_hidden'):
                 continue
             post['created_at'] = int(post.get('created_at', 0))
+            post['tags'] = post.get('tags', '').split(',')
             posts.append(post)
 
     except ClientError as err:

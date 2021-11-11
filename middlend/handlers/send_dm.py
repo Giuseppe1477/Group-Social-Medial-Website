@@ -66,9 +66,7 @@ def main(event, _):
             'Access-Control-Allow-Headers': '*',
             'Access-Control-Allow-Credentials': True,
         },
-        'body': {
-            'message': message,
-            'statusCode': status_code,
-            **item,
-        },
+        'message': message,
+        'statusCode': status_code,
+        **item,
     }
