@@ -13,7 +13,7 @@ class Services {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*'
       },
-      body,
+      body: JSON.stringify(body),
     })
         .then(r => r.json())
         .then(r => r);
@@ -23,15 +23,23 @@ class Services {
   static auth = async (body)  => {
     return this.req({
       path: 'auth',
-      body: JSON.stringify(body),
+      body,
       method: 'POST'
     });
+  }
+
+  static create_user = async (body) => {
+    return this.req({
+      path: 'create_user',
+      body,
+      method: 'POST',
+    })
   }
 
   static create_post = async (body)  => {
     return this.req({
       path: 'create_post',
-      body: JSON.stringify(body),
+      body,
       method: 'POST'
     });
   }
@@ -39,7 +47,7 @@ class Services {
   static create_comment = async (body)  => {
     return this.req({
       path: 'create_comment',
-      body: JSON.stringify(body),
+      body,
       method: 'POST'
     });
   }
@@ -47,7 +55,7 @@ class Services {
   static send_dm = async (body)  => {
     return this.req({
       path: 'send_dm',
-      body: JSON.stringify(body),
+      body,
       method: 'POST'
     });
   }
@@ -55,7 +63,7 @@ class Services {
   static list_users = async (body)  => {
     return this.req({
       path: 'list_users',
-      body: JSON.stringify(body),
+      body,
       method: 'POST'
     });
   }
@@ -63,7 +71,7 @@ class Services {
   static list_posts = async (body)  => {
     return this.req({
       path: 'list_posts',
-      body: JSON.stringify(body),
+      body,
       method: 'POST'
     });
   }
@@ -71,7 +79,7 @@ class Services {
   static list_comments = async (body)  => {
     return this.req({
       path: 'list_comments',
-      body: JSON.stringify(body),
+      body,
       method: 'POST'
     });
   }
@@ -87,7 +95,7 @@ class Services {
   static block_post = async (body)  => {
     return this.req({
       path: 'block_post',
-      body: JSON.stringify(body),
+      body,
       method: 'POST'
     });
   }

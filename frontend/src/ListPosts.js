@@ -1,7 +1,7 @@
 import Post from './Post.js';
 
 const ListPosts = ({user_id, is_admin, posts, getPost}) => {
-    return ( 
+    return (
         <div>
             {posts.map(
                 (p, idx) => <Post
@@ -10,6 +10,7 @@ const ListPosts = ({user_id, is_admin, posts, getPost}) => {
                     user_poster_id={p.user_id}
                     post_id={p.post_id}
                     text={p.text}
+                    img={p.img}
                     created_at={p.created_at}
                     is_admin={is_admin}
                     getPost={getPost}
@@ -18,5 +19,5 @@ const ListPosts = ({user_id, is_admin, posts, getPost}) => {
         </div>
      );
 }
- 
+
 export default ListPosts;

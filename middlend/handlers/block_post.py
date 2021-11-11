@@ -29,77 +29,28 @@ def main(event, _):
 
     body = event_body(event)
 
-    user_id = body.get('user_id')
-    post_id = body.get('post_id')
-    message_ids = [body.get('message_id', None)]
-    message_ids = message_ids if any(message_ids) else []
-    posts = []
-
-    lambda_client = boto3.client('lambda')
+    message_id = body.get('message_id')
 
     try:
-
-        res = lambda_client.invoke(
+        dynamo_table.update_item(
             **{
-                'FunctionName': 'middlend-dev-list_posts',
-                'InvocationType': 'RequestResponse',
-                'LogType': 'None',
-                'Payload': json.dumps({
-                    'user_id': user_id,
-                    'post_id': post_id,
-                }),
+                'Key': {
+                    'message_id': message_id,
+                },
+                'UpdateExpression': 'SET #is_hidden = :is_hidden',
+                'ExpressionAttributeNames': {
+                    '#is_hidden': 'is_hidden',
+                },
+                'ExpressionAttributeValues': {
+                    ':is_hidden': True,
+                },
             }
         )
 
-        data = res['Payload'].read().decode()
-        data = json.loads(data)
-        print(data)
-
-        body = data.get('body')
-        body = json.loads(body)
-        print(body)
-
-        posts = body.get('posts', [])
-        posts_t = body.get('total', 0)
-
-        if not data.get('statusCode') < 400 or not posts_t:
-            status_code = HTTPStatus.INTERNAL_SERVER_ERROR
-            message = 'Could not lookup message ID.'
-        else:
-            print(posts)
-            print('posts_t:', posts_t)
-
-            # for post in posts:
-            message_ids = [
-                post.get('message_id') for post in posts
-            ]
-    except Exception as err:
-        print('Invoke Error:', err)
+    except ClientError as err:
+        print('Client Error:', err)
         status_code = HTTPStatus.INTERNAL_SERVER_ERROR
-        message = 'Failed. InternalServerError. Could not List Posts'
-
-    for message_id_p in message_ids:
-        try:
-            dynamo_table.update_item(
-                **{
-                    'Key': {
-                        'message_id': message_id_p,
-                    },
-                    'UpdateExpression': 'SET #is_hidden = :is_hidden',
-                    'ExpressionAttributeNames': {
-                        '#is_hidden': 'is_hidden',
-                    },
-                    'ExpressionAttributeValues': {
-                        ':is_hidden': True,
-                    },
-                }
-            )
-            print('updated:')
-            print(post)
-        except ClientError as err:
-            print('Client Error:', err)
-            status_code = HTTPStatus.INTERNAL_SERVER_ERROR
-            message = 'Failed. InternalServerError. Could not Update.'
+        message = 'Failed. InternalServerError. Could not Update.'
 
     return {
         'headers': {
@@ -111,9 +62,5 @@ def main(event, _):
         'message': message,
         'statusCode': status_code,
 
-        'user_id': user_id,
-        'post_id': post_id,
-        'message_ids': message_ids,
-
-        'posts': posts,
+        'message_id': message_id,
     }
