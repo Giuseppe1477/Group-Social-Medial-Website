@@ -47,7 +47,7 @@ const Admin = () => {
                 <h3>Create a user.</h3>
                 <label className="createField">
                   <TextField
-                      id='outlined-basic'
+                      id='outlined-basic1'
                       label='Username'
                       variant='standard'
                       name='username'
@@ -59,7 +59,7 @@ const Admin = () => {
                 <br />
                 <label className="createField">
                   <TextField
-                      id='outlinede-basic'
+                      id='outlinede-basic2'
                       label='Password'
                       variant='standard'
                       name="password"
@@ -71,7 +71,7 @@ const Admin = () => {
                 <br/>
                 <label className="createField">
                   <TextField
-                      id='outlined-basic'
+                      id='outlined-basic3'
                       label='Bio'
                       variant='standard'
                       name='bio'
@@ -83,7 +83,7 @@ const Admin = () => {
                 <br />
                 <label className="createField">
                   <TextField
-                      id='outlined-basic'
+                      id='outlined-basic4'
                       label='Img'
                       variant='standard'
                       name='img'

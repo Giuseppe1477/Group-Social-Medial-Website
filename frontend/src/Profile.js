@@ -4,7 +4,7 @@ import { Link, useHistory } from "react-router-dom";
 import Services from "./Services";
 
 const Profile = (props) => {
-    console.log(props)
+    //console.log(props)
 
     // const history = useHistory();
 
