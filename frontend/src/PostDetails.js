@@ -9,7 +9,7 @@ const PostDetails = props => {
     const { user_poster_id } = props.user_poster_id
     const [ comments, setComments ] = useState([]);
     const [ refresh, setRefresh ] = useState(false)
-
+    
     const handleRefresh = (r) =>{
         if(r){
           setRefresh(r);
@@ -19,7 +19,7 @@ const PostDetails = props => {
 
     useEffect(() => {
         Services.list_comments({
-            user_id: user_poster_id,
+            user_id: props.user_poster_id,
             post_id: id
         })
             .then(r => {

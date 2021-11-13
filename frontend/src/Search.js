@@ -33,7 +33,7 @@ const Search = props => {
     useEffect(() => {
         Services.list_users({
             user_id: textField,
-            filter: filter
+            tags: filter
         })
             .then(r => {
                 console.log(r);

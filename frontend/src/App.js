@@ -45,12 +45,13 @@ const App = () => {
 
     const getPost = postData => {
         console.log('postData: ', postData);
-        const {
-            user_poster_id,
-            text,
-        } = postData;
+        // const {
+        //     user_poster_id,
+        //     text,
+        // } = postData;
         setPostData({
-            user_poster_id, text
+            user_poster_id: postData.user_poster_id,
+            text: postData.text
         });
     }
 

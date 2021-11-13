@@ -34,6 +34,7 @@ class RichTextEditor extends React.Component {
             this.props.callback({
                 user_id: this.props.user_id,
                 text: stateToHTML(contentState),
+                tags: this.props.tags
             })
                 .then(r => {
                     console.log(r)
@@ -59,7 +60,7 @@ class RichTextEditor extends React.Component {
                 text: stateToHTML(contentState),
             })
                 .then(r =>
-                    null
+                    this.props.updateDMs()
                 )
                 .catch(err => console.log(err));
         }

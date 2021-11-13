@@ -29,7 +29,7 @@ const HomePage = props => {
     useEffect(() => {
         Services.list_posts({
             // user_id:props.user_id
-            filter: filter,
+            tags: filter,
             user_id: ""
         })
             .then(r => setPosts(r.posts))
