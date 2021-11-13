@@ -9,8 +9,8 @@ import { useParams } from "react-router";
 
 const ProfilePage = props => {
 
-    console.log('profile props:')
-    console.log(props)
+    //console.log('profile props:')
+    //console.log(props)
 
     const { id } = useParams()
     const [ posts, setPosts ] = useState([]);

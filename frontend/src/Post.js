@@ -8,7 +8,7 @@ import { stateToHTML } from "draft-js-export-html";
 import Services from "./Services";
 
 const Post = ({
-  user_id, user_poster_id, post_id, text, img = null, is_admin, getPost, created_at = 0
+  user_id, message_id, user_poster_id, post_id, text, img = null, is_admin, getPost, created_at = 0
 }) => {
 
     const[id, setId] = useState(post_id);
@@ -24,8 +24,10 @@ const Post = ({
                 <img src="https://picsum.photos/200" alt="Profile"></img>
             </div>
             <div className="leftside">
-                <div className="post-info">
-                    <h5><b>{user_poster_id}</b></h5>
+                <div className="prof-username">
+                    <Link to={"/profile/" + user_poster_id}>
+                        <h5><b>{user_poster_id}</b></h5>
+                    </Link> 
                 </div>
                 <div className="post-title">
 
@@ -39,8 +41,7 @@ const Post = ({
                     </Link>
                     {is_admin &&
                         (<IconButton onClick={()=>Services.block_post({
-                            user_id: user_poster_id,
-                            post_id: post_id
+                            message_id: message_id
                         })}>
                             <RateReviewIcon/>
                         </IconButton>)

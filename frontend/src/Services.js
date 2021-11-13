@@ -87,7 +87,7 @@ class Services {
   static list_dms = async (body)  => {
     return this.req({
       path: 'list_dms',
-      body: JSON.stringify(body),
+      body,
       method: 'POST'
     });
   }

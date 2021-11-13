@@ -1,14 +1,16 @@
 import React from 'react';
-import { Editor, EditorState, getDefaultKeyBinding, RichUtils, convertToRaw } from 'draft-js';
+import { Editor, EditorState, getDefaultKeyBinding, RichUtils, ContentState } from 'draft-js';
 import 'draft-js/dist/Draft.css';
 import { Button } from 'react-bootstrap';
 import {stateToHTML} from 'draft-js-export-html';
-import Services from "./Services";
 
 class RichTextEditor extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {editorState: EditorState.createEmpty()};
+        this.state = {
+            editorState: EditorState.createEmpty(),
+            flag: false
+        };
 
         this.focus = () => this.refs.editor.focus();
 
@@ -19,7 +21,7 @@ class RichTextEditor extends React.Component {
     }
 
     onChange = (editorState) => {
-        const contentState = editorState.getCurrentContent();
+        //const contentState = editorState.getCurrentContent();
         this.setState({editorState});
     }
 
@@ -32,10 +34,13 @@ class RichTextEditor extends React.Component {
             this.props.callback({
                 user_id: this.props.user_id,
                 text: stateToHTML(contentState),
+                tags: this.props.tags
             })
-                .then(r =>
-                    null
-                )
+                .then(r => {
+                    console.log(r)
+                    this.setState({flag: true})
+                    this.props.handleRedirect(this.state.flag)
+                })
                 .catch(err => console.log(err));
         } else if (this.props.type.localeCompare("create_comment")===0) {
             this.props.callback({
@@ -43,9 +48,10 @@ class RichTextEditor extends React.Component {
                 post_id: this.props.post_id,
                 text: stateToHTML(contentState),
             })
-                .then(r =>
-                    null
-                )
+                .then(r => {
+                    this.setState({flag: true})
+                    this.props.handleRefresh(this.state.flag)
+                })
                 .catch(err => console.log(err));
         } else if (this.props.type.localeCompare("send_dm")===0) {
             this.props.callback({
@@ -54,10 +60,12 @@ class RichTextEditor extends React.Component {
                 text: stateToHTML(contentState),
             })
                 .then(r =>
-                    null
+                    this.props.updateDMs()
                 )
                 .catch(err => console.log(err));
         }
+        const editorState = EditorState.push(this.state.editorState, ContentState.createFromText(''));
+        this.setState({ editorState });
     }
 
 
