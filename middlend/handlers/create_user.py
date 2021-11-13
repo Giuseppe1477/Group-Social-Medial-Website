@@ -27,6 +27,7 @@ def main(event, _):
 
     user_id = body.get('user_id')
     passwd = body.get('pass')
+    bio = body.get('bio')
     img = body.get('img') or ''
     is_admin = bool(body.get('is_admin')) or False
     print('admin:', is_admin)
@@ -49,6 +50,7 @@ def main(event, _):
         item = {
             'user_id': user_id,
             'pass': passwd,
+            'bio': bio,
             'img': img,
             'is_admin': is_admin
         }

@@ -75,5 +75,7 @@ def main(event, _):
             'statusCode': status_code,
             'dms': dms,
             'total': len(dms),
+            'user_id': user_id,
+            'user_recipient_id': user_recipient_id,
         },
     }

@@ -55,15 +55,12 @@ def main(event, _):
         message = 'Create-Comment failed.'
 
     return {
-        'statusCode': status_code,
         'headers': {
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Headers': '*',
             'Access-Control-Allow-Credentials': True,
         },
-        'body': {
-            'message': message,
-            'statusCode': status_code,
-            **item,
-        },
+        'message': message,
+        'statusCode': status_code,
+        **item,
     }

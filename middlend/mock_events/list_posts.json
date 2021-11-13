@@ -1,3 +1,4 @@
 {
-  "user_id": "admin"
+  "user_id": "user",
+  "tags": ["guitar"]
 }

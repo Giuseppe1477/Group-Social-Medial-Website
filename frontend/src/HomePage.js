@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
+import ReactPlayer from "react-player"
 import ListPosts from './ListPosts.js';
 import Services from "./Services";
 import { TableRow, TableCell, FormControlLabel, Checkbox, TableHead, Table } from "@mui/material";
+import "./index.css"
 
 const HomePage = props => {
     const [ posts, setPosts ] = useState([]);
@@ -34,10 +36,10 @@ const HomePage = props => {
             .catch(err => console.log(err));
     },[filter]);
 
-    //console.log(props.is_admin)
+
 
     return (
-        <div>
+        <div class="homeColumn">
             <div>
                 <div className="filters">
                     <Table>
