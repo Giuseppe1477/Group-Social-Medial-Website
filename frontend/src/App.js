@@ -86,7 +86,7 @@ const App = () => {
                             <HomePage isAdmin={data.is_admin} user_id={data.user_id} is_admin={data.is_admin} getPost={getPost}/>
                         </Route>
                         <Route exact path="/profile/:id">
-                            <ProfilePage is_admin={data.is_admin} getPost={getPost} setRecipient={setRecipient}/>
+                            <ProfilePage is_admin={data.is_admin} viewer_id={data.user_id} getPost={getPost} setRecipient={setRecipient}/>
                         </Route>
                         <Route exact path="/posts/:id">
                             <PostDetails user_id={data.user_id} user_poster_id={post.user_poster_id} text={post.text}/>
@@ -101,7 +101,7 @@ const App = () => {
                             {data.is_admin ? (<Admin/>):(<h1>You do not have access to this page.</h1>)}
                         </Route>
                         <Route exact path="/search">
-                            <Search setRecipient={setRecipient}/>
+                            <Search setRecipient={setRecipient} viewer_id={data.user_id}/>
                         </Route>
                         <Route exact path="/spotify">
                             <Spotify user_id={data.user_id} playlistURI={data.playlistURI} trackURI={data.trackURI} artistURI={data.artistURI}/>
