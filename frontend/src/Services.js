@@ -100,6 +100,14 @@ class Services {
     });
   }
 
+  static createURI = async (body)  => {
+    return this.req({
+      path: 'spotify-change-settings',
+      body: JSON.stringify(body),
+      method: 'POST'
+    });
+  }
+
 }
 
 export default Services;
