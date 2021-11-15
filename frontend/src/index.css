@@ -54,6 +54,20 @@ code {
   max-width: 800px;
 }
 
+/* Home */
+.homeColumn {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.soundcloudPlayer {
+  /* position: absolute; */
+  top: 0;
+  left: 0;
+
+}
+
 /* Posts */
 .post{
   display:flex;
@@ -84,6 +98,13 @@ code {
 
 .leftside{
   flex:5;
+}
+
+.createFilters {
+  display: flex;
+  flex-direction: row;
+  /* margin: -px; */
+
 }
 
 /* Profile */

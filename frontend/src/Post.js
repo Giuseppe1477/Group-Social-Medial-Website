@@ -7,7 +7,9 @@ import { Link } from 'react-router-dom';
 import { stateToHTML } from "draft-js-export-html";
 import Services from "./Services";
 
-const Post = ({ user_id, user_poster_id, post_id, text, is_admin, getPost, created_at = 0 }) => { //[data]
+const Post = ({
+  user_id, message_id, user_poster_id, post_id, text, img = null, is_admin, getPost, created_at = 0
+}) => {
 
     const[id, setId] = useState(post_id);
     const[html, setHtml] = useState("");
@@ -22,11 +24,13 @@ const Post = ({ user_id, user_poster_id, post_id, text, is_admin, getPost, creat
                 <img src="https://picsum.photos/200" alt="Profile"></img>
             </div>
             <div className="leftside">
-                <div className="post-info">
-                    <h5><b>{user_poster_id}</b></h5>
+                <div className="prof-username">
+                    <Link to={"/profile/" + user_poster_id}>
+                        <h5><b>{user_poster_id}</b></h5>
+                    </Link> 
                 </div>
                 <div className="post-title">
-                
+
                 </div>
                 <div className="post-body" dangerouslySetInnerHTML={createMarkup(text)} />
                 <div className="comment-icon">
@@ -35,21 +39,23 @@ const Post = ({ user_id, user_poster_id, post_id, text, is_admin, getPost, creat
                             <RateReviewIcon/>
                         </IconButton>
                     </Link>
-                    {is_admin && 
+                    {is_admin &&
                         (<IconButton onClick={()=>Services.block_post({
-                            user_id: user_poster_id,
-                            post_id: post_id
+                            message_id: message_id
                         })}>
                             <RateReviewIcon/>
                         </IconButton>)
                     }
-                    {/* {user_id !== user_poster_id &&
-                        <Link to={"chat/" + user_poster_id} >
-                            <IconButton>
-                                <FontAwesomeIcon icon={faEnvelope}/>
-                            </IconButton>
-                        </Link>
-                    } */}
+                    {
+                      img ?
+
+                          <img
+                            height="100px" width="100px"
+                            src={img}
+                            alt={text}
+                          />
+                      : null
+                    }
                 </div>
             </div>
         </div>

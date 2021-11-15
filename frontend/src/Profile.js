@@ -1,10 +1,11 @@
 import { IconButton } from "@mui/material";
 import ChatIcon from '@mui/icons-material/Chat';
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import PlayWidget from 'react-spotify-widgets';
+import Services from "./Services";
 
 const Profile = (props) => {
-    console.log(props)
+
     return (  
         <div className="prof">
             <div className="prof-pic">
@@ -13,9 +14,9 @@ const Profile = (props) => {
             <div className="prof-info">
                 <div className="prof-top">
                     <div className="prof-username">
-                        <Link to={"profile/" + props.user_id}>
-                            <h1>{props.user_id}</h1>
-                        </Link>
+                        <Link to={"/profile/" + props.user_id}>
+                            <h1 >{props.user_id}</h1>
+                        </Link> 
                     </div>
                     <div className="prof-message">
                         <Link to={"/chat"}>

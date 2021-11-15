@@ -6,7 +6,16 @@ import ListComments from "./ListComments.js";
 
 const PostDetails = props => {
     const { id } = useParams()
+    const { user_poster_id } = props.user_poster_id
     const [ comments, setComments ] = useState([]);
+    const [ refresh, setRefresh ] = useState(false)
+    
+    const handleRefresh = (r) =>{
+        if(r){
+          setRefresh(r);
+          setRefresh(false);
+        }
+      }
 
     useEffect(() => {
         Services.list_comments({
@@ -14,14 +23,14 @@ const PostDetails = props => {
             post_id: id
         })
             .then(r => {
-                console.log(r.comments)
+                //console.log(r.comments)
                 setComments(r.comments)
             })
             .catch(err => console.log(err));
-    }, [])
+    }, [refresh, id, user_poster_id])
 
-    console.log(id)
-    console.log(props.text)
+    //console.log(id)
+    //console.log(props.text)
 
     const createMarkup = text => {
         return {__html: String(text)};
@@ -50,7 +59,13 @@ const PostDetails = props => {
                 { comments && <ListComments user_id={props.user_id} comments={comments} is_admin={props.is_admin}/> }
             </div>
             <div className="writeComments">
-                <RichTextEditor user_id={props.user_id} post_id = {id} callback={Services.create_comment} type="create_comment"/>
+                <RichTextEditor
+                    user_id={props.user_id}
+                    post_id = {id}
+                    callback={Services.create_comment}
+                    type="create_comment"
+                    handleRefresh={handleRefresh}
+                />
             </div>
         </div>
     );

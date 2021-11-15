@@ -35,27 +35,51 @@ const App = () => {
             user_id, is_admin, playlistURI, trackURI, artistURI
         });
         setIsLoggedIn(Boolean(logged_in));
+        window.localStorage.setItem('authData', JSON.stringify({
+          user_id,
+          is_admin,
+          logged_in
+        }));
+    }
+
+    const logout = () => {
+      console.log('logging out')
+      window.localStorage.clear()
+      setAuth({user_id: '', is_admin: false, logged_in: false})
     }
 
     const getPost = postData => {
         console.log('postData: ', postData);
-        const {
-            user_poster_id,
-            text,
-        } = postData;
+        // const {
+        //     user_poster_id,
+        //     text,
+        // } = postData;
         setPostData({
-            user_poster_id, text
+            user_poster_id: postData.user_poster_id,
+            text: postData.text
         });
     }
 
-    if(!isLoggedIn){
-        return <InputBox setAuth={setAuth}/>
+
+    if (!isLoggedIn) {
+        let authData = JSON.parse(window.localStorage.getItem('authData'))
+        if (!authData?.logged_in) {
+          console.log('You are not logged in. Back to Login')
+          return <InputBox setAuth={setAuth} />
+        } else {
+          console.log('Using Cached Creds')
+          setAuth(authData)
+        }
     }
 
     return (
         <HashRouter>
             <div className="App">
-                <Navig isAdmin = {data.is_admin} user_id = {data.user_id}/>
+                <Navig
+                  isAdmin = {data.is_admin}
+                  user_id = {data.user_id}
+                  logout = {logout}
+                />
                 <div className="content">
                     <Switch>
                         <Route exact path="/">

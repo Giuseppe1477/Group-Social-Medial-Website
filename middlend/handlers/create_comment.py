@@ -1,6 +1,7 @@
 
 from uuid import uuid4
 from http import HTTPStatus
+from time import time
 from botocore.exceptions import ClientError
 
 from lambda_decorators import (
@@ -33,6 +34,7 @@ def main(event, _):
 
     comment_id = str(uuid4())
     message_id = str(uuid4())
+    created_at = int(time())
 
     item = {
         'type': 'comment',
@@ -41,6 +43,7 @@ def main(event, _):
         'post_id': post_id,
         'user_id': user_id,
         'text': text,
+        'created_at': created_at,
     }
 
     try:
@@ -55,15 +58,12 @@ def main(event, _):
         message = 'Create-Comment failed.'
 
     return {
-        'statusCode': status_code,
         'headers': {
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Headers': '*',
             'Access-Control-Allow-Credentials': True,
         },
-        'body': {
-            'message': message,
-            'statusCode': status_code,
-            **item,
-        },
+        'message': message,
+        'statusCode': status_code,
+        **item,
     }
