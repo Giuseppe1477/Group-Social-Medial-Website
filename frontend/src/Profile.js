@@ -1,6 +1,7 @@
 import { IconButton } from "@mui/material";
 import ChatIcon from '@mui/icons-material/Chat';
 import { Link, useHistory } from "react-router-dom";
+import PlayWidget from "react-spotify-widgets"
 import Services from "./Services";
 
 const Profile = (props) => {
