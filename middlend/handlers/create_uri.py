@@ -22,31 +22,44 @@ def main(event, _):
     body = event_body(event)
 
     user_id = body.get('user_id')
-    img = body.get('img')
+    img_url = body.get('img_url')
     bio = body.get('bio')
-    playlistURI = body.get('playlistURI')
-    artistURI = body.get('artistURI')
-    trackURI = body.get('trackURI')
+    playlist_uri = body.get('playlist_uri')
+    artist_uri = body.get('artist_uri')
+    track_uri = body.get('track_uri')
     passwd = body.get('pass')
     is_admin = body.get('is_admin')
 
     item = {
         'user_id': user_id,
-        'playlistURI': playlistURI,
-        'artistURI': artistURI,
-        'trackURI': trackURI,
+        'playlistURI': playlist_uri,
+        'artistURI': artist_uri,
+        'trackURI': track_uri,
         'pass': passwd,
         'is_admin': is_admin,
-        'img': img,
+        'img_url': img_url,
         'bio': bio
     }
-
     try:
         dynamo_table.update_item(
             **{
-                'Item': item
+                'Key': {
+                    'user_id': user_id,
+                },
+                'UpdateExpression': 'SET #trackURI = :track_uri, #artistURI = :artist_uri, #playlistURI = :playlist_uri ',
+                'ExpressionAttributeNames': {
+                    '#playlistURI': 'playlistURI',
+                    '#trackURI': 'trackURI',
+                    '#artistURI': 'artistURI',
+                },
+                'ExpressionAttributeValues': {
+                    ':track_uri': track_uri,
+                    ':artist_uri': artist_uri,
+                    ':playlist_uri': playlist_uri,
+                },
             }
         )
+
     except ClientError as err:
         print('Client Error:', err)
         status_code = HTTPStatus.INTERNAL_SERVER_ERROR
@@ -59,9 +72,8 @@ def main(event, _):
             'Access-Control-Allow-Headers': '*',
             'Access-Control-Allow-Credentials': True,
         },
-        'body': {
-            'message': message,
-            'statusCode': status_code,
-            **item,
-        },
+        'message': message,
+        'statusCode': status_code,
+        **item,
+
     }
