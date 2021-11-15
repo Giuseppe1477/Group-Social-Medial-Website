@@ -100,6 +100,14 @@ code {
   flex:5;
 }
 
+.post-top a{
+  text-decoration: none;
+}
+
+.post-username{
+  font-size:larger;
+}
+
 /* Profile */
 .prof{
   display:flex;

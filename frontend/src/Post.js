@@ -1,21 +1,27 @@
 import React, { useState } from "react";
-import {faCommentDots, faEnvelope} from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { IconButton } from "@mui/material";
 import RateReviewIcon from '@mui/icons-material/RateReview';
+import ReportIcon from '@mui/icons-material/Report';
 import { Link } from 'react-router-dom';
-import { stateToHTML } from "draft-js-export-html";
 import Services from "./Services";
 
 const Post = ({
-  user_id, message_id, user_poster_id, post_id, text, img = null, is_admin, getPost, created_at = 0
+  user_id, message_id, user_poster_id, post_id, text, img = null, is_admin, getPost, created_at, refresh
 }) => {
 
     const[id, setId] = useState(post_id);
-    const[html, setHtml] = useState("");
+    const date = new Date(created_at*1000)
 
     const createMarkup = text => {
         return {__html: String(text)};
+    }
+
+    const handleClick = () => {
+        Services.block_post({
+            message_id: message_id
+        })
+            .then(r=>refresh())
+            .catch(err=>console.log(err))
     }
 
     return (
@@ -24,28 +30,17 @@ const Post = ({
                 <img src="https://picsum.photos/200" alt="Profile"></img>
             </div>
             <div className="leftside">
-                <div className="prof-username">
+                <div className="post-top">
                     <Link to={"/profile/" + user_poster_id}>
-                        <h5><b>{user_poster_id}</b></h5>
-                    </Link> 
+                        <span className="post-username"><b>{user_poster_id} </b></span>
+                    </Link>
+                    {date.toLocaleDateString("en-US")}
                 </div>
                 <div className="post-title">
 
                 </div>
                 <div className="post-body" dangerouslySetInnerHTML={createMarkup(text)} />
-                <div className="comment-icon">
-                    <Link to={"posts/"+id}>
-                        <IconButton onClick={()=>getPost({user_poster_id: user_poster_id, text: text})}>
-                            <RateReviewIcon/>
-                        </IconButton>
-                    </Link>
-                    {is_admin &&
-                        (<IconButton onClick={()=>Services.block_post({
-                            message_id: message_id
-                        })}>
-                            <RateReviewIcon/>
-                        </IconButton>)
-                    }
+                <div className="post-img">
                     {
                       img ?
 
@@ -57,6 +52,20 @@ const Post = ({
                       : null
                     }
                 </div>
+                <div className="comment-icon">
+                    <Link to={"posts/"+id}>
+                        <IconButton onClick={()=>getPost({user_poster_id: user_poster_id, text: text})}>
+                            <RateReviewIcon/>
+                        </IconButton>
+                    </Link>
+                </div>
+            </div>
+            <div>
+                {is_admin &&
+                    (<IconButton onClick={()=>handleClick()}>
+                        <ReportIcon/>
+                    </IconButton>)
+                }
             </div>
         </div>
     )

@@ -26,9 +26,17 @@ const HomePage = props => {
         //console.log(filter);
     }
 
+    const refresh = () => {
+        Services.list_posts({
+            tags: filter,
+            user_id: ""
+        })
+            .then(r => setPosts(r.posts))
+            .catch(err => console.log(err));
+    }
+
     useEffect(() => {
         Services.list_posts({
-            // user_id:props.user_id
             tags: filter,
             user_id: ""
         })
@@ -62,7 +70,7 @@ const HomePage = props => {
                         </TableHead>
                     </Table>
                 </div>
-                { posts && <ListPosts user_id={props.user_id} posts={posts} is_admin={props.is_admin} getPost={props.getPost}/> }
+                { posts && <ListPosts user_id={props.user_id} posts={posts} is_admin={props.is_admin} getPost={props.getPost} refresh={refresh}/> }
             </div>
         </div>
     )

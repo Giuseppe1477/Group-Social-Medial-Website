@@ -14,27 +14,46 @@ const ProfilePage = props => {
 
     const { id } = useParams()
     const [ posts, setPosts ] = useState([]);
+    const [ user, setUser ] = useState([])
     const [ song, setSong ] = useState(null)
 
+    const refresh = () => {
+      Services.list_posts({
+        user_id: id,
+      })
+        .then(r => setPosts(r.posts))
+        .catch(err => console.log(err));
+    }
+
     useEffect(() => {
-        Services.list_posts({
-            user_id: id,
-        })
-            .then(r => setPosts(r.posts))
-            .catch(err => console.log(err));
+      Services.list_users({
+        user_id: id,
+      })
+          // .then(r=> {console.log(r)
+          //           return r})
+          .then(r => setUser(r.user_ids))
+          .catch(err => console.log(err));
 
-        if (props.song) setSong(props.song)
-        else {
-            const songVals = Object.values(constants.SONG_URI);
-            const chosenSongInd = Math.floor(Math.random() * songVals.length);
-            const chosenSong = songVals[chosenSongInd];
-            setSong(chosenSong);
-        }
-    }, [])
+      Services.list_posts({
+          user_id: id,
+      })
+          .then(r => setPosts(r.posts))
+          .catch(err => console.log(err));
 
+      if (props.song) setSong(props.song)
+      else {
+          const songVals = Object.values(constants.SONG_URI);
+          const chosenSongInd = Math.floor(Math.random() * songVals.length);
+          const chosenSong = songVals[chosenSongInd];
+          setSong(chosenSong);
+      }
+    }, [id, props.song])
 
     return <div>
-        <Profile user_id={id} viewer_id={props.viewer_id} setRecipient={props.setRecipient}/>
+        {user.map(
+          u => 
+              (u.user_id.localeCompare(id)===0 && <Profile {...u} viewer_id={props.viewer_id} setRecipient={props.setRecipient}/>)
+        )}
 
         { ReactPlayer.canPlay(song) ?
           <div class="soundcloudPlayer">
@@ -44,7 +63,7 @@ const ProfilePage = props => {
               height={"140px"}
             />
           </div> : <h4> cannot play song {song} </h4> }
-        <ListPosts user_id={id} posts={posts} getPost={props.getPost}/>
+        <ListPosts user_id={id} posts={posts} getPost={props.getPost} is_admin={props.is_admin} refresh={refresh}/>
     </div>
 }
 

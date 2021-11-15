@@ -12,6 +12,8 @@ const Profile = (props) => {
     //     history.push({"profile/" + props.user_id})
     // }
 
+    console.log(props.viewer_id)
+
     return (  
         <div className="prof">
             <div className="prof-pic">
@@ -25,15 +27,17 @@ const Profile = (props) => {
                         </Link> 
                     </div>
                     <div className="prof-message">
-                        <Link to={"/chat"}>
+                        {props.viewer_id.localeCompare(props.user_id)!==0 && 
+                            (<Link to={"/chat"}>
                             <IconButton onClick={()=>props.setRecipient(props.user_id)}>
                                 <ChatIcon/>
                             </IconButton>
-                        </Link>
+                            </Link>)
+                        }
                     </div>
                 </div>
                 <div className="prof-descrip">
-                    <p>I love Music</p>
+                    <p>{props.bio}</p>
                 </div>
             </div>
         </div>

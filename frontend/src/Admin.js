@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { TextField, Button, Checkbox, FormGroup, FormControlLabel } from "@mui/material";
 
 const Admin = () => {
-    const [info, setInfo] = useState({ name: "", password: "", bio: "", img:"", admin: true})
+    const [info, setInfo] = useState({ name: "", password: "", bio: "", img:"", song:"", admin: true})
     const [error, setError] = useState(null);
 
     const handleSubmit=e=>{
@@ -23,6 +23,9 @@ const Admin = () => {
           body: JSON.stringify({
             user_id: info.name,
             pass: sha256(info.password).toString(),
+            bio: info.bio,
+            img_url: info.img,
+            song_url: info.song,
             is_admin: info.admin
           })
         })
@@ -84,12 +87,24 @@ const Admin = () => {
                 <label className="createField">
                   <TextField
                       id='outlined-basic4'
-                      label='Img'
+                      label='Img URL'
                       variant='standard'
                       name='img'
                       type='text'
                       onChange={e=>setInfo({...info, img:e.target.value})}
                       value={info.img}
+                  />
+                </label>
+                <br />
+                <label className="createField">
+                  <TextField
+                      id='outlined-basic5'
+                      label='Song URL'
+                      variant='standard'
+                      name='song'
+                      type='text'
+                      onChange={e=>setInfo({...info, img:e.target.value})}
+                      value={info.song}
                   />
                 </label>
                 <br />

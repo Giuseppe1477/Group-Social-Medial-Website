@@ -35,10 +35,10 @@ const Search = props => {
             user_id: textField,
             tags: filter
         })
-            .then(r => {
-                console.log(r);
-                return r;
-            })
+            // .then(r => {
+            //     console.log(r);
+            //     return r;
+            // })
             .then(r => setUsers(r.user_ids))
             .catch(err => console.log(err))
     },[filter, textField]);
@@ -91,7 +91,7 @@ const Search = props => {
                 </div>
             <div>
                 {resultUsers.map(
-                    user => <Profile {...user} setRecipient={props.setRecipient} />
+                    user => <Profile {...user} setRecipient={props.setRecipient} viewer_id={props.viewer_id} />
                 )}
             </div>
         </div>
