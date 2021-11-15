@@ -27,6 +27,9 @@ def main(event, _):
     body = event_body(event)
 
     user_id = body.get('user_id')
+    playlistURI = body.get('playlistURI')
+    artistURI = body.get('artistURI')
+    trackURI = body.get('trackURI')
     passwd = body.get('pass')
     is_admin = False
 
@@ -50,6 +53,9 @@ def main(event, _):
 
         passwd_item = res.get('pass', '')
         is_admin = res.get('is_admin', False)
+        playlistURI = res.get('playlistURI','')
+        artistURI = res.get('artistURI','')
+        trackURI = res.get('trackURI','')
         if passwd != passwd_item:
             status_code = HTTPStatus.UNAUTHORIZED
             message = 'Incorrect Credentials for User. Could not login.'
@@ -65,6 +71,9 @@ def main(event, _):
         'statusCode': status_code,
         'user_id': user_id,
         'is_admin': is_admin,
+        'playlistURI': playlistURI,
+        'artistURI': artistURI,
+        'trackURI': trackURI,
         'logged_in': status_code == HTTPStatus.OK,
 
     }

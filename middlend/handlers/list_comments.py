@@ -27,14 +27,11 @@ def main(event, _):
 
     body = event_body(event)
 
-    user_id = body.get('user_id')
     post_id = body.get('post_id')
 
     comments = []
     comment_attr = (
         Attr('type').eq('comment')
-        &
-        Attr('user_id').eq(user_id)
         &
         Attr('post_id').eq(post_id)
     )
@@ -67,7 +64,7 @@ def main(event, _):
         'message': message,
         'statusCode': status_code,
 
-        'user_id': user_id,
+        'post_id': post_id,
 
         'comments': comments,
         'total': len(comments),

@@ -1,7 +1,7 @@
 
+import time
 from uuid import uuid4
 from http import HTTPStatus
-from time import time
 from botocore.exceptions import ClientError
 
 from lambda_decorators import (
@@ -11,13 +11,6 @@ from lambda_decorators import (
 from common.util import (
     event_body, dynamo_table
 )
-
-"""
-Author: Ron Nathaniel
-Release: Beta
-Course: CS 490: 101
-"""
-
 
 @cors_headers
 @load_json_body
@@ -29,25 +22,27 @@ def main(event, _):
     body = event_body(event)
 
     user_id = body.get('user_id')
-    post_id = body.get('post_id')
-    text = body.get('text')
-
-    comment_id = str(uuid4())
-    message_id = str(uuid4())
-    created_at = int(time())
+    img = body.get('img')
+    bio = body.get('bio')
+    playlistURI = body.get('playlistURI')
+    artistURI = body.get('artistURI')
+    trackURI = body.get('trackURI')
+    passwd = body.get('pass')
+    is_admin = body.get('is_admin')
 
     item = {
-        'type': 'comment',
-        'message_id': message_id,
-        'comment_id': comment_id,
-        'post_id': post_id,
         'user_id': user_id,
-        'text': text,
-        'created_at': created_at,
+        'playlistURI': playlistURI,
+        'artistURI': artistURI,
+        'trackURI': trackURI,
+        'pass': passwd,
+        'is_admin': is_admin,
+        'img': img,
+        'bio': bio
     }
 
     try:
-        dynamo_table.put_item(
+        dynamo_table.update_item(
             **{
                 'Item': item
             }
@@ -55,15 +50,18 @@ def main(event, _):
     except ClientError as err:
         print('Client Error:', err)
         status_code = HTTPStatus.INTERNAL_SERVER_ERROR
-        message = 'Create-Comment failed.'
+        message = 'Create-Post failed.'
 
     return {
+        'statusCode': status_code,
         'headers': {
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Headers': '*',
             'Access-Control-Allow-Credentials': True,
         },
-        'message': message,
-        'statusCode': status_code,
-        **item,
+        'body': {
+            'message': message,
+            'statusCode': status_code,
+            **item,
+        },
     }

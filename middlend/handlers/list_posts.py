@@ -67,7 +67,7 @@ def main(event, _):
         status_code = HTTPStatus.INTERNAL_SERVER_ERROR
         message = 'Failed. InternalServerError.'
 
-    posts = sorted(posts, key=lambda d: d['created_at'])
+    posts = sorted(posts, key=lambda d: d['created_at'], reverse=True)
     print(posts)
 
     return {

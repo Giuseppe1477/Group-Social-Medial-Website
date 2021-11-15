@@ -28,8 +28,9 @@ def main(event, _):
     user_id = body.get('user_id')
     passwd = body.get('pass')
     bio = body.get('bio')
-    img = body.get('img') or ''
-    is_admin = bool(body.get('is_admin')) or False
+    img_url = body.get('img_url', '')
+    song_url = body.get('song_url', '')
+    is_admin = body.get('is_admin', False)
     print('admin:', is_admin)
 
     user_existing = dynamo_table.get_item(
@@ -51,7 +52,8 @@ def main(event, _):
             'user_id': user_id,
             'pass': passwd,
             'bio': bio,
-            'img': img,
+            'img_url': img_url,
+            'song_url': song_url,
             'is_admin': is_admin
         }
         print('creating')

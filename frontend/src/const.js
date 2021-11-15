@@ -15,7 +15,17 @@ const SONG_URI = {
   laVie: 'https://www.youtube.com/watch?v=9dctaE5SZTo',
 }
 
+const DEFAULT_FILTERS = {
+  Genre: [
+    'Pop', 'Rock', 'Classical'
+  ],
+  Instrument: [
+    'Guitar', 'Piano', 'Strings'
+  ]
+}
+
 export {
     BASE_URL,
     SONG_URI,
+    DEFAULT_FILTERS,
 };

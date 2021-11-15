@@ -53,7 +53,39 @@ class RichTextEditor extends React.Component {
                     this.props.handleRefresh(this.state.flag)
                 })
                 .catch(err => console.log(err));
-        } else if (this.props.type.localeCompare("send_dm")===0) {
+        } else if (this.props.type.localeCompare("createPlaylistURI")===0) {
+            this.props.callback({
+                user_id: this.props.user_id,
+                playlistURI: stateToHTML(contentState),
+            })
+                .then(r =>
+                    null
+                )
+                .catch(err => console.log(err));
+        }
+
+        else if (this.props.type.localeCompare("createTrackURI")===0) {
+            this.props.callback({
+                user_id: this.props.user_id,
+                songURI: stateToHTML(contentState),
+            })
+                .then(r =>
+                    null
+                )
+                .catch(err => console.log(err));
+        }
+
+        else if (this.props.type.localeCompare("createArtistURI")===0) {
+            this.props.callback({
+                user_id: this.props.user_id,
+                artistURI: stateToHTML(contentState),
+            })
+                .then(r =>
+                    null
+                )
+                .catch(err => console.log(err));
+        }
+        else if (this.props.type.localeCompare("send_dm")===0) {
             this.props.callback({
                 user_id: this.props.user_id,
                 user_recipient_id: this.props.user_recipient_id,

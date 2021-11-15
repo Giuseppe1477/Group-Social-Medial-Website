@@ -108,6 +108,13 @@ code {
   font-size:larger;
 }
 
+.createFilters {
+  display: flex;
+  flex-direction: row;
+  /* margin: -px; */
+
+}
+
 /* Profile */
 .prof{
   display:flex;
