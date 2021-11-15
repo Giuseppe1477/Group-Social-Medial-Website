@@ -7,6 +7,8 @@ import PostDetails from './PostDetails.js';
 import ProfilePage from "./ProfilePage";
 import CreatePost from './CreatePost.js';
 import Chat from './Chat.js'
+import Spotify from './Spotify';
+import SpotifySettings from './SpotifySettings'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./index.css"
 import Admin from './Admin.js';
@@ -15,7 +17,7 @@ import Search from './Search.js';
 const App = () => {
 
     const [isLoggedIn, setIsLoggedIn] = useState(null);
-    const [data, setData] = useState({user_id:"", is_admin:false});
+    const [data, setData] = useState({user_id:"", is_admin:false, playlistURI:"", trackURI:"", artistURI:""});
     const [post, setPostData] = useState({user_poster_id:"", text:""});
     const [recipient, setRecipient] = useState("")
 
@@ -24,10 +26,13 @@ const App = () => {
         const {
             user_id,
             is_admin,
+            playlistURI,
+            trackURI,
+            artistURI,
             logged_in
         } = authData;
         setData({
-            user_id, is_admin
+            user_id, is_admin, playlistURI, trackURI, artistURI
         });
         setIsLoggedIn(Boolean(logged_in));
     }
@@ -42,16 +47,6 @@ const App = () => {
             user_poster_id, text
         });
     }
-
-    // const getRecip = chatData => {
-    //     console.log('chatData: ', chatData);
-    //     const {
-    //         recipient
-    //     } = chatData;
-    //     setRecipient({
-    //         recipient
-    //     });
-    // }
 
     if(!isLoggedIn){
         return <InputBox setAuth={setAuth}/>
@@ -83,6 +78,12 @@ const App = () => {
                         </Route>
                         <Route exact path="/search">
                             <Search setRecipient={setRecipient}/>
+                        </Route>
+                        <Route exact path="/spotify">
+                            <Spotify user_id={data.user_id} playlistURI={data.playlistURI} trackURI={data.trackURI} artistURI={data.artistURI}/>
+                        </Route>
+                        <Route exact path="/spotify-settings">
+                            <SpotifySettings user_id={data.user_id} playlistURI={data.playlistURI} trackURI={data.trackURI} artistURI={data.artistURI}/>
                         </Route>
                     </Switch>
                 </div>

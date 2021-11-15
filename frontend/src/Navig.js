@@ -4,7 +4,7 @@ import { Nav, Navbar } from 'react-bootstrap'
 const Navig = (props) => {
     return (  
         <Navbar bg="light" variant="light">
-            <Navbar.Brand>Music Sharing Site</Navbar.Brand>
+            <Navbar.Brand>Music Hub</Navbar.Brand>
 
             <Nav className="ms-auto">
                 <Nav.Link as={Link} to="/">Home</Nav.Link>
@@ -12,7 +12,8 @@ const Navig = (props) => {
                 <Nav.Link as={Link} to="/search">Search</Nav.Link>
                 <Nav.Link as={Link} to="/create">Create</Nav.Link>
                 <Nav.Link as={Link} to="/chat">Chat</Nav.Link>
-                <Nav.Link as={Link} to="/">Spotify</Nav.Link>
+                <Nav.Link as={Link} to="/spotify">My Spotify</Nav.Link>
+                <Nav.Link as={Link} to="/spotify-settings">Spotify Settings</Nav.Link>
                 <div>{props.isAdmin && (<Nav.Link as={Link} to="/admin">Admin</Nav.Link>)}</div>
             </Nav>
         </Navbar>
