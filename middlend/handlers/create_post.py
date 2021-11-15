@@ -30,7 +30,8 @@ def main(event, _):
 
     user_id = body.get('user_id')
     text = body.get('text')
-    img = body.get('img')
+    img_url = body.get('img_url')
+    song_url = body.get('song_url')
 
     tags = body.get('tags', [])
     tags = ','.join(tags)
@@ -45,7 +46,8 @@ def main(event, _):
         'user_id': user_id,
         'text': text,
         'tags': tags,
-        'img': img,
+        'img_url': img_url,
+        'song_url': song_url,
         'created_at': int(time.time()),
         'is_hidden': False,
     }
