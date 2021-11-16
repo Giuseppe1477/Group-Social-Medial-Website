@@ -1,4 +1,28 @@
+
+import ReactPlayer from "react-player"
+import React, { useState, useEffect } from "react";
+import { checkImage } from './utils'
+import {IconButton} from "@mui/material";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import Services from "./Services";
+
+
 const DM = props => {
+
+    const [isImg, setIsImg ] = useState(false);
+
+    useEffect(() => {
+        checkImage(props.text, setIsImg);
+    }, [])
+
+    const handleHideDM = () => {
+        Services.block_post({
+            message_id: props.message_id
+        })
+            .then(r => props.list_dms())
+            .catch(err => console.log(err))
+    }
+
 
     const createMarkup = text => {
         return {__html: String(text)};
@@ -16,7 +40,33 @@ const DM = props => {
                 <div className="post-title">
                 
                 </div>
-                <div className="post-body" dangerouslySetInnerHTML={createMarkup(props.text)} />
+
+                {
+                    ReactPlayer.canPlay(props.text) ?
+                        <ReactPlayer
+                            url={props.text}
+                            width={'90%'}
+                        />
+                    : ( isImg ? <>
+                        <img
+                            height="100px" width="100px"
+                            src={props.text}
+                            alt={props.text}
+                      />
+                      <br />
+                      </> : <div className="post-body" dangerouslySetInnerHTML={createMarkup(props.text)} />
+                    )
+                }
+
+                 {
+                  props.is_admin &&
+                      <IconButton
+                          onClick={handleHideDM}
+                      >
+                          <DeleteOutlineIcon/>
+                      </IconButton>
+            }
+
             </div>
         </div>
      );

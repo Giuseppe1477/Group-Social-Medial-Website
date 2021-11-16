@@ -82,7 +82,7 @@ const App = () => {
                         </Route>
                         <Route exact path="/posts/:id">
                             <PostDetails
-                              user_id={data.user_id} user_poster_id={post.user_poster_id} text={post.text}
+                              user_id={data.user_id} user_poster_id={post.user_poster_id} text={post.text} is_admin={data.is_admin}
                             />
                         </Route>
                         <Route exact path="/create">

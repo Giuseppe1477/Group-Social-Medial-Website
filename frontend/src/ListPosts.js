@@ -13,6 +13,7 @@ const ListPosts = ({user_id, is_admin, posts, getPost, list_posts}) => {
                     text={p.text}
                     created_at={p.created_at}
                     is_admin={is_admin}
+                    is_hidden={p.is_hidden}
                     message_id={p.message_id}
                     imgURL={p.img_url}
                     songURL={p.song_url}

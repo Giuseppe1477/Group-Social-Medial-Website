@@ -20,7 +20,14 @@ function InputBox({ setAuth }) {
       user_id: info.name,
       pass: sha256(info.password).toString()
     })
-        .then(r => setAuth(r))
+        .then(r => {
+          if (r.logged_in) setAuth(r)
+          else {
+              setError(true);
+              setInfo(defaultInfo);
+              console.log('failed')
+          }
+        })
         .catch(err => setError(true));
   }
   return (
@@ -33,7 +40,10 @@ function InputBox({ setAuth }) {
             variant='standard'
             name='username'
             type='text'
-            onChange={e => setInfo({...info, name:e.target.value})}
+            onChange={e => {
+                setInfo({...info, name:e.target.value})
+                setError(false);
+            }}
             value={info.name}
           />
         </label>
@@ -45,14 +55,17 @@ function InputBox({ setAuth }) {
             variant='standard'
             name="password"
             type="password"
-            onChange={e => setInfo({...info, password:e.target.value})}
+            onChange={e => {
+                setInfo({...info, password:e.target.value})
+                setError(false);
+            }}
             value={info.password}
           />
         </label>
         <br />
         <button>Login</button>
-        <div>{error}</div>
-        {error && info === defaultInfo && (<p className="loginError">Invalid Login</p>)}
+        <div>{error === true && <p>Incorrect Credentials. Not Logged In.</p>}</div>
+
       </form>
       <div>
       </div>

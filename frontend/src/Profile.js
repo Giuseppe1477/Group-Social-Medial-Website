@@ -9,6 +9,7 @@ import { checkImage } from './utils.js';
 const Profile = (props) => {
 
     const [ profileImgUrl, setProfileImgUrl ] = useState(null);
+    console.log({profileProps: props});
 
     useEffect(() => {
 
@@ -40,7 +41,12 @@ const Profile = (props) => {
                         </Link>
                     </div>
                     <div className="prof-message">
-                        {props.viewer_id.localeCompare(props.user_id) !== 0 &&
+                        {
+                            (
+                                props.viewer_id.localeCompare(props.user_id) !== 0
+
+
+                            ) &&
                             (<Link to={"/chat"}>
                             <IconButton onClick={()=>props.setRecipient(props.user_id)}>
                                 <ChatIcon/>
