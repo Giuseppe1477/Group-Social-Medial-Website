@@ -52,47 +52,7 @@ const Profile = (props) => {
                 <div className="prof-descrip">
                     <p>{props.bio}</p>
                 </div>
-                <>
-                {
-                  props.artistURI && <>
-                  <div style={{display: 'flex',  justifyContent:'left', alignItems:'left'}}>
-                      <h4>Top 10 From My Favorite Artist:</h4>
-                  </div>
-                  <PlayWidget
-                      width={360}
-                      height={400}
-                      uri={props.artistURI}
-                      lightTheme={true}
-                  />
-                  </>
-                }
-                {
-                  props.trackURI && <>
-                  <div style={{display: 'flex',  justifyContent:'left', alignItems:'left'}}>
-                      <h4>Favorite Song:</h4>
-                  </div>
-                  <PlayWidget
-                      width={360}
-                      height={80}
-                      uri={props.trackURI}
-                      lightTheme={true}
-                  />
-                  </>
-                }
-                {
-                  props.playlistURI && <>
-                  <div style={{display: 'flex',  justifyContent:'left', alignItems:'left'}}>
-                      <h4>Favorite Custom Playlist:</h4>
-                  </div>
-                  <PlayWidget
-                      width={360}
-                      height={580}
-                      uri={props.playlistURI}
-                      lightTheme={true}
-                  />
-                  </>
-                }
-              </>
+                
             </div>
         </div>
     );

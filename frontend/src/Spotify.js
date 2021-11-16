@@ -26,36 +26,50 @@ const Spotify = (props) => {
 
     return(
       <div>
-          <div style={{display: 'flex',  justifyContent:'center', alignItems:'center'}}>
-              <h2>Top 10 From My Favorite Artist:</h2>
-          </div>
-          <PlayWidget
-            width={560}
-            height={400}
-            uri={userItem.artist_uri || userItem.artistURI}
-            lightTheme={true}
-          />
-
-          <div style={{display: 'flex',  justifyContent:'center', alignItems:'center'}}>
-              <h2>Favorite Song:</h2>
-          </div>
-          <PlayWidget
-            width={560}
-            height={80}
-            uri={userItem.track_uri || userItem.trackURI}
-            lightTheme={true}
-          />
-
-          <div style={{display: 'flex',  justifyContent:'center', alignItems:'center'}}>
-              <h2>Favorite Custom Playlist:</h2>
-          </div>
-          <PlayWidget
-            width={560}
-            height={580}
-            uri={userItem.playlist_uri || userItem.playlistURI}
-            lightTheme={true}
-          />
-
+          <>
+                {
+                  userItem.artistURI && <>
+                  <div style={{display: 'flex',  justifyContent:'left', alignItems:'left'}}>
+                      <h4>Top 10 From My Favorite Artist:</h4>
+                  </div>
+                  <PlayWidget
+                      width={360}
+                      height={400}
+                      uri={userItem.artist_uri || userItem.artistURI}
+                      lightTheme={true}
+                  />
+                  </>
+                }
+                {
+                  userItem.trackURI && <>
+                  <div style={{display: 'flex',  justifyContent:'left', alignItems:'left'}}>
+                      <h4>Favorite Song:</h4>
+                  </div>
+                  <PlayWidget
+                      width={360}
+                      height={80}
+                      uri={userItem.track_uri || userItem.trackURI}
+                      lightTheme={true}
+                  />
+                  </>
+                }
+                {
+                  userItem.playlistURI && <>
+                  <div style={{display: 'flex',  justifyContent:'left', alignItems:'left'}}>
+                      <h4>Favorite Custom Playlist:</h4>
+                  </div>
+                  <PlayWidget
+                      width={360}
+                      height={580}
+                      uri={userItem.playlist_uri || userItem.playlistURI}
+                      lightTheme={true}
+                  />
+                  </>
+                }
+              </>
+              <div>
+              <h7>*If You Do Not See Favorite Playlist/Artist/Song Try Adding URI's</h7>
+              </div>
       </div>
     );
 }

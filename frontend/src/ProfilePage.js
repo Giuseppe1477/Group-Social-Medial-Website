@@ -9,6 +9,7 @@ import Filters from './Filters.js';
 import { handleFilter } from './utils.js';
 import { DEFAULT_TAGS } from './const.js';
 import { useParams } from "react-router";
+import PlayWidget from "react-spotify-widgets"
 
 const ProfilePage = props => {
 
@@ -18,6 +19,21 @@ const ProfilePage = props => {
     const [ user, setUser ] = useState([])
     const [ song, setSong ] = useState(null)
     const [ tags, setTags ] = useState([]);
+
+    const [ userItem, setUserItem ] = useState({});
+
+    useEffect(() => {
+        Services.list_users({
+            user_id: id,
+        })
+            .then(r => {
+                console.log(r);
+                console.log(r.user_ids[0])
+                r.user_ids.length && setUserItem(r.user_ids[0]);
+                return r;
+            })
+            .catch(err => console.log('err:', err))
+    }, [])
 
     const refresh = () => {
       Services.list_posts({
@@ -45,12 +61,12 @@ const ProfilePage = props => {
         }
     }, [tags, props.song])
 
-    return <div>
+    return (<div>
         {user.map(
           u =>
               (u.user_id.localeCompare(id)===0 && <Profile {...u} viewer_id={props.viewer_id} setRecipient={props.setRecipient}/>)
         )}
-
+          
         { ReactPlayer.canPlay(song) ?
           <div class="soundcloudPlayer">
             <ReactPlayer
@@ -58,13 +74,104 @@ const ProfilePage = props => {
               width={'100%'}
               height={"140px"}
             />
+            <div>
+
+            <>
+                {
+                  userItem.artistURI && <>
+                  <div style={{display: 'flex',  justifyContent:'left', alignItems:'left'}}>
+                      <h4>Top 10 From My Favorite Artist:</h4>
+                  </div>
+                  <PlayWidget
+                      width={360}
+                      height={400}
+                      uri={userItem.artist_uri || userItem.artistURI}
+                      lightTheme={true}
+                  />
+                  </>
+                }
+                {
+                  userItem.trackURI && <>
+                  <div style={{display: 'flex',  justifyContent:'left', alignItems:'left'}}>
+                      <h4>Favorite Song:</h4>
+                  </div>
+                  <PlayWidget
+                      width={360}
+                      height={80}
+                      uri={userItem.track_uri || userItem.trackURI}
+                      lightTheme={true}
+                  />
+                  </>
+                }
+                {
+                  userItem.playlistURI && <>
+                  <div style={{display: 'flex',  justifyContent:'left', alignItems:'left'}}>
+                      <h4>Favorite Custom Playlist:</h4>
+                  </div>
+                  <PlayWidget
+                      width={360}
+                      height={580}
+                      uri={userItem.playlist_uri || userItem.playlistURI}
+                      lightTheme={true}
+                  />
+                  </>
+                }
+              </>
+              </div>
             <Filters
               filterList={DEFAULT_TAGS}
               onChange={e => handleFilter(tags, {tag: e.target.value}, setTags)}
             />
-          </div> : <h4> Song @ {song} Unavailable </h4> }
+          </div> : <h4> Song @ {song} Unavailable </h4> 
+          }
         <ListPosts user_id={id} posts={posts} getPost={props.getPost} is_admin={props.is_admin} refresh={refresh}/>
     </div>
+    )
 }
 
 export default ProfilePage;
+
+
+/*
+<>
+                {
+                  props.artistURI && <>
+                  <div style={{display: 'flex',  justifyContent:'left', alignItems:'left'}}>
+                      <h4>Top 10 From My Favorite Artist:</h4>
+                  </div>
+                  <PlayWidget
+                      width={360}
+                      height={400}
+                      uri={props.artistURI}
+                      lightTheme={true}
+                  />
+                  </>
+                }
+                {
+                  props.trackURI && <>
+                  <div style={{display: 'flex',  justifyContent:'left', alignItems:'left'}}>
+                      <h4>Favorite Song:</h4>
+                  </div>
+                  <PlayWidget
+                      width={360}
+                      height={80}
+                      uri={props.trackURI}
+                      lightTheme={true}
+                  />
+                  </>
+                }
+                {
+                  props.playlistURI && <>
+                  <div style={{display: 'flex',  justifyContent:'left', alignItems:'left'}}>
+                      <h4>Favorite Custom Playlist:</h4>
+                  </div>
+                  <PlayWidget
+                      width={360}
+                      height={580}
+                      uri={props.playlistURI}
+                      lightTheme={true}
+                  />
+                  </>
+                }
+              </>
+*/

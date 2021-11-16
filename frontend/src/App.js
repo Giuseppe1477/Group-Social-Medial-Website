@@ -78,7 +78,7 @@ const App = () => {
                             <HomePage isAdmin={data.is_admin} user_id={data.user_id} is_admin={data.is_admin} getPost={getPost}/>
                         </Route>
                         <Route exact path="/profile/:id">
-                            <ProfilePage is_admin={data.is_admin} viewer_id={data.user_id} getPost={getPost} setRecipient={setRecipient}/>
+                            <ProfilePage is_admin={data.is_admin} viewer_id={data.user_id} getPost={getPost} setRecipient={setRecipient} playlistURI={data.playlistURI} trackURI={data.trackURI} artistURI={data.artistURI}/>
                         </Route>
                         <Route exact path="/posts/:id">
                             <PostDetails
