@@ -8,7 +8,7 @@ const Admin = () => {
 
     const defaultInfo = () => {
         return {
-          user_id: "", password: "", bio: "", img_url: "", is_admin: true, song_url: "",
+          user_id: "", password: "", bio: "", img_url: "", is_admin: false, song_url: "",
         }
     }
 

@@ -1,21 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ReactPlayer from "react-player"
-import {faCommentDots, faEnvelope} from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+// import {faCommentDots, faEnvelope} from '@fortawesome/free-solid-svg-icons'
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { IconButton } from "@mui/material";
 import RateReviewIcon from '@mui/icons-material/RateReview';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import { ReportIcon } from '@mui/icons-material';
+//import { ReportIcon } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import Services from "./Services";
+import { checkImage } from './utils.js';
 
 const Post = ({
   user_id, message_id, user_poster_id, post_id, text,
-  imgURL = null, songURL = null, is_admin, getPost, list_posts, created_at = 0
+  imgURL, songURL, is_admin, getPost, list_posts, created_at = 0
 }) => {
 
     const[id, setId] = useState(post_id);
     const date = new Date(created_at*1000)
+    const [ profileImgUrl, setProfileImgUrl ] = useState(null);
+
+    useEffect(() => {
+
+        const callback = isImgValid => {
+          isImgValid ?
+              setProfileImgUrl(imgURL)
+          : setProfileImgUrl('https://picsum.photos/200')
+        }
+
+        checkImage(imgURL, callback);
+    })
 
     const createMarkup = text => {
         return {__html: String(text)};
@@ -32,7 +45,7 @@ const Post = ({
     return (
         <div className="post">
             <div className="post-pic">
-                <img src="https://picsum.photos/200" alt="Profile"></img>
+              <img src={profileImgUrl} alt="Profile"></img>
             </div>
             <div className="leftside">
                 <div className="post-top">

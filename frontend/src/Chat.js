@@ -23,16 +23,19 @@ const Chat = (props) => {
     }
 
     useEffect(() => {
-        Services.list_dms({
-            // user_id:props.user_id
-            user_id: props.user_id,
-            user_recipient_id: props.user_recipient_id
-        })
-            .then(r => {
-                setDMs(r.body.dms)
-                console.log(r.body.dms)
+        let timer = setInterval(() => {
+            Services.list_dms({
+                // user_id:props.user_id
+                user_id: props.user_id,
+                user_recipient_id: props.user_recipient_id
             })
-            .catch(err => console.log(err));
+                .then(r => {
+                    setDMs(r.dms)
+                    console.log(r.dms)
+                })
+                .catch(err => console.log(err));
+        }, 5000)
+        return () => clearInterval(timer);
     },[]);
     
     return (
