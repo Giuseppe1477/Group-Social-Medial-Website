@@ -89,8 +89,8 @@ code {
 }
 
 .post-pic img{
-  max-width: 80px;
-  max-height: 80px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
   border: 1px black solid;
   margin-right: 10px;
@@ -108,11 +108,11 @@ code {
   font-size:larger;
 }
 
-.createFilters {
+/* .createFilters {
 
   /* margin: -px; */
 
-}
+/*} */
 
 .createTagFilters {
   display: flex;
@@ -132,8 +132,8 @@ code {
 }
 
 .prof-pic img{
-  max-width: 150px;
-  max-height: 150px;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
   border: 1px black solid;
   margin-right: 10px;

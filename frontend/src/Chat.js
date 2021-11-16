@@ -36,6 +36,10 @@ const Chat = (props) => {
 
     useEffect(() => {
         refreshDMs();
+        let timer = setInterval(() => {
+            refreshDMs();
+        }, 5000)
+        return () => clearInterval(timer);
     },[refresh, props.user_id, props.user_recipient_id]);
     
     return (

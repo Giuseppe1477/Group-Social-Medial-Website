@@ -1,4 +1,3 @@
-import * as constants from './const.js';
 import Services from './Services.js'
 import sha256 from 'crypto-js/sha256';
 import React, { useState } from "react";

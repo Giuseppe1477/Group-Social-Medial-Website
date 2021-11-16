@@ -21,7 +21,6 @@ const ProfilePage = props => {
     const [ tags, setTags ] = useState([]);
     const [ userItem, setUserItem ] = useState({});
 
-
     const initialGetUser = () => {
         Services.list_users({
             user_id: id
@@ -60,7 +59,12 @@ const ProfilePage = props => {
         }
     }
 
-
+    // const initialGetUser = () => {
+    //     Services.list_users({
+    //         user_id: id
+    //     })
+    //         .then(r => setUser(r.user_ids))
+    // }
 
     return (<div>
 
