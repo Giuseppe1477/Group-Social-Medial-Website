@@ -16,7 +16,7 @@ from common.util import (
 
 """
 Author: Ron Nathaniel
-Release: Beta
+Release: Candidate
 Course: CS 490: 101
 """
 
