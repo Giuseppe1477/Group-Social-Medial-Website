@@ -100,10 +100,10 @@ class Services {
     });
   }
 
-  static createURI = async (body)  => {
+  static create_uri = async (body)  => {
     return this.req({
-      path: 'spotify-change-settings',
-      body: JSON.stringify(body),
+      path: 'create_uri',
+      body: body,
       method: 'POST'
     });
   }

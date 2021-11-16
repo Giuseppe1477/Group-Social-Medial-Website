@@ -1,37 +1,65 @@
 import RichTextEditor from "./RichTextEditor";
 import Services from "./Services";
+import { TextField, Button, Checkbox, FormGroup, FormControlLabel } from "@mui/material";
+import { useState } from 'react';
 
 const SpotifySettings = (props) => {
-  return ( 
-    <div>
-      <div style={{display: 'flex',  justifyContent:'center', alignItems:'center'}}>
-              <h2>Please Enter The URI Of Your Favorite Playlist</h2>
-          </div>
-        <RichTextEditor
-            user_id={props.user_id}
-            callback={Services.createURI}
-            type="createPlaylistURI"
-        />
 
-<          div style={{display: 'flex',  justifyContent:'center', alignItems:'center'}}>
-              <h2>Please Enter The URI Of Your Favorite Artist</h2>
-          </div>
-        <RichTextEditor
-            user_id={props.user_id}
-            callback={Services.createURI}
-            type="createArtistURI"
-        />
+  const [trackUri, setTrackUri] = useState('');
+  const [playlistUri, setPlaylistUri] = useState('');
+  const [artistUri, setArtistUri] = useState('');
 
-            <div style={{display: 'flex',  justifyContent:'center', alignItems:'center'}}>
-              <h2>Please Enter The URI Of Your Favorite Song</h2>
-          </div>
-        <RichTextEditor
-            user_id={props.user_id}
-            callback={Services.createURI}
-            type="createTrackURI"
-        />
+  const handleSubmit = () => {
+      Services.create_uri({
+          track_uri: trackUri,
+          playlist_uri: playlistUri,
+          artist_uri: artistUri,
+      })
+  }
+
+  return <div>
+
+    <form className="createForm">
+        <label className="createField">
+          <TextField
+              id='outlined-track'
+              label='Favorite Spotify Track'
+              variant='standard'
+              name='track'
+              type='text'
+              onChange={e => setTrackUri(e.target.value)}
+              value={trackUri}
+          />
+        </label>
+        <br />
+        <label className="createField">
+          <TextField
+              id='outlined-track'
+              label='Favorite Spotify Playlist'
+              variant='standard'
+              name='playlist'
+              type='text'
+              onChange={e => setPlaylistUri(e.target.value)}
+              value={playlistUri}
+          />
+        </label>
+        <br />
+        <label className="createField">
+          <TextField
+              id='outlined-track'
+              label='Favorite Spotify Artist'
+              variant='standard'
+              name='artist'
+              type='text'
+              onChange={e => setArtistUri(e.target.value)}
+              value={artistUri}
+          />
+        </label>
+        <br />
+        <Button size="small" onClick={handleSubmit}>Submit</Button>
+      </form>
     </div>
-  );
+
 }
-  
+
 export default SpotifySettings;

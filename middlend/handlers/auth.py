@@ -27,9 +27,9 @@ def main(event, _):
     body = event_body(event)
 
     user_id = body.get('user_id')
-    playlistURI = body.get('playlistURI')
-    artistURI = body.get('artistURI')
-    trackURI = body.get('trackURI')
+    playlistURI = body.get('playlistURI', '')
+    artistURI = body.get('artistURI', '')
+    trackURI = body.get('trackURI', '')
     passwd = body.get('pass')
     is_admin = False
 

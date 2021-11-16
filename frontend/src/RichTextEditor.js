@@ -56,7 +56,7 @@ class RichTextEditor extends React.Component {
         } else if (this.props.type.localeCompare("createPlaylistURI")===0) {
             this.props.callback({
                 user_id: this.props.user_id,
-                playlistURI: stateToHTML(contentState),
+                playlist_uri: stateToHTML(contentState),
             })
                 .then(r =>
                     null
@@ -67,7 +67,7 @@ class RichTextEditor extends React.Component {
         else if (this.props.type.localeCompare("createTrackURI")===0) {
             this.props.callback({
                 user_id: this.props.user_id,
-                songURI: stateToHTML(contentState),
+                track_uri: stateToHTML(contentState),
             })
                 .then(r =>
                     null
@@ -78,7 +78,7 @@ class RichTextEditor extends React.Component {
         else if (this.props.type.localeCompare("createArtistURI")===0) {
             this.props.callback({
                 user_id: this.props.user_id,
-                artistURI: stateToHTML(contentState),
+                artist_uri: stateToHTML(contentState),
             })
                 .then(r =>
                     null
@@ -272,7 +272,7 @@ class RichTextEditor extends React.Component {
 
     const InlineStyleControls = (props) => {
     const currentStyle = props.editorState.getCurrentInlineStyle();
-    
+
     return (
         <div className="RichEditor-controls">
         {INLINE_STYLES.map((type) =>

@@ -101,6 +101,18 @@ functions:
             origin: '*'
             headers: '*'
             allowCredentials: false
+  create_uri:
+    handler: handlers/create_uri.main
+    environment:
+      DYNAMO_TABLE: ${self:custom.env.tables.users}
+    events:
+      - http:
+          path: create_uri
+          method: any
+          cors:
+            origin: '*'
+            headers: '*'
+            allowCredentials: false
   list_posts:
     handler: handlers/list_posts.main
     environment:

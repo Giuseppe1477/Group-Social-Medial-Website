@@ -66,7 +66,6 @@ def main(event, _):
         message = 'Create-Post failed.'
 
     return {
-        'statusCode': status_code,
         'headers': {
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Headers': '*',

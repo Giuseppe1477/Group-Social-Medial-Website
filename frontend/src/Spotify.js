@@ -8,7 +8,22 @@ import React, { Component } from 'react';
 import PlayWidget from 'react-spotify-widgets';
 
 const Spotify = (props) => {
-  
+
+    const [ userItem, setUserItem ] = useState({});
+
+    useEffect(() => {
+        Services.list_users({
+            user_id: props.user_id,
+        })
+            .then(r => {
+                console.log(r);
+                console.log(r.user_ids[0])
+                r.user_ids.length && setUserItem(r.user_ids[0]);
+                return r;
+            })
+            .catch(err => console.log('err:', err))
+    }, [])
+
     return(
       <div>
           <div style={{display: 'flex',  justifyContent:'center', alignItems:'center'}}>
@@ -17,7 +32,7 @@ const Spotify = (props) => {
           <PlayWidget
           width={560}
           height={400}
-          uri={props.artistURI} 
+          uri={userItem.artist_uri || userItem.artistURI}
           lightTheme={true}
           />
 
@@ -27,7 +42,7 @@ const Spotify = (props) => {
           <PlayWidget
           width={560}
           height={80}
-          uri={props.trackURI}
+          uri={userItem.track_uri || userItem.trackURI}
           lightTheme={true}
           />
 
@@ -37,7 +52,7 @@ const Spotify = (props) => {
           <PlayWidget
           width={560}
           height={580}
-          uri={props.playlistURI}
+          uri={userItem.playlist_uri || userItem.playlistURI}
           lightTheme={true}
           />
 
