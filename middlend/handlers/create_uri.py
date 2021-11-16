@@ -12,6 +12,13 @@ from common.util import (
     event_body, dynamo_table
 )
 
+"""
+Author: Ron Nathaniel
+Release: Candidate
+Course: CS 490: 101
+"""
+
+
 @cors_headers
 @load_json_body
 @json_http_resp

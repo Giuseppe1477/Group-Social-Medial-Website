@@ -16,7 +16,7 @@ from common.util import (
 
 """
 Author: Ron Nathaniel
-Release: Beta
+Release: Candidate
 Course: CS 490: 101
 """
 
@@ -38,8 +38,6 @@ def main(event, _):
     dms = []
     dm_attr = (
         Attr('type').eq('dm')
-        &
-        Attr('user_id').eq(user_id)
         &
         Attr('conversation_id').eq(conversation_id)
     )
@@ -64,18 +62,15 @@ def main(event, _):
     dms = sorted(dms, key=lambda d: d.get('created_at', 0))
 
     return {
-        'statusCode': status_code,
         'headers': {
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Headers': '*',
             'Access-Control-Allow-Credentials': True,
         },
-        'body': {
-            'message': message,
-            'statusCode': status_code,
-            'dms': dms,
-            'total': len(dms),
-            'user_id': user_id,
-            'user_recipient_id': user_recipient_id,
-        },
+        'message': message,
+        'statusCode': status_code,
+        'dms': dms,
+        'total': len(dms),
+        'user_id': user_id,
+        'user_recipient_id': user_recipient_id,
     }

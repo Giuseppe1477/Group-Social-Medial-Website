@@ -10,24 +10,26 @@ const PostDetails = props => {
     const [ comments, setComments ] = useState([]);
     const [ refresh, setRefresh ] = useState(false)
 
-    const handleRefresh = (r) =>{
-        if(r){
+    const handleRefresh = r => {
+        if (r) {
           setRefresh(r);
           setRefresh(false);
         }
-      }
+    }
 
-    useEffect(() => {
+    const refreshComments = () => {
         Services.list_comments({
-            //user_id: props.user_poster_id,
-            post_id: id
+            post_id: id,
         })
             .then(r => {
-                setComments(r.comments)
+                setComments(r.comments);
+                return r;
             })
             .catch(err => console.log(err));
+    }
 
-            console.log({props});
+    useEffect(() => {
+        refreshComments()
     }, [refresh, id, user_poster_id])
 
 
@@ -55,7 +57,10 @@ const PostDetails = props => {
 
             <div className="detailComments">
                 <h5>Comments:</h5>
-                { comments && <ListComments user_id={props.user_id} comments={comments} is_admin={props.is_admin}/> }
+                { comments && <ListComments
+                    user_id={props.user_id} comments={comments}
+                    is_admin={props.is_admin} list_comments={refreshComments}
+                /> }
             </div>
             <div className="writeComments">
                 <RichTextEditor

@@ -1,8 +1,11 @@
 import React from 'react';
 import { Editor, EditorState, getDefaultKeyBinding, RichUtils, ContentState } from 'draft-js';
 import 'draft-js/dist/Draft.css';
+import ReactPlayer from "react-player"
 import { Button } from 'react-bootstrap';
 import {stateToHTML} from 'draft-js-export-html';
+import { checkImage } from './utils.js';
+
 
 class RichTextEditor extends React.Component {
     constructor(props) {
@@ -21,7 +24,6 @@ class RichTextEditor extends React.Component {
     }
 
     onChange = (editorState) => {
-        //const contentState = editorState.getCurrentContent();
         this.setState({editorState});
     }
 
@@ -91,7 +93,7 @@ class RichTextEditor extends React.Component {
             this.props.callback({
                 user_id: this.props.user_id,
                 user_recipient_id: this.props.user_recipient_id,
-                text: stateToHTML(contentState),
+                text: contentState.getPlainText('\u0001'),
             })
                 .then(r =>
                     this.props.updateDMs()

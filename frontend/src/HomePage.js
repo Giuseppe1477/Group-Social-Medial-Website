@@ -11,22 +11,30 @@ import "./index.css"
 const HomePage = props => {
     const [ posts, setPosts ] = useState([]);
     const [ tags, setTags ] = useState([]);
+    const [ refresh, setRefresh ] = useState(false)
 
-    const refreshPosts = () => {
-      Services.list_posts({
-          tags,
-          user_id: '',
-      })
-          .then(r => setPosts(r.posts))
-          .catch(err => console.log(err));
+    const handleRefresh = r => {
+        if (r) {
+          setRefresh(r);
+          setRefresh(false);
+        }
     }
 
 
-
     useEffect(() => {
-      refreshPosts()
-    },[tags]);
+        refreshPosts()
+    }, [refresh, tags])
 
+
+
+    const refreshPosts = () => {
+        Services.list_posts({
+          tags,
+          user_id: '',
+        })
+            .then(r => setPosts(r.posts))
+            .catch(err => console.log(err));
+    }
 
 
     return (

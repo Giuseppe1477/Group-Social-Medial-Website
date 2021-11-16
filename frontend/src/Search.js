@@ -53,6 +53,7 @@ const Search = props => {
 
                       return <Profile
                          key={idx}
+                         user_id={user.user_id}
                          viewer_id={props.viewer_id}
                          setRecipient={props.setRecipient}
                          bio={user.bio}

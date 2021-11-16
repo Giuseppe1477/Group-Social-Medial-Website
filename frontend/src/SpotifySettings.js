@@ -9,11 +9,15 @@ const SpotifySettings = (props) => {
   const [playlistUri, setPlaylistUri] = useState('');
   const [artistUri, setArtistUri] = useState('');
 
+  const user_id = JSON.parse(window.localStorage.getItem('authData')).user_id;
+
+
   const handleSubmit = () => {
       Services.create_uri({
           track_uri: trackUri,
           playlist_uri: playlistUri,
           artist_uri: artistUri,
+          user_id,
       })
   }
 

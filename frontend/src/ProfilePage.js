@@ -19,6 +19,7 @@ const ProfilePage = props => {
     const [ user, setUser ] = useState([])
     const [ song, setSong ] = useState(null)
     const [ tags, setTags ] = useState([]);
+    const [ refresh, setRefresh ] = useState(false);
 
     const [ userItem, setUserItem ] = useState({});
 
@@ -43,15 +44,25 @@ const ProfilePage = props => {
         .catch(err => console.log(err));
     }
 
-    useEffect(() => {
-        Services.list_posts({
-            user_id: id,
-            tags,
 
+    const refreshPosts = () => {
+        Services.list_posts({
+          tags,
+          user_id: id,
         })
             .then(r => setPosts(r.posts))
             .catch(err => console.log(err));
+    }
+    useEffect(() => {
+        initialGetSong()
+        initialGetUser()
+    }, [])
 
+    useEffect(() => {
+        refreshPosts()
+    }, [tags, props.song])
+
+    const initialGetSong = () => {
         if (props.song_url) setSong(props.song_url)
         else {
             const songVals = Object.values(constants.SONG_URI);
@@ -59,7 +70,14 @@ const ProfilePage = props => {
             const chosenSong = songVals[chosenSongInd];
             setSong(chosenSong);
         }
-    }, [tags, props.song])
+    }
+
+    const initialGetUser = () => {
+        Services.list_users({
+            user_id
+        })
+            .then(r => setUser(r.user_ids))
+    }
 
     return (<div>
         {user.map(
