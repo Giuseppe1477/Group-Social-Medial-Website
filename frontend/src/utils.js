@@ -9,7 +9,7 @@ const handleFilter = (filter, val, setFilter) => {
     } else setFilter([ ...filter, val.tag ]);
 }
 
-const checkIfImageExists = (url, callback) => {
+const checkImage = (url, callback) => {
    const img = new Image();
 
    img.src = url;
