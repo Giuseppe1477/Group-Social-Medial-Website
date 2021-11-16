@@ -9,7 +9,7 @@ const PostDetails = props => {
     const { user_poster_id } = props.user_poster_id
     const [ comments, setComments ] = useState([]);
     const [ refresh, setRefresh ] = useState(false)
-    
+
     const handleRefresh = (r) =>{
         if(r){
           setRefresh(r);
@@ -23,22 +23,21 @@ const PostDetails = props => {
             post_id: id
         })
             .then(r => {
-                //console.log(r.comments)
                 setComments(r.comments)
             })
             .catch(err => console.log(err));
+
+            console.log({props});
     }, [refresh, id, user_poster_id])
 
-    //console.log(id)
-    //console.log(props.text)
 
     const createMarkup = text => {
         return {__html: String(text)};
     }
 
-    return (  
+    return (
         <div className="post-details">
-            <h2>Post - {id}</h2>
+            <h4>{props.created_at}</h4>
             <div className="post">
                 <div className="post-pic">
                     <img src="https://picsum.photos/200" alt="Profile"></img>
@@ -48,7 +47,7 @@ const PostDetails = props => {
                         <h5><b>{props.user_poster_id}</b></h5>
                     </div>
                     <div className="post-title">
-                    
+
                     </div>
                     <div className="post-body" dangerouslySetInnerHTML={createMarkup(props.text)} />
                 </div>
@@ -70,5 +69,5 @@ const PostDetails = props => {
         </div>
     );
 }
- 
+
 export default PostDetails;

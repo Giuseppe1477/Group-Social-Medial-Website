@@ -1,12 +1,17 @@
 import React, { useState } from "react";
+import ReactPlayer from "react-player"
+import {faCommentDots, faEnvelope} from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { IconButton } from "@mui/material";
 import RateReviewIcon from '@mui/icons-material/RateReview';
-import ReportIcon from '@mui/icons-material/Report';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import { ReportIcon } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import Services from "./Services";
 
 const Post = ({
-  user_id, message_id, user_poster_id, post_id, text, img = null, is_admin, getPost, created_at, refresh
+  user_id, message_id, user_poster_id, post_id, text,
+  imgURL = null, songURL = null, is_admin, getPost, list_posts, created_at = 0
 }) => {
 
     const[id, setId] = useState(post_id);
@@ -16,12 +21,12 @@ const Post = ({
         return {__html: String(text)};
     }
 
-    const handleClick = () => {
+    const handleHidePost = () => {
         Services.block_post({
             message_id: message_id
         })
-            .then(r=>refresh())
-            .catch(err=>console.log(err))
+            .then(r => list_posts())
+            .catch(err => console.log(err))
     }
 
     return (
@@ -32,41 +37,83 @@ const Post = ({
             <div className="leftside">
                 <div className="post-top">
                     <Link to={"/profile/" + user_poster_id}>
-                        <span className="post-username"><b>{user_poster_id} </b></span>
+                        <h5><b>{user_poster_id}</b></h5>
                     </Link>
-                    {date.toLocaleDateString("en-US")}
                 </div>
                 <div className="post-title">
 
                 </div>
                 <div className="post-body" dangerouslySetInnerHTML={createMarkup(text)} />
-                <div className="post-img">
-                    {
-                      img ?
-
-                          <img
-                            height="100px" width="100px"
-                            src={img}
-                            alt={text}
+                {
+                  imgURL ? <>
+                      <img
+                        height="100px" width="100px"
+                        src={imgURL}
+                        alt={text}
+                      />
+                      <br />
+                      </>
+                  : null
+                }
+                {
+                  songURL ?
+                    <>
+                      <br />
+                      { ReactPlayer.canPlay(songURL) ?
+                        <div class="soundcloudPlayer">
+                          <ReactPlayer
+                            url={songURL}
+                            width={'100%'}
+                            height={"100px"}
                           />
-                      : null
-                    }
-                </div>
+                        </div> : <h4> Song @ {songURL} Unavailable </h4> }
+                    </> : null
+                }
                 <div className="comment-icon">
                     <Link to={"posts/"+id}>
-                        <IconButton onClick={()=>getPost({user_poster_id: user_poster_id, text: text})}>
+                        <IconButton onClick={()=>getPost({
+                          user_poster_id: user_poster_id,
+                          text: text,
+                          created_at: created_at,
+                        })}>
                             <RateReviewIcon/>
                         </IconButton>
                     </Link>
+                    <>
+                    {
+                      is_admin &&
+                        <IconButton
+                          onClick={() => {
+                            Services.block_post({
+                              message_id: message_id
+                            });
+                            list_posts();
+                          }}
+                        >
+                            <DeleteOutlineIcon/>
+                        </IconButton>
+                    }
+
+                    </>
                 </div>
+
             </div>
-            <div>
+            {/*
+            <div className="comment-icon">
+                <Link to={"posts/"+id}>
+                    <IconButton onClick={()=>getPost({user_poster_id: user_poster_id, text: text})}>
+                        <RateReviewIcon/>
+                    </IconButton>
+                </Link>
+            </div>
+
                 {is_admin &&
-                    (<IconButton onClick={()=>handleClick()}>
+                    (<IconButton onClick={()=>handleHidePost()}>
                         <ReportIcon/>
                     </IconButton>)
                 }
             </div>
+            */}
         </div>
     )
 }

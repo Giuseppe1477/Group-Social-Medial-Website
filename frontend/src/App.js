@@ -49,15 +49,7 @@ const App = () => {
     }
 
     const getPost = postData => {
-        console.log('postData: ', postData);
-        // const {
-        //     user_poster_id,
-        //     text,
-        // } = postData;
-        setPostData({
-            user_poster_id: postData.user_poster_id,
-            text: postData.text
-        });
+        setPostData(postData);
     }
 
 
@@ -89,7 +81,9 @@ const App = () => {
                             <ProfilePage is_admin={data.is_admin} viewer_id={data.user_id} getPost={getPost} setRecipient={setRecipient}/>
                         </Route>
                         <Route exact path="/posts/:id">
-                            <PostDetails user_id={data.user_id} user_poster_id={post.user_poster_id} text={post.text}/>
+                            <PostDetails
+                              user_id={data.user_id} user_poster_id={post.user_poster_id} text={post.text}
+                            />
                         </Route>
                         <Route exact path="/create">
                             <CreatePost user_id={data.user_id}/>

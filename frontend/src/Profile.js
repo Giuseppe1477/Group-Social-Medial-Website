@@ -1,34 +1,46 @@
 import { IconButton } from "@mui/material";
 import ChatIcon from '@mui/icons-material/Chat';
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useParams, } from "react-router-dom";
 import PlayWidget from "react-spotify-widgets"
+import { useState, useEffect } from 'react';
 import Services from "./Services";
+import { checkImage } from './utils.js';
 
 const Profile = (props) => {
-    //console.log(props)
 
-    // const history = useHistory();
+    const [ profileImgUrl, setProfileImgUrl ] = useState(null);
 
-    // const handleProfile = e => {
-    //     history.push({"profile/" + props.user_id})
-    // }
+    useEffect(() => {
+
+        const callback = isImgValid => {
+          isImgValid ?
+              setProfileImgUrl(props.img_url)
+          : setProfileImgUrl('https://picsum.photos/200')
+        }
+
+        checkImage(props.img_url, callback);
+    })
+
+    const {
+      id, img_url, song_url, bio
+    } = useParams()
 
     console.log(props.viewer_id)
 
-    return (  
+    return (
         <div className="prof">
             <div className="prof-pic">
-                <img src="https://picsum.photos/200" alt="Profile"></img>
+                <img src={profileImgUrl} alt="Profile"></img>
             </div>
             <div className="prof-info">
                 <div className="prof-top">
                     <div className="prof-username">
                         <Link to={"/profile/" + props.user_id}>
                             <h1 >{props.user_id}</h1>
-                        </Link> 
+                        </Link>
                     </div>
                     <div className="prof-message">
-                        {props.viewer_id.localeCompare(props.user_id)!==0 && 
+                        {props.viewer_id.localeCompare(props.user_id) !== 0 &&
                             (<Link to={"/chat"}>
                             <IconButton onClick={()=>props.setRecipient(props.user_id)}>
                                 <ChatIcon/>
@@ -40,37 +52,90 @@ const Profile = (props) => {
                 <div className="prof-descrip">
                     <p>{props.bio}</p>
                 </div>
-                <div style={{display: 'flex',  justifyContent:'left', alignItems:'left'}}>
-                    <h4>Top 10 From My Favorite Artist:</h4>
-                </div>
-                    <PlayWidget
-                    width={360}
-                    height={400}
-                    uri={props.artistURI} 
-                    lightTheme={true}
-                    />
-                    <div style={{display: 'flex',  justifyContent:'left', alignItems:'left'}}>
-                        <h4>Favorite Song:</h4>
-                    </div>
-                    <PlayWidget
-                        width={360}
-                        height={80}
-                        uri={props.trackURI}
-                        lightTheme={true}
-                    />
-
-                    <div style={{display: 'flex',  justifyContent:'left', alignItems:'left'}}>
-                        <h4>Favorite Custom Playlist:</h4>
-                    </div>
-                    <PlayWidget
-                        width={360}
-                        height={580}
-                        uri={props.playlistURI}
-                        lightTheme={true}
-                    />
+                <>
+                {
+                  props.artistURI && <>
+                  <div style={{display: 'flex',  justifyContent:'left', alignItems:'left'}}>
+                      <h4>Top 10 From My Favorite Artist:</h4>
+                  </div>
+                  <PlayWidget
+                      width={360}
+                      height={400}
+                      uri={props.artistURI}
+                      lightTheme={true}
+                  />
+                  </>
+                }
+                {
+                  props.trackURI && <>
+                  <div style={{display: 'flex',  justifyContent:'left', alignItems:'left'}}>
+                      <h4>Favorite Song:</h4>
+                  </div>
+                  <PlayWidget
+                      width={360}
+                      height={80}
+                      uri={props.trackURI}
+                      lightTheme={true}
+                  />
+                  </>
+                }
+                {
+                  props.playlistURI && <>
+                  <div style={{display: 'flex',  justifyContent:'left', alignItems:'left'}}>
+                      <h4>Favorite Custom Playlist:</h4>
+                  </div>
+                  <PlayWidget
+                      width={360}
+                      height={580}
+                      uri={props.playlistURI}
+                      lightTheme={true}
+                  />
+                  </>
+                }
+              </>
             </div>
         </div>
     );
 }
- 
+/*
+
+
+const Profile = (props) => {
+
+    const profilePicURL = props.img_url || "https://picsum.photos/200";
+    const {
+      id, img_url, song_url, bio
+    } = useParams()
+
+    console.log({id, img_url, song_url, bio})
+
+    return (
+        <div className="prof">
+            <div className="prof-pic">
+                <img src={profilePicURL} alt="Profile"></img>
+            </div>
+            <div className="prof-info">
+                <div className="prof-top">
+                    <div className="prof-username">
+                        <Link to={`/profile/${props.user_id}/${props.img_url}/${props.song_url}/${props.bio}`}>
+                            <h1 >{props.user_id}</h1>
+                        </Link>
+                    </div>
+                    <div className="prof-message">
+                        <Link to={"/chat"}>
+                            <IconButton onClick={()=>props.setRecipient(props.user_id)}>
+                                <ChatIcon/>
+                            </IconButton>
+                        </Link>
+                    </div>
+                </div>
+                <div className="prof-descrip">
+                    <p>{props.bio}</p>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+*/
 export default Profile;

@@ -1,21 +1,23 @@
 import Post from './Post.js';
+import Services from './Services.js';
 
-const ListPosts = ({user_id, is_admin, posts, getPost, refresh}) => {
+const ListPosts = ({user_id, is_admin, posts, getPost, list_posts}) => {
     return (
         <div>
             {posts.map(
                 (p, idx) => <Post
-                    user_id={user_id}
+                    user_ids={user_id}
                     key={idx}
                     user_poster_id={p.user_id}
                     post_id={p.post_id}
                     text={p.text}
-                    img={p.img}
                     created_at={p.created_at}
                     is_admin={is_admin}
                     message_id={p.message_id}
+                    imgURL={p.img_url}
+                    songURL={p.song_url}
                     getPost={getPost}
-                    refresh={refresh}
+                    list_posts={list_posts}
                 />
             )}
         </div>

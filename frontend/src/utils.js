@@ -9,6 +9,26 @@ const handleFilter = (filter, val, setFilter) => {
     } else setFilter([ ...filter, val.tag ]);
 }
 
+const checkIfImageExists = (url, callback) => {
+   const img = new Image();
+
+   img.src = url;
+
+   if (img.complete) {
+     callback(true);
+   } else {
+     img.onload = () => {
+       callback(true);
+     };
+
+     img.onerror = () => {
+       callback(false);
+     };
+   }
+ }
+
+
 export {
-  handleFilter
+  handleFilter,
+  checkImage
 }

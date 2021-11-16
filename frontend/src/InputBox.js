@@ -2,10 +2,15 @@ import * as constants from './const.js';
 import Services from './Services.js';
 import sha256 from 'crypto-js/sha256';
 import React, { useState } from "react";
-import TextField from "@mui/material/TextField";  
+import TextField from "@mui/material/TextField";
 
 function InputBox({ setAuth }) {
-  const [info, setInfo] = useState({ name: "", password: ""});
+
+  const defaultInfo = () => {
+    return { name: "", password: ""}
+  }
+
+  const [info, setInfo] = useState(defaultInfo());
   const [error, setError] = useState(null);
 
   const handleSubmit = e => {
@@ -16,7 +21,7 @@ function InputBox({ setAuth }) {
       pass: sha256(info.password).toString()
     })
         .then(r => setAuth(r))
-        .catch(setError(true));
+        .catch(err => setError(true));
   }
   return (
     <div className='logContainer'>
@@ -28,7 +33,7 @@ function InputBox({ setAuth }) {
             variant='standard'
             name='username'
             type='text'
-            onChange={e=>setInfo({...info, name:e.target.value})}
+            onChange={e => setInfo({...info, name:e.target.value})}
             value={info.name}
           />
         </label>
@@ -40,14 +45,14 @@ function InputBox({ setAuth }) {
             variant='standard'
             name="password"
             type="password"
-            onChange={e=>setInfo({...info, password:e.target.value})}
+            onChange={e => setInfo({...info, password:e.target.value})}
             value={info.password}
           />
         </label>
         <br />
         <button>Login</button>
         <div>{error}</div>
-        {error && (<p className="loginError">Invalid Login</p>)}
+        {error && info === defaultInfo && (<p className="loginError">Invalid Login</p>)}
       </form>
       <div>
       </div>

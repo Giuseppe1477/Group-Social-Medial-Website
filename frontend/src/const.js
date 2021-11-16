@@ -15,17 +15,11 @@ const SONG_URI = {
   laVie: 'https://www.youtube.com/watch?v=9dctaE5SZTo',
 }
 
-const DEFAULT_FILTERS = {
-  Genre: [
-    'Pop', 'Rock', 'Classical'
-  ],
-  Instrument: [
-    'Guitar', 'Piano', 'Strings'
-  ]
-}
+const DEFAULT_TAGS =  ['Pop', 'Rock', 'Rap', 'Classical', 'Guitar', 'Piano']
+    .map(t => { return {tag: t}});
 
 export {
     BASE_URL,
     SONG_URI,
-    DEFAULT_FILTERS,
+    DEFAULT_TAGS,
 };

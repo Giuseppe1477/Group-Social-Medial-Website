@@ -34,7 +34,9 @@ class RichTextEditor extends React.Component {
             this.props.callback({
                 user_id: this.props.user_id,
                 text: stateToHTML(contentState),
-                tags: this.props.tags
+                tags: this.props.tags,
+                song_url: this.props.song_url,
+                img_url: this.props.img_url,
             })
                 .then(r => {
                     console.log(r)

@@ -109,10 +109,14 @@ code {
 }
 
 .createFilters {
-  display: flex;
-  flex-direction: row;
+
   /* margin: -px; */
 
+}
+
+.createTagFilters {
+  display: flex;
+  flex-direction: row;
 }
 
 /* Profile */
