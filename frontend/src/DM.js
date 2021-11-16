@@ -19,7 +19,7 @@ const DM = props => {
         Services.block_post({
             message_id: props.message_id
         })
-            .then(r => props.list_dms())
+            .then(r => props.list_dms(r))
             .catch(err => console.log(err))
     }
 

@@ -1,10 +1,12 @@
 import DM from "./DM";
 
 const ListDMs = ({DMs, list_dms, is_admin}) => {
-    const sorted = [].concat(DMs).sort((a,b)=>a.created_at>b.created_at?1:-1)
+    const sortedDMS = [].concat(DMs).sort((a,b)=>a.created_at>b.created_at?1:-1)
+    const realDMS = sortedDMS.filter(d => !d.is_hidden);
+
     return ( 
         <div>
-            {sorted.map(
+            {realDMS.map(
                 (p, idx) => <DM
                     key={p.created_at}
                     user_poster_id={p.user_id}
