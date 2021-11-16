@@ -27,6 +27,7 @@ const Chat = (props) => {
 
 
     useEffect(() => {
+        updateDMs();
         let timer = setInterval(() => {
             updateDMs();
         }, 5000)

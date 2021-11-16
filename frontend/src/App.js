@@ -45,6 +45,7 @@ const App = () => {
     const logout = () => {
       console.log('logging out')
       window.localStorage.clear()
+      setRecipient("")
       setAuth({user_id: '', is_admin: false, logged_in: false})
     }
 
@@ -89,7 +90,7 @@ const App = () => {
                             <CreatePost user_id={data.user_id}/>
                         </Route>
                         <Route exact path="/chat">
-                            <Chat user_id={data.user_id} user_recipient_id={recipient}/>
+                            {recipient.trim()!=="" ? (<Chat user_id={data.user_id} user_recipient_id={recipient}/>) : (<h1>Search for someone to chat with!</h1>)}
                         </Route>
                         <Route exact path="/admin">
                             {data.is_admin ? (<Admin/>):(<h1>You do not have access to this page.</h1>)}

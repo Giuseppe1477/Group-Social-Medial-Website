@@ -19,7 +19,7 @@ const ProfilePage = props => {
     const [ user, setUser ] = useState([])
     const [ song, setSong ] = useState(null)
     const [ tags, setTags ] = useState([]);
-    const [ refresh, setRefresh ] = useState(false);
+    // const [ refresh, setRefresh ] = useState(false);
 
     const [ userItem, setUserItem ] = useState({});
 
@@ -74,7 +74,7 @@ const ProfilePage = props => {
 
     const initialGetUser = () => {
         Services.list_users({
-            user_id
+            user_id: id
         })
             .then(r => setUser(r.user_ids))
     }
