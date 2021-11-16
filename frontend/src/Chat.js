@@ -1,14 +1,17 @@
 import { Button, Form, FormControl } from 'react-bootstrap'
-import { useEffect } from 'react';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import {IconButton} from "@mui/material";
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import Services from "./Services";
 import ListDMs from './ListDMs';
 import RichTextEditor from './RichTextEditor';
 
 const Chat = (props) => {
-    const[ textField, setTextField ] = useState('');
+    const [ textField, setTextField ] = useState('');
     const [ DMs, setDMs ] = useState([]);
-    //const [response, setResponse] = useState("")
+
+    const is_admin = JSON.parse(window.localStorage.getItem('authData')).is_admin;
 
     const updateDMs = () => {
         Services.list_dms({
@@ -16,24 +19,16 @@ const Chat = (props) => {
             user_recipient_id: props.user_recipient_id
         })
             .then(r => {
-                setDMs(r.body.dms)
-                console.log(r.body.dms)
+                setDMs(r.dms)
             })
             .catch(err => console.log(err));
     }
 
+
+
     useEffect(() => {
         let timer = setInterval(() => {
-            Services.list_dms({
-                // user_id:props.user_id
-                user_id: props.user_id,
-                user_recipient_id: props.user_recipient_id
-            })
-                .then(r => {
-                    setDMs(r.dms)
-                    console.log(r.dms)
-                })
-                .catch(err => console.log(err));
+            updateDMs();
         }, 5000)
         return () => clearInterval(timer);
     },[]);
@@ -41,7 +36,14 @@ const Chat = (props) => {
     return (
         <div>
             <h1>Chatting with: {props.user_recipient_id}</h1>
-            { DMs && <ListDMs user_id={props.user_id} DMs={DMs}/> }
+            { DMs &&
+                <ListDMs
+                    user_id={props.user_id}
+                    DMs={DMs}
+                    list_dms={updateDMs}
+                    is_admin={is_admin}
+                />
+            }
             <br/>
             <RichTextEditor
                 user_id={props.user_id}
@@ -50,6 +52,8 @@ const Chat = (props) => {
                 type="send_dm"
                 updateDMs={updateDMs}
             />
+
+
         </div>
      );
 }

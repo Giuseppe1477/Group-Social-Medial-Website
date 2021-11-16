@@ -42,21 +42,29 @@ const Post = ({
             .catch(err => console.log(err))
     }
 
-    return (
+    if (is_hidden) {
+        return <div />
+    } else return (
         <div className="post">
             <div className="post-pic">
               <img src={profileImgUrl} alt="Profile"></img>
             </div>
             <div className="leftside">
                 <div className="post-top">
+                    <>
                     <Link to={"/profile/" + user_poster_id}>
-                        <h5><b>{user_poster_id}</b></h5>
+                        <span className="post-username"><b>{user_poster_id} </b></span>
                     </Link>
+                    {date.toLocaleDateString("en-US")}
+                    </>
                 </div>
+
                 <div className="post-title">
 
                 </div>
+
                 <div className="post-body" dangerouslySetInnerHTML={createMarkup(text)} />
+
                 {
                   imgURL ? <>
                       <img
@@ -83,7 +91,7 @@ const Post = ({
                     </> : null
                 }
                 <div className="comment-icon">
-                    <Link to={"posts/"+id}>
+                    <Link to={"/posts/"+id}>
                         <IconButton onClick={()=>getPost({
                           user_poster_id: user_poster_id,
                           text: text,
@@ -92,26 +100,26 @@ const Post = ({
                             <RateReviewIcon/>
                         </IconButton>
                     </Link>
-                    <>
+
                     {
                       is_admin &&
                         <IconButton
-                          onClick={() => {
-                            Services.block_post({
-                              message_id: message_id
-                            });
-                            list_posts();
-                          }}
+                          onClick={handleHidePost}
                         >
                             <DeleteOutlineIcon/>
                         </IconButton>
                     }
 
-                    </>
                 </div>
 
             </div>
-            {/*
+        </div>
+    )
+}
+
+export default Post;
+
+/*
             <div className="comment-icon">
                 <Link to={"posts/"+id}>
                     <IconButton onClick={()=>getPost({user_poster_id: user_poster_id, text: text})}>
@@ -126,9 +134,4 @@ const Post = ({
                     </IconButton>)
                 }
             </div>
-            */}
-        </div>
-    )
-}
-
-export default Post;
+            */
