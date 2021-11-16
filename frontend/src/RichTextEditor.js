@@ -95,8 +95,10 @@ class RichTextEditor extends React.Component {
                 user_recipient_id: this.props.user_recipient_id,
                 text: contentState.getPlainText('\u0001'),
             })
-                .then(r =>
-                    this.props.updateDMs()
+                .then(r => {
+                        this.setState({flag: true});
+                        this.props.handleRefresh(this.state.flag);
+                    }
                 )
                 .catch(err => console.log(err));
         }

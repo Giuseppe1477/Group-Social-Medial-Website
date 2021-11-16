@@ -19,31 +19,18 @@ const ProfilePage = props => {
     const [ user, setUser ] = useState([])
     const [ song, setSong ] = useState(null)
     const [ tags, setTags ] = useState([]);
-    // const [ refresh, setRefresh ] = useState(false);
-
     const [ userItem, setUserItem ] = useState({});
 
-    useEffect(() => {
+    const initialGetUser = () => {
         Services.list_users({
-            user_id: id,
+            user_id: id
         })
             .then(r => {
-                console.log(r);
-                console.log(r.user_ids[0])
                 r.user_ids.length && setUserItem(r.user_ids[0]);
                 return r;
             })
-            .catch(err => console.log('err:', err))
-    }, [])
-
-    const refresh = () => {
-      Services.list_posts({
-        user_id: id,
-      })
-        .then(r => setPosts(r.posts))
-        .catch(err => console.log(err));
+            .catch(err => console.log('err:', err));
     }
-
 
     const refreshPosts = () => {
         Services.list_posts({
@@ -72,18 +59,16 @@ const ProfilePage = props => {
         }
     }
 
-    const initialGetUser = () => {
-        Services.list_users({
-            user_id: id
-        })
-            .then(r => setUser(r.user_ids))
-    }
+    // const initialGetUser = () => {
+    //     Services.list_users({
+    //         user_id: id
+    //     })
+    //         .then(r => setUser(r.user_ids))
+    // }
 
     return (<div>
-        {user.map(
-          u =>
-              (u.user_id.localeCompare(id)===0 && <Profile {...u} viewer_id={props.viewer_id} setRecipient={props.setRecipient}/>)
-        )}
+
+          <Profile {...userItem} viewer_id={props.viewer_id} setRecipient={props.setRecipient}/>
           
         { ReactPlayer.canPlay(song) ?
           <div class="soundcloudPlayer">
@@ -142,7 +127,7 @@ const ProfilePage = props => {
             />
           </div> : <h4> Song @ {song} Unavailable </h4> 
           }
-        <ListPosts user_id={id} posts={posts} getPost={props.getPost} is_admin={props.is_admin} refresh={refresh}/>
+        <ListPosts user_id={id} posts={posts} getPost={props.getPost} is_admin={props.is_admin} refresh={refreshPosts}/>
     </div>
     )
 }

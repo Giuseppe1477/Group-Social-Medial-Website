@@ -10,10 +10,19 @@ import RichTextEditor from './RichTextEditor';
 const Chat = (props) => {
     const [ textField, setTextField ] = useState('');
     const [ DMs, setDMs ] = useState([]);
+    const [ refresh, setRefresh ] = useState(false)
+
 
     const is_admin = JSON.parse(window.localStorage.getItem('authData')).is_admin;
 
-    const updateDMs = () => {
+    const handleRefresh = r => {
+        if (r) {
+          setRefresh(r);
+          setRefresh(false);
+        }
+    }
+
+    const refreshDMs = () => {
         Services.list_dms({
             user_id: props.user_id,
             user_recipient_id: props.user_recipient_id
@@ -25,14 +34,13 @@ const Chat = (props) => {
     }
 
 
-
     useEffect(() => {
-        updateDMs();
+        refreshDMs();
         let timer = setInterval(() => {
-            updateDMs();
+            refreshDMs();
         }, 5000)
         return () => clearInterval(timer);
-    },[]);
+    },[refresh, props.user_id, props.user_recipient_id]);
     
     return (
         <div>
@@ -41,7 +49,7 @@ const Chat = (props) => {
                 <ListDMs
                     user_id={props.user_id}
                     DMs={DMs}
-                    list_dms={updateDMs}
+                    list_dms={handleRefresh}
                     is_admin={is_admin}
                 />
             }
@@ -51,7 +59,7 @@ const Chat = (props) => {
                 user_recipient_id={props.user_recipient_id}
                 callback={Services.send_dm}
                 type="send_dm"
-                updateDMs={updateDMs}
+                handleRefresh={handleRefresh}
             />
 
 
