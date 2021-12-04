@@ -7,9 +7,7 @@ import Services from "./Services";
 import { DEFAULT_TAGS } from './const.js';
 import { handleFilter } from './utils.js';
 import "./index.css"
-import {
-  Table, TableRow, TableCell, FormControlLabel, Checkbox, TableHead, TextField
-} from "@mui/material";
+import { TextField } from "@mui/material";
 
 
 const CreatePost = (props) => {

@@ -71,7 +71,6 @@ code {
 /* Posts */
 .post{
   display:flex;
-  background-color:#fefefe;
   padding:5px;
   border-style:groove;
 }
@@ -108,15 +107,15 @@ code {
   font-size:larger;
 }
 
-/* .createFilters {
-
-  /* margin: -px; */
-
-/*} */
-
 .createTagFilters {
   display: flex;
   flex-direction: row;
+}
+
+.filters{
+  display: flex;
+  flex-wrap: wrap;
+  /* justify-content: center; */
 }
 
 /* Profile */
@@ -161,12 +160,6 @@ code {
 
 
 /* RichTextEditor */
-/* .EditorContainer{
-  display:flex;
-  flex-direction: column;
-  align-items: flex-end;
-  margin: 20px;
-} */
 
 .RichEditor-root {
   background: #fff;

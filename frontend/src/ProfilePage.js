@@ -12,11 +12,8 @@ import { useParams } from "react-router";
 import PlayWidget from "react-spotify-widgets"
 
 const ProfilePage = props => {
-
-
     const { id } = useParams()
     const [ posts, setPosts ] = useState([]);
-    const [ user, setUser ] = useState([])
     const [ song, setSong ] = useState(null)
     const [ tags, setTags ] = useState([]);
     const [ userItem, setUserItem ] = useState({});
@@ -59,6 +56,12 @@ const ProfilePage = props => {
         }
     }
 
+    // const initialGetUser = () => {
+    //     Services.list_users({
+    //         user_id: id
+    //     })
+    //         .then(r => setUser(r.user_ids))
+    // }
 
     return (<div>
 

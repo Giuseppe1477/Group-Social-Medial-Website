@@ -1,6 +1,5 @@
-import RichTextEditor from "./RichTextEditor";
 import Services from "./Services";
-import { TextField, Button, Checkbox, FormGroup, FormControlLabel } from "@mui/material";
+import { TextField, Button} from "@mui/material";
 import { useState } from 'react';
 
 const SpotifySettings = (props) => {

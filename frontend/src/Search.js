@@ -2,7 +2,6 @@ import { Button, Form, FormControl } from 'react-bootstrap'
 import { useState, useEffect } from 'react';
 import Services from "./Services";
 import Profile from "./Profile";
-import { Table, TableRow, TableCell, FormControlLabel, Checkbox, TableHead } from "@mui/material";
 
 const Search = props => {
     const [ textField, setTextField ] = useState('');
