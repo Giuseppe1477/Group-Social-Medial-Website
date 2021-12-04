@@ -59,12 +59,6 @@ const ProfilePage = props => {
         }
     }
 
-    // const initialGetUser = () => {
-    //     Services.list_users({
-    //         user_id: id
-    //     })
-    //         .then(r => setUser(r.user_ids))
-    // }
 
     return (<div>
 
