@@ -1,11 +1,9 @@
 import { useState, useEffect } from "react";
-import ReactPlayer from "react-player"
 import ListPosts from './ListPosts.js';
 import Services from "./Services";
 import Filters from './Filters.js';
 import { DEFAULT_TAGS } from './const.js';
 import { handleFilter } from './utils.js';
-import { TableRow, TableCell, FormControlLabel, Checkbox, TableHead, Table } from "@mui/material";
 import "./index.css"
 
 const HomePage = props => {

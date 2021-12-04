@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {BrowserRouter as Router, HashRouter, Route, Switch} from 'react-router-dom';
+import { HashRouter, Route, Switch} from 'react-router-dom';
 import InputBox from './InputBox.js';
 import HomePage from './HomePage.js';
 import Navig from './Navig.js';

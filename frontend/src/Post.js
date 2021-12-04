@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import ReactPlayer from "react-player"
-// import {faCommentDots, faEnvelope} from '@fortawesome/free-solid-svg-icons'
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { IconButton } from "@mui/material";
 import RateReviewIcon from '@mui/icons-material/RateReview';
 //import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
