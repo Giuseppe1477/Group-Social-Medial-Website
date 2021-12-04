@@ -1,11 +1,8 @@
 import React from 'react';
 import { Editor, EditorState, getDefaultKeyBinding, RichUtils, ContentState } from 'draft-js';
 import 'draft-js/dist/Draft.css';
-import ReactPlayer from "react-player"
 import { Button } from 'react-bootstrap';
 import {stateToHTML} from 'draft-js-export-html';
-import { checkImage } from './utils.js';
-
 
 class RichTextEditor extends React.Component {
     constructor(props) {
