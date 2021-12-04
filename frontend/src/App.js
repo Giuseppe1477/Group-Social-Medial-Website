@@ -53,7 +53,6 @@ const App = () => {
         setPostData(postData);
     }
 
-
     if (!isLoggedIn) {
         let authData = JSON.parse(window.localStorage.getItem('authData'))
         if (!authData?.logged_in) {

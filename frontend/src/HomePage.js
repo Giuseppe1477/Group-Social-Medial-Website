@@ -40,7 +40,7 @@ const HomePage = props => {
     return (
         <div class="homeColumn">
             <div>
-                <div className="filters">
+                <div>
                   <Filters
                     filterList={DEFAULT_TAGS}
                     onChange={e => handleFilter(tags, {tag: e.target.value}, setTags)}

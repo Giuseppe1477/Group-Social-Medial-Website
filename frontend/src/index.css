@@ -71,7 +71,6 @@ code {
 /* Posts */
 .post{
   display:flex;
-  background-color:#fefefe;
   padding:5px;
   border-style:groove;
 }
@@ -117,6 +116,12 @@ code {
 .createTagFilters {
   display: flex;
   flex-direction: row;
+}
+
+.filters{
+  display: flex;
+  flex-wrap: wrap;
+  /* justify-content: center; */
 }
 
 /* Profile */

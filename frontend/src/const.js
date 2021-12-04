@@ -15,7 +15,7 @@ const SONG_URI = {
   laVie: 'https://www.youtube.com/watch?v=9dctaE5SZTo',
 }
 
-const DEFAULT_TAGS =  ['Pop', 'Rock', 'Rap', 'Classical', 'Guitar', 'Piano']
+const DEFAULT_TAGS =  ['Pop', 'Rock', 'Rap', 'Classical', 'Guitar', 'Piano', 'Metal', 'Jazz']
     .map(t => { return {tag: t}});
 
 export {

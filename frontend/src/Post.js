@@ -4,8 +4,8 @@ import ReactPlayer from "react-player"
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { IconButton } from "@mui/material";
 import RateReviewIcon from '@mui/icons-material/RateReview';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-//import { ReportIcon } from '@mui/icons-material';
+//import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import ReportIcon from '@mui/icons-material/Report';
 import { Link } from 'react-router-dom';
 import Services from "./Services";
 import { checkImage } from './utils.js';
@@ -58,11 +58,6 @@ const Post = ({
                     {date.toLocaleDateString("en-US")}
                     </>
                 </div>
-
-                <div className="post-title">
-
-                </div>
-
                 <div className="post-body" dangerouslySetInnerHTML={createMarkup(text)} />
 
                 {
@@ -100,18 +95,17 @@ const Post = ({
                             <RateReviewIcon/>
                         </IconButton>
                     </Link>
-
-                    {
-                      is_admin &&
-                        <IconButton
-                          onClick={handleHidePost}
-                        >
-                            <DeleteOutlineIcon/>
-                        </IconButton>
-                    }
-
                 </div>
-
+            </div>
+            <div>
+                {
+                    is_admin &&
+                    <IconButton
+                        onClick={handleHidePost}
+                    >
+                        <ReportIcon/>
+                    </IconButton>
+                }
             </div>
         </div>
     )
