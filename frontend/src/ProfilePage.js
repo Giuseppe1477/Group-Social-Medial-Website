@@ -23,8 +23,8 @@ const ProfilePage = props => {
             user_id: id
         })
             .then(r => {
-                r.user_ids.length && setUserItem(r.user_ids[0]);
-                return r;
+              r.user_ids.length && setUserItem(r.user_ids.filter(user=>user.user_id==id)[0]);
+              return r;
             })
             .catch(err => console.log('err:', err));
     }

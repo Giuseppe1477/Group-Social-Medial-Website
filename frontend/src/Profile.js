@@ -7,7 +7,7 @@ import { checkImage } from './utils.js';
 const Profile = (props) => {
 
     const [ profileImgUrl, setProfileImgUrl ] = useState(null);
-    console.log({profileProps: props});
+    //console.log({profileProps: props});
 
     useEffect(() => {
 
@@ -24,7 +24,7 @@ const Profile = (props) => {
       id, img_url, song_url, bio
     } = useParams()
 
-    console.log(props.viewer_id)
+    //console.log(props.viewer_id)
 
     return (
         <div className="prof">
