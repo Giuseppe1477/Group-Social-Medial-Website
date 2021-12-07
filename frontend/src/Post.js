@@ -9,7 +9,7 @@ import Services from "./Services";
 import { checkImage } from './utils.js';
 
 const Post = ({
-  user_id, message_id, user_poster_id, post_id, text, is_hidden,
+  message_id, user_poster_id, post_id, text, is_hidden,
   imgURL, songURL, is_admin, getPost, list_posts, created_at = 0
 }) => {
 
@@ -18,7 +18,6 @@ const Post = ({
     const [ profileImgUrl, setProfileImgUrl ] = useState(null);
 
     useEffect(() => {
-
         const callback = isImgValid => {
           isImgValid ?
               setProfileImgUrl(imgURL)
