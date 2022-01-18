@@ -1,7 +1,7 @@
 # cs 490
 ## Semester-Long CS490 Assignment
 
-[See it live on your browser.](https://cs490subway.s3.us-east-2.amazonaws.com/index.html)
+### [See it live on your browser.](https://cs490subway.s3.us-east-2.amazonaws.com/index.html)
 - Test Input: 
             Username=joey
             Password=joey
